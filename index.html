@@ -51,7 +51,7 @@
                 <!-- Admin Button -->
                 <button id="admin-btn" onclick="window.openAdminModal()" class="hidden bg-[#238636] hover:bg-[#2ea043] text-white px-5 py-2.5 rounded-xl font-bold transition-all text-sm shadow-md border border-[rgba(255,255,255,0.1)] flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                    İçerik Ekle
+                    Yönetici Paneli
                 </button>
 
                 <div id="auth-section">
@@ -145,7 +145,7 @@
                 <!-- Step 2: Student Verification Code (Hidden initially) -->
                 <div id="step-2-code" class="hidden">
                     <label class="block text-xs font-bold text-[#8b949e] mb-1 uppercase tracking-wide text-center">Doğrulama Kodu <span class="text-[#f85149]">*</span></label>
-                    <input id="auth-code" type="text" maxlength="6" pattern="\\d{6}" class="w-full p-3 rounded-lg outline-none border transition-all font-bold text-2xl text-center tracking-[0.5em] text-[#58a6ff] bg-[#0d1117]" placeholder="------">
+                    <input id="auth-code" type="text" maxlength="6" pattern="\d{6}" class="w-full p-3 rounded-lg outline-none border transition-all font-bold text-2xl text-center tracking-[0.5em] text-[#58a6ff] bg-[#0d1117]" placeholder="------">
                     <p class="text-[10px] text-[#8b949e] mt-3 text-center bg-[#21262d] p-2 rounded-lg border border-[#30363d]">Kodunuz e-postanıza gönderildi. <br><span class="text-[#f85149] font-bold">Demo Modu: Kod sağ alt köşede belirecektir.</span></p>
                 </div>
                 
@@ -161,82 +161,117 @@
 
     <!-- Modal: Admin Content Upload -->
     <div id="modal-admin" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-4 bg-[#0d1117]/80 backdrop-blur-sm py-10 overflow-y-auto">
-        <div class="bg-card w-full max-w-2xl rounded-2xl p-6 md:p-8 shadow-2xl border relative animate-in my-auto">
-            <button onclick="window.closeAdminModal()" class="absolute top-4 right-4 p-2 bg-[#0d1117] hover:bg-[#30363d] border border-[#30363d] rounded-full transition-colors text-[#8b949e]">
+        <div class="bg-card w-full max-w-3xl rounded-2xl p-6 md:p-8 shadow-2xl border relative animate-in my-auto max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <button onclick="window.closeAdminModal()" class="absolute top-4 right-4 p-2 bg-[#0d1117] hover:bg-[#30363d] border border-[#30363d] rounded-full transition-colors text-[#8b949e] z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
             </button>
             
-            <div class="mb-6 border-b border-[#30363d] pb-4">
+            <div class="mb-6 border-b border-[#30363d] pb-4 pr-8">
                 <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
                     <span class="text-[#3fb950]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
-                    Yeni Bir Sınav Oluşturun
+                    Yönetici Paneli
                 </h2>
-                <p class="text-[#8b949e] text-xs mt-1">Gerekli alanlar yıldız işaretiyle (*) işaretlenmiştir.</p>
+                <p class="text-[#8b949e] text-xs mt-1">İçerik ekleyebilir veya sisteme giriş yapan kullanıcıları görüntüleyebilirsiniz.</p>
             </div>
 
             <!-- Admin Tabs -->
-            <div class="flex gap-2 mb-6 bg-[#0d1117] p-1 border border-[#30363d] rounded-lg">
-                <button type="button" onclick="window.setAdminTab('pdf')" id="admin-tab-pdf" class="flex-1 py-2 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all">📄 PDF Yükle</button>
-                <button type="button" onclick="window.setAdminTab('custom')" id="admin-tab-custom" class="flex-1 py-2 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all">✍️ Yazılı Oluştur</button>
+            <div class="flex gap-2 mb-6 bg-[#0d1117] p-1 border border-[#30363d] rounded-lg overflow-x-auto whitespace-nowrap scrollbar-hide">
+                <button type="button" onclick="window.setAdminTab('pdf')" id="admin-tab-pdf" class="flex-1 py-2.5 px-4 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all flex items-center justify-center gap-2">📄 PDF Yükle</button>
+                <button type="button" onclick="window.setAdminTab('custom')" id="admin-tab-custom" class="flex-1 py-2.5 px-4 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all flex items-center justify-center gap-2">✍️ Yazılı Oluştur</button>
+                <button type="button" onclick="window.setAdminTab('users')" id="admin-tab-users" class="flex-1 py-2.5 px-4 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all flex items-center justify-center gap-2">👥 Kullanıcılar</button>
             </div>
             
             <form id="admin-form" onsubmit="window.handleAdminPost(event)" class="space-y-5">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-[#8b949e] mb-1">Sınav Başlığı *</label>
-                        <input id="admin-title" type="text" required class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="Sınavım - 8. Sınıf">
+                
+                <!-- CONTENT GENERATION SECTIONS -->
+                <div id="admin-inputs-container">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                        <div>
+                            <label class="block text-xs font-bold text-[#8b949e] mb-1">Sınav Başlığı *</label>
+                            <input id="admin-title" type="text" required class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="Sınavım - 8. Sınıf">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-[#8b949e] mb-1">Açıklama *</label>
+                            <input id="admin-subtitle" type="text" required class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="LGS'ye hazırlık testleri">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-[#8b949e] mb-1">Açıklama *</label>
-                        <input id="admin-subtitle" type="text" required class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="LGS'ye hazırlık testleri">
+
+                    <!-- PDF Section -->
+                    <div id="admin-section-pdf" class="space-y-4 bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
+                        <div>
+                            <label class="block text-xs font-bold text-[#8b949e] mb-1">Yerel PDF Seç (Max 800KB)</label>
+                            <input type="file" id="admin-pdf-file" accept="application/pdf" class="w-full p-2 bg-[#161b22] border border-[#30363d] rounded-lg text-xs file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#21262d] file:text-[#c9d1d9] hover:file:bg-[#30363d] transition-all cursor-pointer">
+                        </div>
+                        <div class="flex items-center gap-4 my-2 opacity-50">
+                            <div class="h-px bg-[#30363d] flex-1"></div>
+                            <span class="text-[10px] font-bold text-[#8b949e] uppercase tracking-wider">Veya Harici Link</span>
+                            <div class="h-px bg-[#30363d] flex-1"></div>
+                        </div>
+                        <div>
+                            <input id="admin-pdf-url" type="url" class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="https://ornek.com/dosya.pdf">
+                        </div>
+                    </div>
+
+                    <!-- Custom Exam Section -->
+                    <div id="admin-section-custom" class="hidden space-y-4">
+                        <!-- GEMINI AI QUESTION GENERATOR -->
+                        <div class="bg-gradient-to-r from-[#1f2937] to-[#111827] p-4 rounded-xl border border-[#374151] mb-4">
+                            <h3 class="font-bold text-xs mb-2 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#a371f7]"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                                <span class="glimmer-text tracking-wide">Yapay Zeka ile Otomatik Soru Üret</span>
+                            </h3>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input type="text" id="ai-topic-input" class="flex-1 p-2 rounded-lg border border-[#30363d] bg-[#0d1117] outline-none focus:border-[#a371f7] text-xs font-medium" placeholder="Örn: 7. Sınıf Hücre Bölünmesi">
+                                <button type="button" id="btn-ai-generate" onclick="window.generateQuestionsWithAI()" class="bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#c9d1d9] px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex items-center justify-center gap-1.5">
+                                    ✨ Soruları Üret
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-bold text-[#c9d1d9] text-xs uppercase tracking-wider">Sorular</h3>
+                                <button type="button" onclick="window.addQuestionField()" class="text-xs bg-[#21262d] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md font-bold hover:bg-[#30363d] transition-colors">+ Ekle</button>
+                            </div>
+                            <div id="questions-container" class="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-1">
+                                <div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- PDF Section -->
-                <div id="admin-section-pdf" class="space-y-4 bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
-                    <div>
-                        <label class="block text-xs font-bold text-[#8b949e] mb-1">Yerel PDF Seç (Max 800KB)</label>
-                        <input type="file" id="admin-pdf-file" accept="application/pdf" class="w-full p-2 bg-[#161b22] border border-[#30363d] rounded-lg text-xs file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#21262d] file:text-[#c9d1d9] hover:file:bg-[#30363d] transition-all cursor-pointer">
-                    </div>
-                    <div class="flex items-center gap-4 my-2 opacity-50">
-                        <div class="h-px bg-[#30363d] flex-1"></div>
-                        <span class="text-[10px] font-bold text-[#8b949e] uppercase tracking-wider">Veya Harici Link</span>
-                        <div class="h-px bg-[#30363d] flex-1"></div>
-                    </div>
-                    <div>
-                        <input id="admin-pdf-url" type="url" class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="https://ornek.com/dosya.pdf">
-                    </div>
-                </div>
-
-                <!-- Custom Exam Section (Hidden by default) -->
-                <div id="admin-section-custom" class="hidden space-y-4">
-                    <!-- GEMINI AI QUESTION GENERATOR -->
-                    <div class="bg-gradient-to-r from-[#1f2937] to-[#111827] p-4 rounded-xl border border-[#374151] mb-4">
-                        <h3 class="font-bold text-xs mb-2 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#a371f7]"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                            <span class="glimmer-text tracking-wide">Yapay Zeka ile Otomatik Soru Üret</span>
-                        </h3>
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <input type="text" id="ai-topic-input" class="flex-1 p-2 rounded-lg border border-[#30363d] bg-[#0d1117] outline-none focus:border-[#a371f7] text-xs font-medium" placeholder="Örn: 7. Sınıf Hücre Bölünmesi">
-                            <button type="button" id="btn-ai-generate" onclick="window.generateQuestionsWithAI()" class="bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#c9d1d9] px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex items-center justify-center gap-1.5">
-                                ✨ Soruları Üret
+                <!-- USERS SECTION (New Feature) -->
+                <div id="admin-section-users" class="hidden space-y-4">
+                    <div class="bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h3 class="font-bold text-[#c9d1d9] text-sm tracking-wide">Kayıtlı Öğrenciler ve Yöneticiler</h3>
+                                <p class="text-[10px] text-[#8b949e] mt-1">Sisteme e-posta ile başarılı giriş yapmış herkes burada listelenir.</p>
+                            </div>
+                            <button type="button" onclick="window.fetchUsers()" class="text-xs bg-[#21262d] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md font-bold hover:bg-[#30363d] transition-colors flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg>
+                                Yenile
                             </button>
                         </div>
-                    </div>
-
-                    <div class="bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-[#c9d1d9] text-xs uppercase tracking-wider">Sorular</h3>
-                            <button type="button" onclick="window.addQuestionField()" class="text-xs bg-[#21262d] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md font-bold hover:bg-[#30363d] transition-colors">+ Ekle</button>
-                        </div>
-                        <div id="questions-container" class="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-1">
-                            <div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>
+                        <div class="overflow-x-auto rounded-lg border border-[#30363d]">
+                            <table class="w-full text-left border-collapse whitespace-nowrap">
+                                <thead>
+                                    <tr class="bg-[#161b22] border-b border-[#30363d] text-[#8b949e] text-[10px] uppercase tracking-wider">
+                                        <th class="py-3 px-4">E-posta</th>
+                                        <th class="py-3 px-4">Rol</th>
+                                        <th class="py-3 px-4 text-right">Son Giriş</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-table-body" class="text-xs text-[#c9d1d9] divide-y divide-[#30363d]/50">
+                                    <tr><td colspan="3" class="text-center py-8 text-[#8b949e]">Kullanıcılar yükleniyor...</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
                 
                 <div class="border-t border-[#30363d] pt-4 mt-4 flex justify-end">
-                    <button type="submit" class="py-2.5 px-6 bg-[#238636] hover:bg-[#2ea043] text-white border border-[rgba(255,255,255,0.1)] rounded-lg font-bold shadow-sm transition-all text-sm">Depoyu Oluştur / Yayınla</button>
+                    <button type="submit" id="admin-submit-btn" class="py-2.5 px-6 bg-[#238636] hover:bg-[#2ea043] text-white border border-[rgba(255,255,255,0.1)] rounded-lg font-bold shadow-sm transition-all text-sm">Sınavı Depoya Ekle / Yayınla</button>
                 </div>
             </form>
         </div>
@@ -248,43 +283,36 @@
         <span id="msg-text">Mesaj...</span>
     </div>
 
-    <!-- FIREBASE & LOGIC SCRIPT -->
+    <!-- FIREBASE & LOGIC SCRIPT (GÜNCELLENDİ: KULLANICI KAYIT SİSTEMİ) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global State
-        let currentUser = null; 
-        let uiUser = null; 
-        let dbUnsubscribe = null;
+        // ==========================================
+        // 1. GLOBAL DEĞİŞKENLER VE ARAYÜZ (UI) FONKSİYONLARI
+        // ==========================================
         window.currentExamPost = null; 
-        
-        // AUTH STATE for 2-Step Login
-        let authStep = 1; // 1: Email, 2: Code or Password
+        let uiUser = null; 
+        let authStep = 1; 
         let currentAuthEmail = "";
         let generatedAuthCode = null;
 
-        // ADMIN CONFIG
         const ADMIN_EMAILS = ['sunaycapa3@gmail.com', 'ahmetakifabus91@gmail.com'];
         const ADMIN_PASS = 'k@ppOlXeee67/--A3';
 
         let currentAdminTab = 'pdf'; 
         let customQuestionCount = 0;
+        let dbUnsubscribe = null;
+        window.dbInstance = null; // Firebase DB Referansı
 
-        // Firebase Init
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-platform-app';
 
-        // Gemini Init
+        // Gemini AI Ayarları
         const apiKey = ""; 
         const geminiModel = "gemini-2.5-flash-preview-09-2025";
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
 
-        // Utility: API Backoff
         async function fetchWithRetry(url, options, retries = 5) {
             let delay = 1000;
             for (let i = 0; i < retries; i++) {
@@ -300,247 +328,17 @@
             }
         }
 
-        // System Auth
-        const initSystemAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) {
-                console.error("System Auth Error:", err);
-            }
+        // Temel UI (Modal) Fonksiyonları
+        window.openModal = () => { document.getElementById('modal-auth').classList.remove('hidden'); window.resetAuthStep(); };
+        window.closeModal = () => document.getElementById('modal-auth').classList.add('hidden');
+        window.openAdminModal = () => document.getElementById('modal-admin').classList.remove('hidden');
+        window.closeAdminModal = () => document.getElementById('modal-admin').classList.add('hidden');
+        
+        window.showMessage = (msg) => {
+            const box = document.getElementById('msg-box'); document.getElementById('msg-text').innerText = msg;
+            box.classList.remove('hidden'); setTimeout(() => box.classList.add('hidden'), 4000);
         };
 
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if (user) syncPublicExams();
-        });
-        initSystemAuth();
-
-        // ----------------- DB Logic -----------------
-        const syncPublicExams = () => {
-            if (dbUnsubscribe) dbUnsubscribe();
-            
-            const publicExamsRef = collection(db, 'artifacts', appId, 'public', 'data', 'exams');
-            document.getElementById('loading-skeleton').classList.remove('hidden');
-            
-            dbUnsubscribe = onSnapshot(publicExamsRef, (snapshot) => {
-                document.getElementById('loading-skeleton').classList.add('hidden');
-                const grid = document.getElementById('dynamic-content-grid');
-                
-                const staticContent = grid.children[0].outerHTML;
-                grid.innerHTML = staticContent;
-
-                const posts = [];
-                snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
-                posts.sort((a, b) => b.createdAt - a.createdAt);
-
-                posts.forEach(post => {
-                    const isPdf = post.type === 'pdf';
-                    const iconColor = isPdf ? '#f85149' : '#3fb950'; 
-                    const iconBg = isPdf ? 'rgba(248,81,73,0.1)' : 'rgba(63,185,80,0.1)';
-                    const iconSvg = isPdf 
-                        ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M10 13v6"/><path d="M10 16h3"/><path d="M14 13h3"/><path d="M14 16h2"/></svg>`
-                        : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`;
-
-                    const el = document.createElement('div');
-                    el.className = `exam-card bg-card p-6 rounded-2xl border cursor-pointer relative overflow-hidden group`;
-                    el.onclick = () => window.loadDynamicExam(post);
-                    el.innerHTML = `
-                        <div class="absolute top-0 right-0 w-20 h-20 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-500" style="background-color: ${iconBg}; opacity: 0.5;"></div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-10 h-10 rounded-lg flex items-center justify-center border border-[rgba(255,255,255,0.05)] transition-colors" style="background-color: ${iconBg}; color: ${iconColor};">
-                                ${iconSvg}
-                            </div>
-                            <span class="text-[9px] font-bold px-2 py-0.5 rounded border uppercase tracking-widest" style="background-color: ${iconBg}; color: ${iconColor}; border-color: ${iconBg};">YENİ</span>
-                        </div>
-                        <h3 class="font-bold text-lg mb-1 text-white">${post.title}</h3>
-                        <p class="text-xs text-[#8b949e] mb-5 font-medium">${post.subtitle}</p>
-                        <button class="w-full py-2 rounded-lg bg-[#21262d] font-bold text-[#c9d1d9] group-hover:bg-[#30363d] group-hover:text-white transition-colors border border-[#30363d] text-xs">Aç & Çöz</button>
-                    `;
-                    grid.appendChild(el);
-                });
-            }, (error) => {
-                console.error("DB Fetch Error:", error);
-                window.showMessage("İçerikler yüklenirken bir hata oluştu.");
-            });
-        };
-
-        // ----------------- GEMINI AI LOGIC -----------------
-        window.generateQuestionsWithAI = async () => {
-            const topic = document.getElementById('ai-topic-input').value.trim();
-            if(!topic) {
-                window.showMessage("Lütfen konu giriniz."); return;
-            }
-
-            const btn = document.getElementById('btn-ai-generate');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<div class="w-4 h-4 border-2 border-transparent border-t-[#a371f7] rounded-full animate-spin"></div> Üretiliyor...`;
-            btn.disabled = true;
-
-            const schema = {
-                type: "ARRAY",
-                items: {
-                    type: "OBJECT",
-                    properties: {
-                        q: { type: "STRING" }, a: { type: "STRING" }, b: { type: "STRING" },
-                        c: { type: "STRING" }, d: { type: "STRING" }, ans: { type: "STRING" }
-                    }
-                }
-            };
-
-            const payload = {
-                contents: [{ parts: [{ text: `Sen bir eğitimcisin. Öğrencilerin için '${topic}' konusunda 3 adet LGS/Ortaokul seviyesi çoktan seçmeli soru hazırla. Doğru cevabı 'ans' alanında 'A', 'B', 'C', 'D' olarak belirt.` }] }],
-                generationConfig: { responseMimeType: "application/json", responseSchema: schema }
-            };
-
-            try {
-                const response = await fetchWithRetry(geminiUrl, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-                });
-                const textOutput = response.candidates?.[0]?.content?.parts?.[0]?.text;
-                if(textOutput) {
-                    const questions = JSON.parse(textOutput);
-                    questions.forEach(qData => window.addQuestionField(qData));
-                    window.showMessage("Yapay Zeka soruları üretti!");
-                    document.getElementById('ai-topic-input').value = ''; 
-                }
-            } catch (err) {
-                window.showMessage("Soru üretilirken bir hata oluştu.");
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        };
-
-        window.getHintFromAI = async (qIndex, hintDivId, btnElement) => {
-            if(!window.currentExamPost || !window.currentExamPost.questions) return;
-            const qData = window.currentExamPost.questions[qIndex];
-            const hintDiv = document.getElementById(hintDivId);
-            
-            const originalBtnHtml = btnElement.innerHTML;
-            btnElement.innerHTML = `<div class="w-3 h-3 border-2 border-[#d29922] border-t-transparent rounded-full animate-spin"></div>`;
-            btnElement.disabled = true;
-
-            const prompt = `Öğrenci soruda zorlanıyor: '${qData.q}'. Şıklar: A)${qData.a}, B)${qData.b}, C)${qData.c}, D)${qData.d}. Doğru cevap: ${qData.ans}. Cevabı vermeden onu yönlendirecek çok kısa bir öğretmen ipucu ver.`;
-
-            try {
-                const response = await fetchWithRetry(geminiUrl, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                const aiHintText = response.candidates?.[0]?.content?.parts?.[0]?.text;
-                if(aiHintText) {
-                    hintDiv.innerHTML = `<strong class="text-[#d29922] block mb-1 text-xs uppercase tracking-wider flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> AI İpucu</strong> <span class="text-[#c9d1d9]">${aiHintText}</span>`;
-                    hintDiv.classList.remove('hidden');
-                    btnElement.classList.add('hidden'); 
-                }
-            } catch (err) {
-                window.showMessage("İpucu alınamadı.");
-                btnElement.innerHTML = originalBtnHtml;
-                btnElement.disabled = false;
-            }
-        };
-
-        // ----------------- ADMIN UI / LOGIC -----------------
-        let uploadedPdfBase64 = null;
-        document.getElementById('admin-pdf-file').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if(!file) return;
-            if(file.size > 800000) { 
-                window.showMessage("PDF dosyası çok büyük (Max 800KB)."); e.target.value = ''; uploadedPdfBase64 = null; return;
-            }
-            const reader = new FileReader();
-            reader.onload = (ev) => { uploadedPdfBase64 = ev.target.result; };
-            reader.readAsDataURL(file);
-        });
-
-        window.handleAdminPost = async (e) => {
-            e.preventDefault();
-            if (!uiUser || !ADMIN_EMAILS.includes(uiUser.email)) {
-                window.showMessage("Yetkisi yetersiz."); return;
-            }
-
-            const title = document.getElementById('admin-title').value;
-            const subtitle = document.getElementById('admin-subtitle').value;
-            let postData = { title, subtitle, createdAt: Date.now(), author: uiUser.email, type: currentAdminTab };
-
-            if (currentAdminTab === 'pdf') {
-                const pdfUrl = document.getElementById('admin-pdf-url').value;
-                if (!uploadedPdfBase64 && !pdfUrl) { window.showMessage("PDF veya Link eksik."); return; }
-                postData.pdfUrl = pdfUrl || null; postData.pdfData = uploadedPdfBase64 || null;
-            } else {
-                const qNodes = document.querySelectorAll('.custom-q-block');
-                if(qNodes.length === 0) { window.showMessage("Soru eklemediniz."); return; }
-                postData.questions = Array.from(qNodes).map(n => ({
-                    q: n.querySelector('.q-text').value, a: n.querySelector('.q-opt-a').value,
-                    b: n.querySelector('.q-opt-b').value, c: n.querySelector('.q-opt-c').value,
-                    d: n.querySelector('.q-opt-d').value, ans: n.querySelector('.q-ans').value
-                }));
-            }
-
-            try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'exams'), postData);
-                window.showMessage("İçerik depoya eklendi!");
-                window.closeAdminModal();
-                document.getElementById('admin-form').reset();
-                uploadedPdfBase64 = null;
-                document.getElementById('questions-container').innerHTML = '<div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>';
-                customQuestionCount = 0;
-            } catch (err) { window.showMessage("Hata: " + err.message); }
-        };
-
-        window.setAdminTab = (tab) => {
-            currentAdminTab = tab;
-            const bPdf = document.getElementById('admin-tab-pdf');
-            const bCus = document.getElementById('admin-tab-custom');
-            const sPdf = document.getElementById('admin-section-pdf');
-            const sCus = document.getElementById('admin-section-custom');
-            
-            const activeClass = "flex-1 py-2 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all";
-            const inactiveClass = "flex-1 py-2 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all";
-
-            if (tab === 'pdf') {
-                bPdf.className = activeClass; bCus.className = inactiveClass;
-                sPdf.classList.remove('hidden'); sCus.classList.add('hidden');
-            } else {
-                bCus.className = activeClass; bPdf.className = inactiveClass;
-                sCus.classList.remove('hidden'); sPdf.classList.add('hidden');
-            }
-        };
-
-        window.addQuestionField = (aiData = null) => {
-            const container = document.getElementById('questions-container');
-            const msg = document.getElementById('empty-question-msg');
-            if(msg) msg.remove();
-
-            customQuestionCount++;
-            const qDiv = document.createElement('div');
-            qDiv.className = 'custom-q-block bg-[#161b22] p-3 rounded-lg border border-[#30363d] relative animate-in text-xs';
-            qDiv.innerHTML = `
-                <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-[#f85149] hover:text-red-400 font-bold">✕</button>
-                <label class="block font-bold text-[#8b949e] mb-1 uppercase tracking-wider">Soru ${customQuestionCount}</label>
-                <input type="text" value="${aiData ? aiData.q : ''}" required class="q-text w-full p-2 rounded bg-[#0d1117] border border-[#30363d] mb-2 outline-none focus:border-[#58a6ff]" placeholder="Soru metni...">
-                <div class="grid grid-cols-2 gap-2 mb-2">
-                    <input type="text" value="${aiData ? aiData.a : ''}" required class="q-opt-a p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="A)">
-                    <input type="text" value="${aiData ? aiData.b : ''}" required class="q-opt-b p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="B)">
-                    <input type="text" value="${aiData ? aiData.c : ''}" required class="q-opt-c p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="C)">
-                    <input type="text" value="${aiData ? aiData.d : ''}" required class="q-opt-d p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="D)">
-                </div>
-                <div class="flex items-center gap-2">
-                    <label class="font-bold text-[#8b949e]">Cevap:</label>
-                    <select class="q-ans p-1 rounded border border-[#30363d] bg-[#0d1117] outline-none focus:border-[#3fb950] font-bold text-[#3fb950]">
-                        <option value="A" ${aiData?.ans==='A'?'selected':''}>A</option><option value="B" ${aiData?.ans==='B'?'selected':''}>B</option>
-                        <option value="C" ${aiData?.ans==='C'?'selected':''}>C</option><option value="D" ${aiData?.ans==='D'?'selected':''}>D</option>
-                    </select>
-                </div>
-            `;
-            container.appendChild(qDiv);
-            container.scrollTop = container.scrollHeight; 
-        };
-
-        // ----------------- 2-Step Auth UI / Logic -----------------
         const updateUI = () => {
             const authSec = document.getElementById('auth-section');
             const userSec = document.getElementById('user-section');
@@ -564,24 +362,32 @@
         };
 
         window.resetAuthStep = () => {
-            authStep = 1;
-            currentAuthEmail = "";
-            generatedAuthCode = null;
+            authStep = 1; currentAuthEmail = ""; generatedAuthCode = null;
             document.getElementById('step-1-email').classList.remove('hidden');
             document.getElementById('step-2-pass').classList.add('hidden');
             document.getElementById('step-2-code').classList.add('hidden');
             document.getElementById('auth-back-container').classList.add('hidden');
             document.getElementById('auth-submit-btn').innerText = "İleri";
             document.getElementById('modal-desc').innerText = "Platforma erişmek için e-posta adresinizi girin.";
-            
-            document.getElementById('auth-email').value = "";
-            document.getElementById('auth-pass').value = "";
-            document.getElementById('auth-code').value = "";
+            document.getElementById('auth-email').value = ""; document.getElementById('auth-pass').value = ""; document.getElementById('auth-code').value = "";
         };
 
+        // Kullanıcıyı Veritabanına Kaydetme/Güncelleme
+        const logUserLogin = async (email, role) => {
+            if (!window.dbInstance) return;
+            try {
+                const usersRef = collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'registered_users');
+                await addDoc(usersRef, {
+                    email: email,
+                    role: role,
+                    timestamp: Date.now()
+                });
+            } catch(e) { console.error("Kullanıcı kaydı hatası:", e); }
+        };
+
+        // Oturum Açma Mantığı
         window.handleAuth = async (e) => {
             e.preventDefault();
-
             if (authStep === 1) {
                 const emailInput = document.getElementById('auth-email').value.trim();
                 if (!emailInput) return;
@@ -591,16 +397,12 @@
                 document.getElementById('auth-back-container').classList.remove('hidden');
 
                 if (ADMIN_EMAILS.includes(currentAuthEmail)) {
-                    // Admin Logiği -> Şifre Sor
                     document.getElementById('step-2-pass').classList.remove('hidden');
                     document.getElementById('modal-desc').innerText = "Yönetici hesabı algılandı. Şifrenizi girin.";
                     document.getElementById('auth-submit-btn').innerText = "Giriş Yap";
                 } else {
-                    // Öğrenci Logiği -> 6 Haneli Kod Üret ve Simüle Et
                     generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
-                    
-                    // Demo amaçlı kodu ekranda da gösteriyoruz. (Gerçekte sadece console.log veya Email API'ye gider)
-                    console.log(`[NETLIFY/EMAIL SIMULATION] Giden Email: ${currentAuthEmail} | Kod: ${generatedAuthCode}`);
+                    console.log(`[E-POSTA SİMÜLASYONU] Alıcı: ${currentAuthEmail} | Kod: ${generatedAuthCode}`);
                     window.showMessage(`Sistem Mesajı: Doğrulama Kodunuz ${generatedAuthCode}`);
 
                     document.getElementById('step-2-code').classList.remove('hidden');
@@ -608,46 +410,34 @@
                     document.getElementById('auth-submit-btn').innerText = "Kodu Doğrula ve Giriş Yap";
                 }
                 authStep = 2;
-
             } else if (authStep === 2) {
                 if (ADMIN_EMAILS.includes(currentAuthEmail)) {
-                    // Admin Doğrulama
                     const pass = document.getElementById('auth-pass').value;
                     if (pass === ADMIN_PASS) {
                         uiUser = { email: currentAuthEmail }; 
                         updateUI(); 
+                        logUserLogin(currentAuthEmail, 'admin'); // Veritabanına yaz
                         window.showMessage("Admin girişi başarılı."); 
                         window.closeModal();
-                    } else { 
-                        window.showMessage("Hatalı yönetici şifresi!"); 
-                    }
+                    } else { window.showMessage("Hatalı yönetici şifresi!"); }
                 } else {
-                    // Öğrenci Kod Doğrulama
                     const enteredCode = document.getElementById('auth-code').value.trim();
                     if (enteredCode === generatedAuthCode) {
                         uiUser = { email: currentAuthEmail }; 
                         updateUI(); 
+                        logUserLogin(currentAuthEmail, 'student'); // Veritabanına yaz
                         window.showMessage("Başarıyla giriş yapıldı, hoş geldin!"); 
                         window.closeModal();
-                    } else { 
-                        window.showMessage("Hatalı kod girdiniz. Lütfen tekrar deneyin."); 
-                    }
+                    } else { window.showMessage("Hatalı kod girdiniz. Lütfen tekrar deneyin."); }
                 }
             }
         };
 
-        window.logout = async () => { 
-            uiUser = null; 
-            updateUI(); 
-            window.switchTab('others'); 
-            window.showMessage("Çıkış yapıldı."); 
-        };
+        window.logout = async () => { uiUser = null; updateUI(); window.switchTab('others'); window.showMessage("Çıkış yapıldı."); };
 
-        // ----------------- Content Viewing Logic -----------------
         window.switchTab = (tab) => {
             const secExam = document.getElementById(`section-exam`); const secOthers = document.getElementById(`section-others`);
             const tabExam = document.getElementById(`tab-exam`); const tabOthers = document.getElementById(`tab-others`);
-
             if (tab === 'exam') {
                 secExam.classList.remove('hidden'); secOthers.classList.add('hidden'); tabExam.classList.remove('hidden');
                 tabExam.className = 'pb-4 font-semibold tab-active text-lg'; tabOthers.className = 'pb-4 font-semibold text-[#8b949e] hover:text-[#c9d1d9] transition text-lg';
@@ -722,16 +512,303 @@
             window.switchTab('exam'); window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // Modals
-        window.openModal = () => { document.getElementById('modal-auth').classList.remove('hidden'); window.resetAuthStep(); };
-        window.closeModal = () => document.getElementById('modal-auth').classList.add('hidden');
-        window.openAdminModal = () => document.getElementById('modal-admin').classList.remove('hidden');
-        window.closeAdminModal = () => document.getElementById('modal-admin').classList.add('hidden');
-        
-        window.showMessage = (msg) => {
-            const box = document.getElementById('msg-box'); document.getElementById('msg-text').innerText = msg;
-            box.classList.remove('hidden'); setTimeout(() => box.classList.add('hidden'), 4000);
+        window.generateQuestionsWithAI = async () => {
+            const topic = document.getElementById('ai-topic-input').value.trim();
+            if(!topic) { window.showMessage("Lütfen konu giriniz."); return; }
+
+            const btn = document.getElementById('btn-ai-generate');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<div class="w-4 h-4 border-2 border-transparent border-t-[#a371f7] rounded-full animate-spin"></div> Üretiliyor...`;
+            btn.disabled = true;
+
+            const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { q: { type: "STRING" }, a: { type: "STRING" }, b: { type: "STRING" }, c: { type: "STRING" }, d: { type: "STRING" }, ans: { type: "STRING" } } } };
+            const payload = { contents: [{ parts: [{ text: `Sen bir eğitimcisin. Öğrencilerin için '${topic}' konusunda 3 adet LGS/Ortaokul seviyesi çoktan seçmeli soru hazırla. Doğru cevabı 'ans' alanında 'A', 'B', 'C', 'D' olarak belirt.` }] }], generationConfig: { responseMimeType: "application/json", responseSchema: schema } };
+
+            try {
+                const response = await fetchWithRetry(geminiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const textOutput = response.candidates?.[0]?.content?.parts?.[0]?.text;
+                if(textOutput) {
+                    const questions = JSON.parse(textOutput);
+                    questions.forEach(qData => window.addQuestionField(qData));
+                    window.showMessage("Yapay Zeka soruları üretti!");
+                    document.getElementById('ai-topic-input').value = ''; 
+                }
+            } catch (err) { window.showMessage("Soru üretilirken bir hata oluştu."); } 
+            finally { btn.innerHTML = originalText; btn.disabled = false; }
         };
+
+        window.getHintFromAI = async (qIndex, hintDivId, btnElement) => {
+            if(!window.currentExamPost || !window.currentExamPost.questions) return;
+            const qData = window.currentExamPost.questions[qIndex];
+            const hintDiv = document.getElementById(hintDivId);
+            
+            const originalBtnHtml = btnElement.innerHTML;
+            btnElement.innerHTML = `<div class="w-3 h-3 border-2 border-[#d29922] border-t-transparent rounded-full animate-spin"></div>`;
+            btnElement.disabled = true;
+
+            const prompt = `Öğrenci soruda zorlanıyor: '${qData.q}'. Şıklar: A)${qData.a}, B)${qData.b}, C)${qData.c}, D)${qData.d}. Doğru cevap: ${qData.ans}. Cevabı vermeden onu yönlendirecek çok kısa bir öğretmen ipucu ver.`;
+
+            try {
+                const response = await fetchWithRetry(geminiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) });
+                const aiHintText = response.candidates?.[0]?.content?.parts?.[0]?.text;
+                if(aiHintText) {
+                    hintDiv.innerHTML = `<strong class="text-[#d29922] block mb-1 text-xs uppercase tracking-wider flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> AI İpucu</strong> <span class="text-[#c9d1d9]">${aiHintText}</span>`;
+                    hintDiv.classList.remove('hidden'); btnElement.classList.add('hidden'); 
+                }
+            } catch (err) {
+                window.showMessage("İpucu alınamadı."); btnElement.innerHTML = originalBtnHtml; btnElement.disabled = false;
+            }
+        };
+
+        let uploadedPdfBase64 = null;
+        document.getElementById('admin-pdf-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(!file) return;
+            if(file.size > 800000) { window.showMessage("PDF dosyası çok büyük (Max 800KB)."); e.target.value = ''; uploadedPdfBase64 = null; return; }
+            const reader = new FileReader();
+            reader.onload = (ev) => { uploadedPdfBase64 = ev.target.result; };
+            reader.readAsDataURL(file);
+        });
+
+        // SEKME YÖNETİMİ
+        window.setAdminTab = (tab) => {
+            currentAdminTab = tab;
+            const bPdf = document.getElementById('admin-tab-pdf'); 
+            const bCus = document.getElementById('admin-tab-custom');
+            const bUsers = document.getElementById('admin-tab-users');
+            
+            const sPdf = document.getElementById('admin-section-pdf'); 
+            const sCus = document.getElementById('admin-section-custom');
+            const sUsers = document.getElementById('admin-section-users');
+            
+            const inputContainer = document.getElementById('admin-inputs-container');
+            const submitBtn = document.getElementById('admin-submit-btn');
+            
+            const activeClass = "flex-1 py-2.5 px-4 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all flex items-center justify-center gap-2";
+            const inactiveClass = "flex-1 py-2.5 px-4 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all flex items-center justify-center gap-2";
+
+            // Sıfırla
+            bPdf.className = inactiveClass; bCus.className = inactiveClass; bUsers.className = inactiveClass;
+            sPdf.classList.add('hidden'); sCus.classList.add('hidden'); sUsers.classList.add('hidden');
+
+            if (tab === 'pdf') { 
+                bPdf.className = activeClass; 
+                sPdf.classList.remove('hidden'); 
+                inputContainer.classList.remove('hidden');
+                submitBtn.classList.remove('hidden');
+            } else if (tab === 'custom') { 
+                bCus.className = activeClass; 
+                sCus.classList.remove('hidden'); 
+                inputContainer.classList.remove('hidden');
+                submitBtn.classList.remove('hidden');
+            } else if (tab === 'users') {
+                bUsers.className = activeClass;
+                sUsers.classList.remove('hidden');
+                inputContainer.classList.add('hidden'); // Sınav ekleme yerlerini gizle
+                submitBtn.classList.add('hidden'); // Kaydet butonunu gizle
+                window.fetchUsers(); // Kullanıcıları getir
+            }
+        };
+
+        window.addQuestionField = (aiData = null) => {
+            const container = document.getElementById('questions-container');
+            const msg = document.getElementById('empty-question-msg');
+            if(msg) msg.remove();
+
+            customQuestionCount++;
+            const qDiv = document.createElement('div');
+            qDiv.className = 'custom-q-block bg-[#161b22] p-3 rounded-lg border border-[#30363d] relative animate-in text-xs';
+            qDiv.innerHTML = `
+                <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-[#f85149] hover:text-red-400 font-bold">✕</button>
+                <label class="block font-bold text-[#8b949e] mb-1 uppercase tracking-wider">Soru ${customQuestionCount}</label>
+                <input type="text" value="${aiData ? aiData.q : ''}" required class="q-text w-full p-2 rounded bg-[#0d1117] border border-[#30363d] mb-2 outline-none focus:border-[#58a6ff]" placeholder="Soru metni...">
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <input type="text" value="${aiData ? aiData.a : ''}" required class="q-opt-a p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="A)">
+                    <input type="text" value="${aiData ? aiData.b : ''}" required class="q-opt-b p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="B)">
+                    <input type="text" value="${aiData ? aiData.c : ''}" required class="q-opt-c p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="C)">
+                    <input type="text" value="${aiData ? aiData.d : ''}" required class="q-opt-d p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="D)">
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="font-bold text-[#8b949e]">Cevap:</label>
+                    <select class="q-ans p-1 rounded border border-[#30363d] bg-[#0d1117] outline-none focus:border-[#3fb950] font-bold text-[#3fb950]">
+                        <option value="A" ${aiData?.ans==='A'?'selected':''}>A</option><option value="B" ${aiData?.ans==='B'?'selected':''}>B</option>
+                        <option value="C" ${aiData?.ans==='C'?'selected':''}>C</option><option value="D" ${aiData?.ans==='D'?'selected':''}>D</option>
+                    </select>
+                </div>
+            `;
+            container.appendChild(qDiv);
+            container.scrollTop = container.scrollHeight; 
+        };
+
+        window.handleAdminPost = async (e) => {
+            e.preventDefault();
+            if (!uiUser || !ADMIN_EMAILS.includes(uiUser.email)) { window.showMessage("Yetkisi yetersiz."); return; }
+
+            const title = document.getElementById('admin-title').value;
+            const subtitle = document.getElementById('admin-subtitle').value;
+            let postData = { title, subtitle, createdAt: Date.now(), author: uiUser.email, type: currentAdminTab };
+
+            if (currentAdminTab === 'pdf') {
+                const pdfUrl = document.getElementById('admin-pdf-url').value;
+                if (!uploadedPdfBase64 && !pdfUrl) { window.showMessage("PDF veya Link eksik."); return; }
+                postData.pdfUrl = pdfUrl || null; postData.pdfData = uploadedPdfBase64 || null;
+            } else {
+                const qNodes = document.querySelectorAll('.custom-q-block');
+                if(qNodes.length === 0) { window.showMessage("Soru eklemediniz."); return; }
+                postData.questions = Array.from(qNodes).map(n => ({
+                    q: n.querySelector('.q-text').value, a: n.querySelector('.q-opt-a').value,
+                    b: n.querySelector('.q-opt-b').value, c: n.querySelector('.q-opt-c').value,
+                    d: n.querySelector('.q-opt-d').value, ans: n.querySelector('.q-ans').value
+                }));
+            }
+
+            if (!window.dbInstance) {
+                window.showMessage("Sistem Uyarı: Firebase veritabanı ayarlarınız (kod içerisinde) boş olduğu için sınav sisteme kalıcı olarak kaydedilemedi!");
+                return;
+            }
+
+            try {
+                await addDoc(collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'exams'), postData);
+                window.showMessage("İçerik depoya eklendi!");
+                window.closeAdminModal();
+                document.getElementById('admin-form').reset();
+                uploadedPdfBase64 = null;
+                document.getElementById('questions-container').innerHTML = '<div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>';
+                customQuestionCount = 0;
+            } catch (err) { window.showMessage("Hata: " + err.message); }
+        };
+
+        // KULLANICILARI ÇEKME FONKSİYONU
+        window.fetchUsers = async () => {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-[#8b949e]"><div class="w-6 h-6 border-2 border-transparent border-t-[#58a6ff] rounded-full animate-spin mx-auto mb-2"></div>Yükleniyor...</td></tr>';
+            
+            if (!window.dbInstance) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-[#f85149] font-bold">Veritabanı bağlantısı yok. Ayarları kontrol edin.</td></tr>';
+                return;
+            }
+
+            try {
+                const snapshot = await getDocs(collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'registered_users'));
+                const usersMap = {};
+                
+                // Birden çok giriş yapanları tekilleştirip en son giriş tarihini alıyoruz
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (!usersMap[data.email] || usersMap[data.email].timestamp < data.timestamp) {
+                        usersMap[data.email] = data;
+                    }
+                });
+
+                const usersList = Object.values(usersMap).sort((a,b) => b.timestamp - a.timestamp);
+                
+                tbody.innerHTML = '';
+                if(usersList.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-[#8b949e]">Sisteme henüz kimse giriş yapmadı.</td></tr>';
+                    return;
+                }
+
+                usersList.forEach(u => {
+                    const dateStr = new Date(u.timestamp).toLocaleString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    const roleBadge = u.role === 'admin' 
+                        ? `<span class="bg-[rgba(63,185,80,0.1)] text-[#3fb950] px-2 py-0.5 rounded border border-[rgba(63,185,80,0.2)] text-[9px] uppercase font-bold tracking-wider">Yönetici</span>`
+                        : `<span class="bg-[#21262d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d] text-[9px] uppercase font-bold tracking-wider">Öğrenci</span>`;
+                    
+                    tbody.innerHTML += `
+                        <tr class="border-b border-[#30363d]/50 hover:bg-[#21262d]/40 transition-colors">
+                            <td class="py-3 px-4 font-medium text-white">${u.email}</td>
+                            <td class="py-3 px-4">${roleBadge}</td>
+                            <td class="py-3 px-4 text-right text-[#8b949e]">${dateStr}</td>
+                        </tr>
+                    `;
+                });
+            } catch(e) {
+                console.error(e);
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-[#f85149]">Kullanıcılar getirilirken hata oluştu.</td></tr>';
+            }
+        };
+
+        // ==========================================
+        // 2. FIREBASE BAŞLATMA (NETLIFY İÇİN GÜVENLİ BLOK)
+        // ==========================================
+        try {
+            let fbConfig = {};
+            if (typeof __firebase_config !== 'undefined') {
+                fbConfig = JSON.parse(__firebase_config);
+            }
+
+            if (Object.keys(fbConfig).length > 0) {
+                const app = initializeApp(fbConfig);
+                const auth = getAuth(app);
+                window.dbInstance = getFirestore(app);
+
+                const initSystemAuth = async () => {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (err) { console.error("System Auth Error:", err); }
+                };
+
+                const syncPublicExams = () => {
+                    if (dbUnsubscribe) dbUnsubscribe();
+                    const publicExamsRef = collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'exams');
+                    document.getElementById('loading-skeleton').classList.remove('hidden');
+                    
+                    dbUnsubscribe = onSnapshot(publicExamsRef, (snapshot) => {
+                        document.getElementById('loading-skeleton').classList.add('hidden');
+                        const grid = document.getElementById('dynamic-content-grid');
+                        const staticContent = grid.children[0].outerHTML;
+                        grid.innerHTML = staticContent;
+
+                        const posts = [];
+                        snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
+                        posts.sort((a, b) => b.createdAt - a.createdAt);
+
+                        posts.forEach(post => {
+                            const isPdf = post.type === 'pdf';
+                            const iconColor = isPdf ? '#f85149' : '#3fb950'; 
+                            const iconBg = isPdf ? 'rgba(248,81,73,0.1)' : 'rgba(63,185,80,0.1)';
+                            const iconSvg = isPdf 
+                                ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M10 13v6"/><path d="M10 16h3"/><path d="M14 13h3"/><path d="M14 16h2"/></svg>`
+                                : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`;
+
+                            const el = document.createElement('div');
+                            el.className = `exam-card bg-card p-6 rounded-2xl border cursor-pointer relative overflow-hidden group`;
+                            el.onclick = () => window.loadDynamicExam(post);
+                            el.innerHTML = `
+                                <div class="absolute top-0 right-0 w-20 h-20 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-500" style="background-color: ${iconBg}; opacity: 0.5;"></div>
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="w-10 h-10 rounded-lg flex items-center justify-center border border-[rgba(255,255,255,0.05)] transition-colors" style="background-color: ${iconBg}; color: ${iconColor};">
+                                        ${iconSvg}
+                                    </div>
+                                    <span class="text-[9px] font-bold px-2 py-0.5 rounded border uppercase tracking-widest" style="background-color: ${iconBg}; color: ${iconColor}; border-color: ${iconBg};">YENİ</span>
+                                </div>
+                                <h3 class="font-bold text-lg mb-1 text-white">${post.title}</h3>
+                                <p class="text-xs text-[#8b949e] mb-5 font-medium">${post.subtitle}</p>
+                                <button class="w-full py-2 rounded-lg bg-[#21262d] font-bold text-[#c9d1d9] group-hover:bg-[#30363d] group-hover:text-white transition-colors border border-[#30363d] text-xs">Aç & Çöz</button>
+                            `;
+                            grid.appendChild(el);
+                        });
+                    }, (error) => {
+                        console.error("DB Fetch Error:", error);
+                        window.showMessage("İçerikler yüklenirken bir hata oluştu.");
+                    });
+                };
+
+                onAuthStateChanged(auth, (user) => { if (user) syncPublicExams(); });
+                initSystemAuth();
+
+            } else {
+                console.warn("⚠️ Firebase ayarları eksik. Veritabanı işlemleri kapalı tutularak arayüz başlatılıyor.");
+                document.getElementById('loading-skeleton').classList.add('hidden');
+            }
+        } catch (err) {
+            console.error("Firebase Başlatma Hatası:", err);
+            document.getElementById('loading-skeleton').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
