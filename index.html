@@ -272,13 +272,38 @@
         <span id="msg-text">Mesaj...</span>
     </div>
 
-    <!-- SCRIPT (Hata Önleyici Fallback & Güvenli DOM Check'li Tam Sürüm) -->
+    <!-- TEK VE GÜVENLİ SCRIPT BLOĞU -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // =========================================================================
+        // 🔥 DİKKAT: NETLIFY'DA TÜM PC'LERİN SENKRONİZE ÇALIŞMASI İÇİN AŞAĞIYI DOLDURUN!
+        // Kendi Firebase projenizin (Web App) config bilgilerini buraya yapıştırın.
+        // =========================================================================
+        let fbConfig = {
+            // Örnek:
+            // apiKey: "AIzaSy...",
+            // authDomain: "projeniz.firebaseapp.com",
+            // projectId: "projeniz",
+            // storageBucket: "projeniz.appspot.com",
+            // messagingSenderId: "12345",
+            // appId: "1:12345:web:abcd"
+        };
+
+        // Canvas (Demo) ortamında otomatik config varsa onu kullan
+        if (typeof __firebase_config !== 'undefined') {
+            fbConfig = JSON.parse(__firebase_config);
+        }
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-platform-app';
+        let dbUnsubscribe = null;
+        let isOfflineMode = Object.keys(fbConfig).length === 0;
+
+        // Global State
         window.currentExamPost = null; 
+        window.dbInstance = null; 
         let uiUser = null; 
         let authStep = 1; 
         let currentAuthEmail = "";
@@ -289,26 +314,27 @@
 
         let currentAdminTab = 'pdf'; 
         let customQuestionCount = 0;
-        let dbUnsubscribe = null;
-        window.dbInstance = null; 
 
+        // Offline (Demo) Verileri - Yüklediğiniz gerçek test!
         window.mockUsers = [];
         window.mockExams = [
             {
                 id: 'hardcoded_1',
                 title: '6. Sınıf İngilizce 2. Dönem 1. Yazılı',
                 subtitle: 'Beceri Temelli Hazırlık Sınavı',
-                createdAt: Date.now() + 10000,
+                createdAt: Date.now(),
                 author: 'sistem@sinavim.net',
                 type: 'custom',
                 questions: [
                     {q: "A/an _________ cuts and sews fabric to make clothes.", a: "engineer", b: "tailor", c: "architect", d: "dentist", ans: "B"},
-                    {q: "I ________ in the sea and ________ an ice-cream on my holiday.", a: "swim/eat", b: "swam/ate", c: "swimmed/eated", d: "swimming/eating", ans: "B"}
+                    {q: "I ________ in the sea and ________ an ice-cream on my holiday.", a: "swim / eat", b: "swam / ate", c: "swimmed / eated", d: "swimming / eating", ans: "B"},
+                    {q: "What is his job? - He can pull out teeth.", a: "Teacher", b: "Mechanic", c: "Dentist", d: "Lawyer", ans: "C"},
+                    {q: "Where did you go on your last holiday?", a: "I went to Antalya.", b: "I like swimming.", c: "It was sunny.", d: "I am a student.", ans: "A"},
+                    {q: "\"Did you learn skiing?\" sorusunun doğru cevabı hangisidir?", a: "Yes, I do.", b: "No, she didn't.", c: "Yes, I did.", d: "No, I am not.", ans: "C"}
                 ]
             }
         ];
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-platform-app';
         const apiKey = ""; 
         const geminiModel = "gemini-2.5-flash-preview-09-2025";
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
@@ -328,7 +354,75 @@
             }
         }
 
-        // Güvenli DOM Modals
+        // ==========================================
+        // FIREBASE INITIALIZATION & SYNC
+        // ==========================================
+        let authApp;
+        if (!isOfflineMode) {
+            try {
+                const app = initializeApp(fbConfig);
+                authApp = getAuth(app);
+                window.dbInstance = getFirestore(app);
+                document.getElementById('offline-banner')?.classList.add('hidden');
+
+                const initSystemAuth = async () => {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(authApp, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(authApp);
+                        }
+                    } catch (err) { console.error("System Auth Error:", err); }
+                };
+
+                onAuthStateChanged(authApp, (user) => { 
+                    if (user) syncPublicExams(); 
+                });
+                initSystemAuth();
+            } catch (err) {
+                console.error("Firebase Init Hatası:", err);
+                isOfflineMode = true;
+            }
+        } 
+        
+        if (isOfflineMode) {
+            document.getElementById('offline-banner')?.classList.remove('hidden');
+            console.warn("⚠️ Firebase kapalı (Offline Mod). Sadece yerel veri kullanılacak.");
+            setTimeout(() => {
+                document.getElementById('loading-skeleton')?.classList.add('hidden');
+                window.renderExamsGrid(window.mockExams);
+            }, 500); // Küçük bir gecikme ile iskeleti gizle
+        }
+
+        const syncPublicExams = () => {
+            if (dbUnsubscribe) dbUnsubscribe();
+            
+            const loader = document.getElementById('loading-skeleton');
+            if (loader) loader.classList.remove('hidden');
+            
+            if (!window.dbInstance) {
+                if (loader) loader.classList.add('hidden');
+                window.renderExamsGrid(window.mockExams);
+                return;
+            }
+
+            const publicExamsRef = collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'exams');
+            dbUnsubscribe = onSnapshot(publicExamsRef, (snapshot) => {
+                if (loader) loader.classList.add('hidden');
+                const posts = [];
+                snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
+                posts.sort((a, b) => b.createdAt - a.createdAt);
+                window.renderExamsGrid(posts);
+            }, (error) => {
+                console.error("DB Fetch Error:", error);
+                if (loader) loader.classList.add('hidden');
+                window.showMessage("İçerikler yüklenirken bir hata oluştu.");
+            });
+        };
+
+        // ==========================================
+        // UI & MODAL FONKSİYONLARI (GÜVENLİ DOM)
+        // ==========================================
         window.openModal = () => { document.getElementById('modal-auth')?.classList.remove('hidden'); window.resetAuthStep(); };
         window.closeModal = () => { document.getElementById('modal-auth')?.classList.add('hidden'); };
         window.openAdminModal = () => { document.getElementById('modal-admin')?.classList.remove('hidden'); };
@@ -568,6 +662,9 @@
             window.switchTab('exam'); window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
+        // ==========================================
+        // AHMET HOCA (AI) FONKSİYONLARI
+        // ==========================================
         window.generateQuestionsWithAI = async () => {
             const topic = document.getElementById('ai-topic-input')?.value.trim();
             if(!topic) { window.showMessage("Lütfen bir konu giriniz."); return; }
@@ -635,6 +732,9 @@
             }
         };
 
+        // ==========================================
+        // ADMİN PANELİ & VERİTABANI YAZMA
+        // ==========================================
         let uploadedPdfBase64 = null;
         document.getElementById('admin-pdf-file')?.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -647,9 +747,16 @@
 
         window.setAdminTab = (tab) => {
             currentAdminTab = tab;
-            const bPdf = document.getElementById('admin-tab-pdf'); const bCus = document.getElementById('admin-tab-custom'); const bUsers = document.getElementById('admin-tab-users');
-            const sPdf = document.getElementById('admin-section-pdf'); const sCus = document.getElementById('admin-section-custom'); const sUsers = document.getElementById('admin-section-users');
-            const inputContainer = document.getElementById('admin-inputs-container'); const submitBtn = document.getElementById('admin-submit-btn');
+            const bPdf = document.getElementById('admin-tab-pdf'); 
+            const bCus = document.getElementById('admin-tab-custom'); 
+            const bUsers = document.getElementById('admin-tab-users');
+            
+            const sPdf = document.getElementById('admin-section-pdf'); 
+            const sCus = document.getElementById('admin-section-custom'); 
+            const sUsers = document.getElementById('admin-section-users');
+            
+            const inputContainer = document.getElementById('admin-inputs-container'); 
+            const submitBtn = document.getElementById('admin-submit-btn');
             
             const activeClass = "flex-1 py-2.5 px-4 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all flex items-center justify-center gap-2";
             const inactiveClass = "flex-1 py-2.5 px-4 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all flex items-center justify-center gap-2";
@@ -798,84 +905,6 @@
             });
         };
 
-        // ==========================================
-        // 5. FIREBASE BAŞLATMA (NETLIFY İÇİN ZORUNLU AYARLAR BURADA)
-        // ==========================================
-        try {
-            
-            // =========================================================================================
-            // 🔥 DİKKAT: NETLIFY'DA TÜM PC'LERİN SENKRONİZE ÇALIŞMASI İÇİN AŞAĞIYI DOLDURUN!
-            // 1. firebase.google.com adresinden yeni bir proje açın (Web App).
-            // 2. Oradaki `firebaseConfig` bilgilerini kopyalayıp aşağıdaki boşluğa yapıştırın.
-            // 3. Firebase Firestore veritabanı kurallarını okuma/yazmaya açık yapın.
-            // =========================================================================================
-            let fbConfig = {
-                // ÖRNEK (Buradaki // işaretlerini kaldırıp kendi bilgilerinizi girin):
-                // apiKey: "AIzaSyCx..._YOUR_API_KEY",
-                // authDomain: "proje-adi.firebaseapp.com",
-                // projectId: "proje-adi",
-                // storageBucket: "proje-adi.appspot.com",
-                // messagingSenderId: "1234567890",
-                // appId: "1:1234567890:web:abcdef"
-            };
-
-            // Eğer bu kod test ortamındaysa, gizli ayarları otomatik kullanır
-            if (typeof __firebase_config !== 'undefined') {
-                fbConfig = JSON.parse(__firebase_config);
-            }
-
-            if (Object.keys(fbConfig).length > 0) {
-                const app = initializeApp(fbConfig);
-                const auth = getAuth(app);
-                window.dbInstance = getFirestore(app);
-
-                // Uyarı afişini kapat
-                document.getElementById('offline-banner')?.classList.add('hidden');
-
-                const initSystemAuth = async () => {
-                    try {
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    } catch (err) { console.error("System Auth Error:", err); }
-                };
-
-                const syncPublicExams = () => {
-                    if (dbUnsubscribe) dbUnsubscribe();
-                    const publicExamsRef = collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'exams');
-                    
-                    const loader = document.getElementById('loading-skeleton');
-                    if (loader) loader.classList.remove('hidden');
-                    
-                    dbUnsubscribe = onSnapshot(publicExamsRef, (snapshot) => {
-                        if (loader) loader.classList.add('hidden');
-                        const posts = [];
-                        snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
-                        posts.sort((a, b) => b.createdAt - a.createdAt);
-                        window.renderExamsGrid(posts);
-                    }, (error) => {
-                        console.error("DB Fetch Error:", error);
-                        window.showMessage("İçerikler yüklenirken bir hata oluştu.");
-                    });
-                };
-
-                onAuthStateChanged(auth, (user) => { if (user) syncPublicExams(); });
-                initSystemAuth();
-
-            } else {
-                console.warn("⚠️ Firebase ayarları koda eklenmedi. Veriler sadece bu bilgisayarda kaydedilir.");
-                document.getElementById('loading-skeleton')?.classList.add('hidden');
-                document.getElementById('offline-banner')?.classList.remove('hidden');
-                window.renderExamsGrid(window.mockExams);
-            }
-        } catch (err) {
-            console.error("Firebase Başlatma Hatası:", err);
-            document.getElementById('loading-skeleton')?.classList.add('hidden');
-            document.getElementById('offline-banner')?.classList.remove('hidden');
-            window.renderExamsGrid(window.mockExams);
-        }
     </script>
 </body>
 </html>
