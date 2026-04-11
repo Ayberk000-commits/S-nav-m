@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınavım - LGS & Okul Hazırlık Platformu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; }
+        .tab-active { border-bottom: 3px solid #58a6ff; color: #58a6ff; font-weight: 700; }
+        .exam-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .exam-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5); border-color: #58a6ff; }
+        .animate-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-nav { background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #30363d; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0d1117; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #30363d; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #8b949e; }
+        
+        /* AI Glimmer Animation */
+        .glimmer-text {
+            background: linear-gradient(90deg, #a371f7, #f778ba, #a371f7);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+        
+        /* Custom Input Styles for Dark Theme */
+        input, select { background-color: #0d1117; color: #c9d1d9; border-color: #30363d; }
+        input:focus, select:focus { border-color: #58a6ff; box-shadow: 0 0 0 1px #58a6ff; }
+        .bg-card { background-color: #161b22; border-color: #30363d; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.switchTab('others')">
+                <div class="bg-gradient-to-br from-[#58a6ff] to-[#3b82f6] text-white p-2.5 rounded-xl shadow-lg shadow-blue-900/20 group-hover:shadow-blue-500/40 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <span class="font-extrabold text-2xl tracking-tight text-white">Sınavım</span>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <!-- Admin Button -->
+                <button id="admin-btn" onclick="window.openAdminModal()" class="hidden bg-[#238636] hover:bg-[#2ea043] text-white px-5 py-2.5 rounded-xl font-bold transition-all text-sm shadow-md border border-[rgba(255,255,255,0.1)] flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    İçerik Ekle
+                </button>
+
+                <div id="auth-section">
+                    <button onclick="window.openModal()" class="bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] border border-[#30363d] px-6 py-2.5 rounded-xl font-semibold transition-all text-sm shadow-sm">Giriş / Kayıt</button>
+                </div>
+                
+                <div id="user-section" class="hidden flex items-center gap-4 bg-[#161b22] border border-[#30363d] px-4 py-2 rounded-xl shadow-sm">
+                    <div class="flex flex-col items-end">
+                        <span class="text-[10px] font-bold tracking-wider text-[#8b949e] uppercase" id="role-badge">Öğrenci</span>
+                        <span id="display-name" class="text-sm font-extrabold text-[#58a6ff]">Kullanıcı</span>
+                    </div>
+                    <div class="w-px h-6 bg-[#30363d]"></div>
+                    <button onclick="window.logout()" class="text-[#8b949e] hover:text-[#f85149] transition-colors" title="Çıkış Yap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto p-4 md:py-10 flex-1 w-full">
+        
+        <!-- Navigation Tabs -->
+        <div class="flex gap-6 md:gap-10 mb-8 border-b border-[#30363d] overflow-x-auto whitespace-nowrap scrollbar-hide px-2">
+            <button id="tab-exam" onclick="window.switchTab('exam')" class="pb-4 font-semibold text-[#8b949e] hover:text-[#c9d1d9] transition hidden">Aktif İçerik</button>
+            <button id="tab-others" onclick="window.switchTab('others')" class="pb-4 font-semibold tab-active text-lg">Platform İçerikleri</button>
+        </div>
+
+        <!-- Section: Active Exam Container -->
+        <div id="section-exam" class="hidden space-y-6">
+            <div id="exam-content-area" class="bg-card backdrop-blur-sm rounded-2xl shadow-xl border p-6 md:p-10 animate-in">
+                <div class="text-center py-20">
+                    <p class="text-[#8b949e]">İçerik yükleniyor...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Other Exams (Feed) -->
+        <div id="section-others" class="animate-in">
+            <div class="flex items-center justify-between mb-8 px-2">
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">Sınav Havuzu</h2>
+                <span class="bg-[#1f6feb]/10 border border-[#1f6feb]/30 text-[#58a6ff] px-3 py-1 rounded-full text-xs font-bold shadow-sm">Güncel Müfredat</span>
+            </div>
+            
+            <div id="dynamic-content-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Hardcoded Local Exam -->
+                <div class="exam-card bg-card p-6 rounded-2xl border cursor-pointer relative overflow-hidden group" onclick="window.loadLocalExam()">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-[#1f6feb]/5 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="w-12 h-12 bg-[#1f6feb]/10 rounded-xl flex items-center justify-center text-[#58a6ff] mb-5 border border-[#1f6feb]/20 group-hover:bg-[#1f6feb]/20 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6 6-6"/><path d="m5 12 6 6 6-6"/></svg>
+                    </div>
+                    <h3 class="font-extrabold text-xl mb-1 text-white">İngilizce</h3>
+                    <p class="text-sm text-[#8b949e] mb-6 font-medium">6. Sınıf - 2. Dönem 1. Yazılı</p>
+                    <button class="w-full py-2.5 rounded-xl bg-[#21262d] font-bold text-[#c9d1d9] group-hover:bg-[#30363d] group-hover:text-white transition-colors border border-[#30363d]">Hemen Çöz</button>
+                </div>
+                
+                <!-- Skeleton loader for DB fetching -->
+                <div id="loading-skeleton" class="col-span-full py-20 text-center flex flex-col items-center justify-center gap-4 hidden">
+                    <div class="w-8 h-8 border-4 border-[#30363d] border-t-[#58a6ff] rounded-full animate-spin"></div>
+                    <span class="text-[#8b949e] font-medium text-sm">Veritabanından güncel sınavlar yükleniyor...</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: Login/Register/Code Verification -->
+    <div id="modal-auth" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-4 bg-[#0d1117]/80 backdrop-blur-sm">
+        <div class="bg-card w-full max-w-md rounded-2xl p-8 shadow-2xl border relative animate-in">
+            <button onclick="window.closeModal()" class="absolute top-4 right-4 p-2 bg-[#0d1117] hover:bg-[#30363d] border border-[#30363d] rounded-full transition-colors text-[#8b949e]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+            </button>
+            <form onsubmit="window.handleAuth(event)" class="space-y-4 mt-2">
+                <div class="mb-6">
+                    <h2 id="modal-title" class="text-2xl font-extrabold text-white">Sisteme Giriş</h2>
+                    <p id="modal-desc" class="text-[#8b949e] text-sm mt-1">Platforma erişmek için e-posta adresinizi girin.</p>
+                </div>
+                
+                <!-- Step 1: Email -->
+                <div id="step-1-email">
+                    <label class="block text-xs font-bold text-[#8b949e] mb-1 uppercase tracking-wide">E-posta Adresi <span class="text-[#f85149]">*</span></label>
+                    <input id="auth-email" type="email" required class="w-full p-3 rounded-lg outline-none border transition-all font-medium text-sm" placeholder="ornek@okul.com">
+                </div>
+                
+                <!-- Step 2: Admin Password (Hidden initially) -->
+                <div id="step-2-pass" class="hidden">
+                    <label class="block text-xs font-bold text-[#8b949e] mb-1 uppercase tracking-wide">Yönetici Şifresi <span class="text-[#f85149]">*</span></label>
+                    <input id="auth-pass" type="password" class="w-full p-3 rounded-lg outline-none border transition-all font-medium text-sm" placeholder="••••••••">
+                </div>
+
+                <!-- Step 2: Student Verification Code (Hidden initially) -->
+                <div id="step-2-code" class="hidden">
+                    <label class="block text-xs font-bold text-[#8b949e] mb-1 uppercase tracking-wide text-center">Doğrulama Kodu <span class="text-[#f85149]">*</span></label>
+                    <input id="auth-code" type="text" maxlength="6" pattern="\\d{6}" class="w-full p-3 rounded-lg outline-none border transition-all font-bold text-2xl text-center tracking-[0.5em] text-[#58a6ff] bg-[#0d1117]" placeholder="------">
+                    <p class="text-[10px] text-[#8b949e] mt-3 text-center bg-[#21262d] p-2 rounded-lg border border-[#30363d]">Kodunuz e-postanıza gönderildi. <br><span class="text-[#f85149] font-bold">Demo Modu: Kod sağ alt köşede belirecektir.</span></p>
+                </div>
+                
+                <button type="submit" id="auth-submit-btn" class="w-full py-3.5 mt-4 bg-[#238636] hover:bg-[#2ea043] border border-[rgba(255,255,255,0.1)] text-white rounded-lg font-bold shadow-sm transition-all text-sm">İleri</button>
+                
+                <p id="auth-back-container" class="text-center text-xs mt-6 text-[#8b949e] font-medium border-t border-[#30363d] pt-4 hidden">
+                    Yanlış e-posta mı girdiniz? 
+                    <button type="button" onclick="window.resetAuthStep()" class="text-[#58a6ff] font-bold hover:underline transition-colors ml-1">Geri Dön</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Admin Content Upload -->
+    <div id="modal-admin" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-4 bg-[#0d1117]/80 backdrop-blur-sm py-10 overflow-y-auto">
+        <div class="bg-card w-full max-w-2xl rounded-2xl p-6 md:p-8 shadow-2xl border relative animate-in my-auto">
+            <button onclick="window.closeAdminModal()" class="absolute top-4 right-4 p-2 bg-[#0d1117] hover:bg-[#30363d] border border-[#30363d] rounded-full transition-colors text-[#8b949e]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+            </button>
+            
+            <div class="mb-6 border-b border-[#30363d] pb-4">
+                <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
+                    <span class="text-[#3fb950]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+                    Yeni Bir Sınav Oluşturun
+                </h2>
+                <p class="text-[#8b949e] text-xs mt-1">Gerekli alanlar yıldız işaretiyle (*) işaretlenmiştir.</p>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="flex gap-2 mb-6 bg-[#0d1117] p-1 border border-[#30363d] rounded-lg">
+                <button type="button" onclick="window.setAdminTab('pdf')" id="admin-tab-pdf" class="flex-1 py-2 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all">📄 PDF Yükle</button>
+                <button type="button" onclick="window.setAdminTab('custom')" id="admin-tab-custom" class="flex-1 py-2 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all">✍️ Yazılı Oluştur</button>
+            </div>
+            
+            <form id="admin-form" onsubmit="window.handleAdminPost(event)" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-[#8b949e] mb-1">Sınav Başlığı *</label>
+                        <input id="admin-title" type="text" required class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="Sınavım - 8. Sınıf">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-[#8b949e] mb-1">Açıklama *</label>
+                        <input id="admin-subtitle" type="text" required class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="LGS'ye hazırlık testleri">
+                    </div>
+                </div>
+
+                <!-- PDF Section -->
+                <div id="admin-section-pdf" class="space-y-4 bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
+                    <div>
+                        <label class="block text-xs font-bold text-[#8b949e] mb-1">Yerel PDF Seç (Max 800KB)</label>
+                        <input type="file" id="admin-pdf-file" accept="application/pdf" class="w-full p-2 bg-[#161b22] border border-[#30363d] rounded-lg text-xs file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#21262d] file:text-[#c9d1d9] hover:file:bg-[#30363d] transition-all cursor-pointer">
+                    </div>
+                    <div class="flex items-center gap-4 my-2 opacity-50">
+                        <div class="h-px bg-[#30363d] flex-1"></div>
+                        <span class="text-[10px] font-bold text-[#8b949e] uppercase tracking-wider">Veya Harici Link</span>
+                        <div class="h-px bg-[#30363d] flex-1"></div>
+                    </div>
+                    <div>
+                        <input id="admin-pdf-url" type="url" class="w-full p-2.5 rounded-lg border outline-none text-sm" placeholder="https://ornek.com/dosya.pdf">
+                    </div>
+                </div>
+
+                <!-- Custom Exam Section (Hidden by default) -->
+                <div id="admin-section-custom" class="hidden space-y-4">
+                    <!-- GEMINI AI QUESTION GENERATOR -->
+                    <div class="bg-gradient-to-r from-[#1f2937] to-[#111827] p-4 rounded-xl border border-[#374151] mb-4">
+                        <h3 class="font-bold text-xs mb-2 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#a371f7]"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                            <span class="glimmer-text tracking-wide">Yapay Zeka ile Otomatik Soru Üret</span>
+                        </h3>
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <input type="text" id="ai-topic-input" class="flex-1 p-2 rounded-lg border border-[#30363d] bg-[#0d1117] outline-none focus:border-[#a371f7] text-xs font-medium" placeholder="Örn: 7. Sınıf Hücre Bölünmesi">
+                            <button type="button" id="btn-ai-generate" onclick="window.generateQuestionsWithAI()" class="bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#c9d1d9] px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex items-center justify-center gap-1.5">
+                                ✨ Soruları Üret
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0d1117] p-4 rounded-xl border border-[#30363d]">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-[#c9d1d9] text-xs uppercase tracking-wider">Sorular</h3>
+                            <button type="button" onclick="window.addQuestionField()" class="text-xs bg-[#21262d] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md font-bold hover:bg-[#30363d] transition-colors">+ Ekle</button>
+                        </div>
+                        <div id="questions-container" class="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-1">
+                            <div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-[#30363d] pt-4 mt-4 flex justify-end">
+                    <button type="submit" class="py-2.5 px-6 bg-[#238636] hover:bg-[#2ea043] text-white border border-[rgba(255,255,255,0.1)] rounded-lg font-bold shadow-sm transition-all text-sm">Depoyu Oluştur / Yayınla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Box -->
+    <div id="msg-box" class="fixed bottom-6 right-6 bg-[#161b22] border border-[#30363d] text-[#c9d1d9] px-6 py-4 rounded-xl shadow-2xl hidden z-[200] text-sm font-bold flex items-center gap-3 animate-in">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#3fb950]"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span id="msg-text">Mesaj...</span>
+    </div>
+
+    <!-- FIREBASE & LOGIC SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global State
+        let currentUser = null; 
+        let uiUser = null; 
+        let dbUnsubscribe = null;
+        window.currentExamPost = null; 
+        
+        // AUTH STATE for 2-Step Login
+        let authStep = 1; // 1: Email, 2: Code or Password
+        let currentAuthEmail = "";
+        let generatedAuthCode = null;
+
+        // ADMIN CONFIG
+        const ADMIN_EMAILS = ['sunaycapa3@gmail.com', 'ahmetakifabus91@gmail.com'];
+        const ADMIN_PASS = 'k@ppOlXeee67/--A3';
+
+        let currentAdminTab = 'pdf'; 
+        let customQuestionCount = 0;
+
+        // Firebase Init
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-platform-app';
+
+        // Gemini Init
+        const apiKey = ""; 
+        const geminiModel = "gemini-2.5-flash-preview-09-2025";
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
+
+        // Utility: API Backoff
+        async function fetchWithRetry(url, options, retries = 5) {
+            let delay = 1000;
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // System Auth
+        const initSystemAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error("System Auth Error:", err);
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) syncPublicExams();
+        });
+        initSystemAuth();
+
+        // ----------------- DB Logic -----------------
+        const syncPublicExams = () => {
+            if (dbUnsubscribe) dbUnsubscribe();
+            
+            const publicExamsRef = collection(db, 'artifacts', appId, 'public', 'data', 'exams');
+            document.getElementById('loading-skeleton').classList.remove('hidden');
+            
+            dbUnsubscribe = onSnapshot(publicExamsRef, (snapshot) => {
+                document.getElementById('loading-skeleton').classList.add('hidden');
+                const grid = document.getElementById('dynamic-content-grid');
+                
+                const staticContent = grid.children[0].outerHTML;
+                grid.innerHTML = staticContent;
+
+                const posts = [];
+                snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
+                posts.sort((a, b) => b.createdAt - a.createdAt);
+
+                posts.forEach(post => {
+                    const isPdf = post.type === 'pdf';
+                    const iconColor = isPdf ? '#f85149' : '#3fb950'; 
+                    const iconBg = isPdf ? 'rgba(248,81,73,0.1)' : 'rgba(63,185,80,0.1)';
+                    const iconSvg = isPdf 
+                        ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M10 13v6"/><path d="M10 16h3"/><path d="M14 13h3"/><path d="M14 16h2"/></svg>`
+                        : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`;
+
+                    const el = document.createElement('div');
+                    el.className = `exam-card bg-card p-6 rounded-2xl border cursor-pointer relative overflow-hidden group`;
+                    el.onclick = () => window.loadDynamicExam(post);
+                    el.innerHTML = `
+                        <div class="absolute top-0 right-0 w-20 h-20 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-500" style="background-color: ${iconBg}; opacity: 0.5;"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center border border-[rgba(255,255,255,0.05)] transition-colors" style="background-color: ${iconBg}; color: ${iconColor};">
+                                ${iconSvg}
+                            </div>
+                            <span class="text-[9px] font-bold px-2 py-0.5 rounded border uppercase tracking-widest" style="background-color: ${iconBg}; color: ${iconColor}; border-color: ${iconBg};">YENİ</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1 text-white">${post.title}</h3>
+                        <p class="text-xs text-[#8b949e] mb-5 font-medium">${post.subtitle}</p>
+                        <button class="w-full py-2 rounded-lg bg-[#21262d] font-bold text-[#c9d1d9] group-hover:bg-[#30363d] group-hover:text-white transition-colors border border-[#30363d] text-xs">Aç & Çöz</button>
+                    `;
+                    grid.appendChild(el);
+                });
+            }, (error) => {
+                console.error("DB Fetch Error:", error);
+                window.showMessage("İçerikler yüklenirken bir hata oluştu.");
+            });
+        };
+
+        // ----------------- GEMINI AI LOGIC -----------------
+        window.generateQuestionsWithAI = async () => {
+            const topic = document.getElementById('ai-topic-input').value.trim();
+            if(!topic) {
+                window.showMessage("Lütfen konu giriniz."); return;
+            }
+
+            const btn = document.getElementById('btn-ai-generate');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<div class="w-4 h-4 border-2 border-transparent border-t-[#a371f7] rounded-full animate-spin"></div> Üretiliyor...`;
+            btn.disabled = true;
+
+            const schema = {
+                type: "ARRAY",
+                items: {
+                    type: "OBJECT",
+                    properties: {
+                        q: { type: "STRING" }, a: { type: "STRING" }, b: { type: "STRING" },
+                        c: { type: "STRING" }, d: { type: "STRING" }, ans: { type: "STRING" }
+                    }
+                }
+            };
+
+            const payload = {
+                contents: [{ parts: [{ text: `Sen bir eğitimcisin. Öğrencilerin için '${topic}' konusunda 3 adet LGS/Ortaokul seviyesi çoktan seçmeli soru hazırla. Doğru cevabı 'ans' alanında 'A', 'B', 'C', 'D' olarak belirt.` }] }],
+                generationConfig: { responseMimeType: "application/json", responseSchema: schema }
+            };
+
+            try {
+                const response = await fetchWithRetry(geminiUrl, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                });
+                const textOutput = response.candidates?.[0]?.content?.parts?.[0]?.text;
+                if(textOutput) {
+                    const questions = JSON.parse(textOutput);
+                    questions.forEach(qData => window.addQuestionField(qData));
+                    window.showMessage("Yapay Zeka soruları üretti!");
+                    document.getElementById('ai-topic-input').value = ''; 
+                }
+            } catch (err) {
+                window.showMessage("Soru üretilirken bir hata oluştu.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        };
+
+        window.getHintFromAI = async (qIndex, hintDivId, btnElement) => {
+            if(!window.currentExamPost || !window.currentExamPost.questions) return;
+            const qData = window.currentExamPost.questions[qIndex];
+            const hintDiv = document.getElementById(hintDivId);
+            
+            const originalBtnHtml = btnElement.innerHTML;
+            btnElement.innerHTML = `<div class="w-3 h-3 border-2 border-[#d29922] border-t-transparent rounded-full animate-spin"></div>`;
+            btnElement.disabled = true;
+
+            const prompt = `Öğrenci soruda zorlanıyor: '${qData.q}'. Şıklar: A)${qData.a}, B)${qData.b}, C)${qData.c}, D)${qData.d}. Doğru cevap: ${qData.ans}. Cevabı vermeden onu yönlendirecek çok kısa bir öğretmen ipucu ver.`;
+
+            try {
+                const response = await fetchWithRetry(geminiUrl, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const aiHintText = response.candidates?.[0]?.content?.parts?.[0]?.text;
+                if(aiHintText) {
+                    hintDiv.innerHTML = `<strong class="text-[#d29922] block mb-1 text-xs uppercase tracking-wider flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> AI İpucu</strong> <span class="text-[#c9d1d9]">${aiHintText}</span>`;
+                    hintDiv.classList.remove('hidden');
+                    btnElement.classList.add('hidden'); 
+                }
+            } catch (err) {
+                window.showMessage("İpucu alınamadı.");
+                btnElement.innerHTML = originalBtnHtml;
+                btnElement.disabled = false;
+            }
+        };
+
+        // ----------------- ADMIN UI / LOGIC -----------------
+        let uploadedPdfBase64 = null;
+        document.getElementById('admin-pdf-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(!file) return;
+            if(file.size > 800000) { 
+                window.showMessage("PDF dosyası çok büyük (Max 800KB)."); e.target.value = ''; uploadedPdfBase64 = null; return;
+            }
+            const reader = new FileReader();
+            reader.onload = (ev) => { uploadedPdfBase64 = ev.target.result; };
+            reader.readAsDataURL(file);
+        });
+
+        window.handleAdminPost = async (e) => {
+            e.preventDefault();
+            if (!uiUser || !ADMIN_EMAILS.includes(uiUser.email)) {
+                window.showMessage("Yetkisi yetersiz."); return;
+            }
+
+            const title = document.getElementById('admin-title').value;
+            const subtitle = document.getElementById('admin-subtitle').value;
+            let postData = { title, subtitle, createdAt: Date.now(), author: uiUser.email, type: currentAdminTab };
+
+            if (currentAdminTab === 'pdf') {
+                const pdfUrl = document.getElementById('admin-pdf-url').value;
+                if (!uploadedPdfBase64 && !pdfUrl) { window.showMessage("PDF veya Link eksik."); return; }
+                postData.pdfUrl = pdfUrl || null; postData.pdfData = uploadedPdfBase64 || null;
+            } else {
+                const qNodes = document.querySelectorAll('.custom-q-block');
+                if(qNodes.length === 0) { window.showMessage("Soru eklemediniz."); return; }
+                postData.questions = Array.from(qNodes).map(n => ({
+                    q: n.querySelector('.q-text').value, a: n.querySelector('.q-opt-a').value,
+                    b: n.querySelector('.q-opt-b').value, c: n.querySelector('.q-opt-c').value,
+                    d: n.querySelector('.q-opt-d').value, ans: n.querySelector('.q-ans').value
+                }));
+            }
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'exams'), postData);
+                window.showMessage("İçerik depoya eklendi!");
+                window.closeAdminModal();
+                document.getElementById('admin-form').reset();
+                uploadedPdfBase64 = null;
+                document.getElementById('questions-container').innerHTML = '<div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>';
+                customQuestionCount = 0;
+            } catch (err) { window.showMessage("Hata: " + err.message); }
+        };
+
+        window.setAdminTab = (tab) => {
+            currentAdminTab = tab;
+            const bPdf = document.getElementById('admin-tab-pdf');
+            const bCus = document.getElementById('admin-tab-custom');
+            const sPdf = document.getElementById('admin-section-pdf');
+            const sCus = document.getElementById('admin-section-custom');
+            
+            const activeClass = "flex-1 py-2 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all";
+            const inactiveClass = "flex-1 py-2 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all";
+
+            if (tab === 'pdf') {
+                bPdf.className = activeClass; bCus.className = inactiveClass;
+                sPdf.classList.remove('hidden'); sCus.classList.add('hidden');
+            } else {
+                bCus.className = activeClass; bPdf.className = inactiveClass;
+                sCus.classList.remove('hidden'); sPdf.classList.add('hidden');
+            }
+        };
+
+        window.addQuestionField = (aiData = null) => {
+            const container = document.getElementById('questions-container');
+            const msg = document.getElementById('empty-question-msg');
+            if(msg) msg.remove();
+
+            customQuestionCount++;
+            const qDiv = document.createElement('div');
+            qDiv.className = 'custom-q-block bg-[#161b22] p-3 rounded-lg border border-[#30363d] relative animate-in text-xs';
+            qDiv.innerHTML = `
+                <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-[#f85149] hover:text-red-400 font-bold">✕</button>
+                <label class="block font-bold text-[#8b949e] mb-1 uppercase tracking-wider">Soru ${customQuestionCount}</label>
+                <input type="text" value="${aiData ? aiData.q : ''}" required class="q-text w-full p-2 rounded bg-[#0d1117] border border-[#30363d] mb-2 outline-none focus:border-[#58a6ff]" placeholder="Soru metni...">
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <input type="text" value="${aiData ? aiData.a : ''}" required class="q-opt-a p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="A)">
+                    <input type="text" value="${aiData ? aiData.b : ''}" required class="q-opt-b p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="B)">
+                    <input type="text" value="${aiData ? aiData.c : ''}" required class="q-opt-c p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="C)">
+                    <input type="text" value="${aiData ? aiData.d : ''}" required class="q-opt-d p-2 rounded bg-[#0d1117] border border-[#30363d] outline-none focus:border-[#58a6ff]" placeholder="D)">
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="font-bold text-[#8b949e]">Cevap:</label>
+                    <select class="q-ans p-1 rounded border border-[#30363d] bg-[#0d1117] outline-none focus:border-[#3fb950] font-bold text-[#3fb950]">
+                        <option value="A" ${aiData?.ans==='A'?'selected':''}>A</option><option value="B" ${aiData?.ans==='B'?'selected':''}>B</option>
+                        <option value="C" ${aiData?.ans==='C'?'selected':''}>C</option><option value="D" ${aiData?.ans==='D'?'selected':''}>D</option>
+                    </select>
+                </div>
+            `;
+            container.appendChild(qDiv);
+            container.scrollTop = container.scrollHeight; 
+        };
+
+        // ----------------- 2-Step Auth UI / Logic -----------------
+        const updateUI = () => {
+            const authSec = document.getElementById('auth-section');
+            const userSec = document.getElementById('user-section');
+            const adminBtn = document.getElementById('admin-btn');
+            
+            if (uiUser) {
+                authSec.classList.add('hidden'); userSec.classList.remove('hidden');
+                document.getElementById('display-name').innerText = uiUser.email.split('@')[0];
+                if (ADMIN_EMAILS.includes(uiUser.email)) {
+                    adminBtn.classList.remove('hidden');
+                    document.getElementById('role-badge').innerText = "Yönetici";
+                    document.getElementById('role-badge').className = "text-[10px] font-bold tracking-wider uppercase text-[#3fb950]";
+                } else {
+                    adminBtn.classList.add('hidden');
+                    document.getElementById('role-badge').innerText = "Öğrenci";
+                    document.getElementById('role-badge').className = "text-[10px] font-bold tracking-wider uppercase text-[#8b949e]";
+                }
+            } else {
+                authSec.classList.remove('hidden'); userSec.classList.add('hidden'); adminBtn.classList.add('hidden');
+            }
+        };
+
+        window.resetAuthStep = () => {
+            authStep = 1;
+            currentAuthEmail = "";
+            generatedAuthCode = null;
+            document.getElementById('step-1-email').classList.remove('hidden');
+            document.getElementById('step-2-pass').classList.add('hidden');
+            document.getElementById('step-2-code').classList.add('hidden');
+            document.getElementById('auth-back-container').classList.add('hidden');
+            document.getElementById('auth-submit-btn').innerText = "İleri";
+            document.getElementById('modal-desc').innerText = "Platforma erişmek için e-posta adresinizi girin.";
+            
+            document.getElementById('auth-email').value = "";
+            document.getElementById('auth-pass').value = "";
+            document.getElementById('auth-code').value = "";
+        };
+
+        window.handleAuth = async (e) => {
+            e.preventDefault();
+
+            if (authStep === 1) {
+                const emailInput = document.getElementById('auth-email').value.trim();
+                if (!emailInput) return;
+                
+                currentAuthEmail = emailInput;
+                document.getElementById('step-1-email').classList.add('hidden');
+                document.getElementById('auth-back-container').classList.remove('hidden');
+
+                if (ADMIN_EMAILS.includes(currentAuthEmail)) {
+                    // Admin Logiği -> Şifre Sor
+                    document.getElementById('step-2-pass').classList.remove('hidden');
+                    document.getElementById('modal-desc').innerText = "Yönetici hesabı algılandı. Şifrenizi girin.";
+                    document.getElementById('auth-submit-btn').innerText = "Giriş Yap";
+                } else {
+                    // Öğrenci Logiği -> 6 Haneli Kod Üret ve Simüle Et
+                    generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
+                    
+                    // Demo amaçlı kodu ekranda da gösteriyoruz. (Gerçekte sadece console.log veya Email API'ye gider)
+                    console.log(`[NETLIFY/EMAIL SIMULATION] Giden Email: ${currentAuthEmail} | Kod: ${generatedAuthCode}`);
+                    window.showMessage(`Sistem Mesajı: Doğrulama Kodunuz ${generatedAuthCode}`);
+
+                    document.getElementById('step-2-code').classList.remove('hidden');
+                    document.getElementById('modal-desc').innerText = `${currentAuthEmail} adresine kod gönderildi.`;
+                    document.getElementById('auth-submit-btn').innerText = "Kodu Doğrula ve Giriş Yap";
+                }
+                authStep = 2;
+
+            } else if (authStep === 2) {
+                if (ADMIN_EMAILS.includes(currentAuthEmail)) {
+                    // Admin Doğrulama
+                    const pass = document.getElementById('auth-pass').value;
+                    if (pass === ADMIN_PASS) {
+                        uiUser = { email: currentAuthEmail }; 
+                        updateUI(); 
+                        window.showMessage("Admin girişi başarılı."); 
+                        window.closeModal();
+                    } else { 
+                        window.showMessage("Hatalı yönetici şifresi!"); 
+                    }
+                } else {
+                    // Öğrenci Kod Doğrulama
+                    const enteredCode = document.getElementById('auth-code').value.trim();
+                    if (enteredCode === generatedAuthCode) {
+                        uiUser = { email: currentAuthEmail }; 
+                        updateUI(); 
+                        window.showMessage("Başarıyla giriş yapıldı, hoş geldin!"); 
+                        window.closeModal();
+                    } else { 
+                        window.showMessage("Hatalı kod girdiniz. Lütfen tekrar deneyin."); 
+                    }
+                }
+            }
+        };
+
+        window.logout = async () => { 
+            uiUser = null; 
+            updateUI(); 
+            window.switchTab('others'); 
+            window.showMessage("Çıkış yapıldı."); 
+        };
+
+        // ----------------- Content Viewing Logic -----------------
+        window.switchTab = (tab) => {
+            const secExam = document.getElementById(`section-exam`); const secOthers = document.getElementById(`section-others`);
+            const tabExam = document.getElementById(`tab-exam`); const tabOthers = document.getElementById(`tab-others`);
+
+            if (tab === 'exam') {
+                secExam.classList.remove('hidden'); secOthers.classList.add('hidden'); tabExam.classList.remove('hidden');
+                tabExam.className = 'pb-4 font-semibold tab-active text-lg'; tabOthers.className = 'pb-4 font-semibold text-[#8b949e] hover:text-[#c9d1d9] transition text-lg';
+            } else {
+                secExam.classList.add('hidden'); secOthers.classList.remove('hidden'); tabExam.classList.add('hidden');
+                tabOthers.className = 'pb-4 font-semibold tab-active text-lg';
+            }
+        };
+
+        window.loadLocalExam = () => {
+            window.currentExamPost = null; 
+            const area = document.getElementById('exam-content-area');
+            area.innerHTML = `
+                <div class="mb-8 border-b border-[#30363d] pb-6">
+                    <h1 class="text-2xl font-extrabold text-white mb-2">6. Sınıf İngilizce 2. Dönem 1. Yazılı</h1>
+                    <p class="text-[#8b949e] text-sm">Beceri Temelli Hazırlık Sınavı</p>
+                </div>
+                <div class="p-6 bg-[#0d1117] border border-[#30363d] text-[#8b949e] rounded-xl text-center text-sm font-medium">
+                    [ Demo İçerik ]<br>Gerçek bir deneyim için Yöneticiler PDF veya Dijital test eklemelidir.
+                </div>
+            `;
+            window.switchTab('exam');
+        };
+
+        window.loadDynamicExam = (post) => {
+            window.currentExamPost = post; 
+            const area = document.getElementById('exam-content-area');
+            let contentHtml = '';
+
+            if (post.type === 'pdf') {
+                const source = post.pdfUrl || post.pdfData;
+                contentHtml = `<div class="bg-[#0d1117] p-1.5 rounded-xl border border-[#30363d]"><iframe src="${source}" class="w-full h-[600px] rounded-lg bg-white" frameborder="0"></iframe></div>`;
+            } else {
+                contentHtml = `<div class="space-y-4">`;
+                post.questions.forEach((q, i) => {
+                    contentHtml += `
+                        <div class="bg-[#0d1117] border border-[#30363d] p-5 rounded-xl">
+                            <div class="flex justify-between items-start mb-4 gap-3">
+                                <p class="font-bold text-[#c9d1d9] text-sm flex-1"><span class="text-[#58a6ff] mr-2">${i+1}.</span> ${q.q}</p>
+                                <button type="button" onclick="window.getHintFromAI(${i}, 'hint-${post.id}-${i}', this)" class="bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#d29922] text-xs font-bold px-2.5 py-1.5 rounded transition-colors whitespace-nowrap flex items-center gap-1.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> İpucu
+                                </button>
+                            </div>
+                            <div id="hint-${post.id}-${i}" class="hidden bg-[#161b22] border border-[#d29922]/30 p-3 rounded-lg text-xs mb-4"></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                ${['A', 'B', 'C', 'D'].map(opt => `
+                                    <label class="flex items-center gap-3 p-3 bg-[#161b22] border border-[#30363d] rounded-lg cursor-pointer hover:border-[#58a6ff] transition-all group">
+                                        <input type="radio" name="q_${post.id}_${i}" value="${opt}" class="accent-[#58a6ff]"> 
+                                        <span class="text-sm text-[#8b949e] group-hover:text-[#c9d1d9] transition-colors"><strong class="text-white">${opt})</strong> ${q[opt.toLowerCase()]}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+                contentHtml += `<div class="pt-6 flex justify-end"><button onclick="window.showMessage('Tebrikler! Cevaplar kaydedildi.')" class="bg-[#238636] hover:bg-[#2ea043] text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow border border-[rgba(255,255,255,0.1)]">Testi Bitir</button></div></div>`;
+            }
+
+            area.innerHTML = `
+                <div class="mb-6 border-b border-[#30363d] pb-6 flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-extrabold text-white mb-1 tracking-tight">${post.title}</h1>
+                        <p class="text-[#8b949e] text-sm">${post.subtitle}</p>
+                    </div>
+                    <div class="hidden sm:block text-right">
+                        <div class="inline-block bg-[#161b22] border border-[#30363d] text-[#8b949e] text-[10px] uppercase tracking-wider px-2 py-1 rounded font-bold mb-1">${post.author.split('@')[0]}</div>
+                        <div class="text-[10px] text-[#8b949e]">${new Date(post.createdAt).toLocaleDateString('tr-TR')}</div>
+                    </div>
+                </div>
+                ${contentHtml}
+            `;
+            window.switchTab('exam'); window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // Modals
+        window.openModal = () => { document.getElementById('modal-auth').classList.remove('hidden'); window.resetAuthStep(); };
+        window.closeModal = () => document.getElementById('modal-auth').classList.add('hidden');
+        window.openAdminModal = () => document.getElementById('modal-admin').classList.remove('hidden');
+        window.closeAdminModal = () => document.getElementById('modal-admin').classList.add('hidden');
+        
+        window.showMessage = (msg) => {
+            const box = document.getElementById('msg-box'); document.getElementById('msg-text').innerText = msg;
+            box.classList.remove('hidden'); setTimeout(() => box.classList.add('hidden'), 4000);
+        };
+    </script>
+</body>
+</html>
