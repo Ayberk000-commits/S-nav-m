@@ -29,13 +29,17 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
         
-        /* Custom Input Styles for Dark Theme */
         input, select { background-color: #0d1117; color: #c9d1d9; border-color: #30363d; }
         input:focus, select:focus { border-color: #58a6ff; box-shadow: 0 0 0 1px #58a6ff; }
         .bg-card { background-color: #161b22; border-color: #30363d; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
+
+    <!-- Offline Warning Banner -->
+    <div id="offline-banner" class="hidden bg-[#f85149] text-white text-xs font-bold py-2 px-4 text-center">
+        ⚠️ SİSTEM UYARISI: Veritabanı bağlantısı yok (Offline Mod). Eklediğiniz sınavlar SADECE bu bilgisayarda görünür. Senkronizasyon için koddaki Firebase ayarlarını girin.
+    </div>
 
     <!-- Navbar -->
     <nav class="glass-nav sticky top-0 z-50">
@@ -84,9 +88,7 @@
         <!-- Section: Active Exam Container -->
         <div id="section-exam" class="hidden space-y-6">
             <div id="exam-content-area" class="bg-card backdrop-blur-sm rounded-2xl shadow-xl border p-6 md:p-10 animate-in">
-                <div class="text-center py-20">
-                    <p class="text-[#8b949e]">İçerik yükleniyor...</p>
-                </div>
+                <div class="text-center py-20 text-[#8b949e]">İçerik yükleniyor...</div>
             </div>
         </div>
 
@@ -98,13 +100,13 @@
             </div>
             
             <div id="dynamic-content-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Hardcoded Local Exam (Dinamik İçerikler Buraya Eklenecek) -->
+                <!-- Sınavlar Buraya Dinamik Yüklenecek -->
             </div>
 
-            <!-- Skeleton loader for DB fetching -->
+            <!-- Skeleton loader -->
             <div id="loading-skeleton" class="py-20 text-center flex flex-col items-center justify-center gap-4 hidden">
                 <div class="w-8 h-8 border-4 border-[#30363d] border-t-[#58a6ff] rounded-full animate-spin"></div>
-                <span class="text-[#8b949e] font-medium text-sm">Veritabanından güncel sınavlar yükleniyor...</span>
+                <span class="text-[#8b949e] font-medium text-sm">Veritabanından sınavlar yükleniyor...</span>
             </div>
         </div>
     </main>
@@ -121,23 +123,20 @@
                     <p id="modal-desc" class="text-[#8b949e] text-sm mt-1">Platforma erişmek için e-posta adresinizi girin.</p>
                 </div>
                 
-                <!-- Step 1: Email -->
                 <div id="step-1-email">
                     <label class="block text-xs font-bold text-[#8b949e] mb-1 uppercase tracking-wide">E-posta Adresi <span class="text-[#f85149]">*</span></label>
                     <input id="auth-email" type="email" required class="w-full p-3 rounded-lg outline-none border transition-all font-medium text-sm" placeholder="ornek@okul.com">
                 </div>
                 
-                <!-- Step 2: Admin Password -->
                 <div id="step-2-pass" class="hidden">
                     <label class="block text-xs font-bold text-[#8b949e] mb-1 uppercase tracking-wide">Yönetici Şifresi <span class="text-[#f85149]">*</span></label>
                     <input id="auth-pass" type="password" class="w-full p-3 rounded-lg outline-none border transition-all font-medium text-sm" placeholder="••••••••">
                 </div>
 
-                <!-- Step 2: Student Verification Code -->
                 <div id="step-2-code" class="hidden">
                     <label class="block text-xs font-bold text-[#8b949e] mb-1 uppercase tracking-wide text-center">Doğrulama Kodu <span class="text-[#f85149]">*</span></label>
                     <input id="auth-code" type="text" maxlength="6" pattern="\d{6}" class="w-full p-3 rounded-lg outline-none border transition-all font-bold text-2xl text-center tracking-[0.5em] text-[#58a6ff] bg-[#0d1117]" placeholder="------">
-                    <p class="text-[10px] text-[#8b949e] mt-3 text-center bg-[#21262d] p-2 rounded-lg border border-[#30363d]">Kodunuz e-postanıza gönderildi. <br><span class="text-[#f85149] font-bold">Demo Modu: Kod sağ alt köşede belirecektir.</span></p>
+                    <p class="text-[10px] text-[#8b949e] mt-3 text-center bg-[#21262d] p-2 rounded-lg border border-[#30363d]">Kod e-postanıza gönderildi. <br><span class="text-[#f85149] font-bold">Demo Modu: Kod sağ alt köşede belirecektir.</span></p>
                 </div>
                 
                 <button type="submit" id="auth-submit-btn" class="w-full py-3.5 mt-4 bg-[#238636] hover:bg-[#2ea043] border border-[rgba(255,255,255,0.1)] text-white rounded-lg font-bold shadow-sm transition-all text-sm">İleri</button>
@@ -174,7 +173,6 @@
             
             <form id="admin-form" onsubmit="window.handleAdminPost(event)" class="space-y-5">
                 
-                <!-- CONTENT GENERATION SECTIONS -->
                 <div id="admin-inputs-container">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                         <div>
@@ -205,7 +203,7 @@
 
                     <!-- Custom Exam Section -->
                     <div id="admin-section-custom" class="hidden space-y-4">
-                        <!-- GEMINI AI QUESTION GENERATOR -->
+                        <!-- AHMET HOCA AI GENERATOR -->
                         <div class="bg-gradient-to-r from-[#1f2937] to-[#111827] p-4 rounded-xl border border-[#374151] mb-4">
                             <h3 class="font-bold text-xs mb-2 flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#a371f7]"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m4.9 4.9 14.2 14.2"/><path d="m4.9 19.1 14.2-14.2"/></svg>
@@ -274,15 +272,12 @@
         <span id="msg-text">Mesaj...</span>
     </div>
 
-    <!-- FIREBASE & LOGIC SCRIPT (HATA ÖNLEYİCİ FALLBACK SİSTEMİ) -->
+    <!-- SCRIPT (Hata Önleyici Fallback & Güvenli DOM Check'li Tam Sürüm) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // ==========================================
-        // 1. GLOBAL DEĞİŞKENLER VE YEREL (MOCK) HAFIZA
-        // ==========================================
         window.currentExamPost = null; 
         let uiUser = null; 
         let authStep = 1; 
@@ -297,7 +292,6 @@
         let dbUnsubscribe = null;
         window.dbInstance = null; 
 
-        // Fallback Hafıza Dizileri
         window.mockUsers = [];
         window.mockExams = [
             {
@@ -315,7 +309,6 @@
         ];
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-platform-app';
-
         const apiKey = ""; 
         const geminiModel = "gemini-2.5-flash-preview-09-2025";
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
@@ -335,17 +328,20 @@
             }
         }
 
-        // ==========================================
-        // 2. UI VE ARAYÜZ YÖNETİMİ
-        // ==========================================
-        window.openModal = () => { document.getElementById('modal-auth').classList.remove('hidden'); window.resetAuthStep(); };
-        window.closeModal = () => document.getElementById('modal-auth').classList.add('hidden');
-        window.openAdminModal = () => document.getElementById('modal-admin').classList.remove('hidden');
-        window.closeAdminModal = () => document.getElementById('modal-admin').classList.add('hidden');
+        // Güvenli DOM Modals
+        window.openModal = () => { document.getElementById('modal-auth')?.classList.remove('hidden'); window.resetAuthStep(); };
+        window.closeModal = () => { document.getElementById('modal-auth')?.classList.add('hidden'); };
+        window.openAdminModal = () => { document.getElementById('modal-admin')?.classList.remove('hidden'); };
+        window.closeAdminModal = () => { document.getElementById('modal-admin')?.classList.add('hidden'); };
         
         window.showMessage = (msg) => {
-            const box = document.getElementById('msg-box'); document.getElementById('msg-text').innerText = msg;
-            box.classList.remove('hidden'); setTimeout(() => box.classList.add('hidden'), 4000);
+            const box = document.getElementById('msg-box');
+            const txt = document.getElementById('msg-text');
+            if(box && txt) {
+                txt.innerText = msg;
+                box.classList.remove('hidden'); 
+                setTimeout(() => box.classList.add('hidden'), 4000);
+            }
         };
 
         const updateUI = () => {
@@ -354,31 +350,51 @@
             const adminBtn = document.getElementById('admin-btn');
             
             if (uiUser) {
-                authSec.classList.add('hidden'); userSec.classList.remove('hidden');
-                document.getElementById('display-name').innerText = uiUser.email.split('@')[0];
+                authSec?.classList.add('hidden'); 
+                userSec?.classList.remove('hidden');
+                
+                const dispName = document.getElementById('display-name');
+                if(dispName) dispName.innerText = uiUser.email.split('@')[0];
+                
+                const roleBadge = document.getElementById('role-badge');
                 if (ADMIN_EMAILS.includes(uiUser.email)) {
-                    adminBtn.classList.remove('hidden');
-                    document.getElementById('role-badge').innerText = "Yönetici";
-                    document.getElementById('role-badge').className = "text-[10px] font-bold tracking-wider uppercase text-[#3fb950]";
+                    adminBtn?.classList.remove('hidden');
+                    if(roleBadge) {
+                        roleBadge.innerText = "Yönetici";
+                        roleBadge.className = "text-[10px] font-bold tracking-wider uppercase text-[#3fb950]";
+                    }
                 } else {
-                    adminBtn.classList.add('hidden');
-                    document.getElementById('role-badge').innerText = "Öğrenci";
-                    document.getElementById('role-badge').className = "text-[10px] font-bold tracking-wider uppercase text-[#8b949e]";
+                    adminBtn?.classList.add('hidden');
+                    if(roleBadge) {
+                        roleBadge.innerText = "Öğrenci";
+                        roleBadge.className = "text-[10px] font-bold tracking-wider uppercase text-[#8b949e]";
+                    }
                 }
             } else {
-                authSec.classList.remove('hidden'); userSec.classList.add('hidden'); adminBtn.classList.add('hidden');
+                authSec?.classList.remove('hidden'); 
+                userSec?.classList.add('hidden'); 
+                adminBtn?.classList.add('hidden');
             }
         };
 
         window.resetAuthStep = () => {
             authStep = 1; currentAuthEmail = ""; generatedAuthCode = null;
-            document.getElementById('step-1-email').classList.remove('hidden');
-            document.getElementById('step-2-pass').classList.add('hidden');
-            document.getElementById('step-2-code').classList.add('hidden');
-            document.getElementById('auth-back-container').classList.add('hidden');
-            document.getElementById('auth-submit-btn').innerText = "İleri";
-            document.getElementById('modal-desc').innerText = "Platforma erişmek için e-posta adresinizi girin.";
-            document.getElementById('auth-email').value = ""; document.getElementById('auth-pass').value = ""; document.getElementById('auth-code').value = "";
+            document.getElementById('step-1-email')?.classList.remove('hidden');
+            document.getElementById('step-2-pass')?.classList.add('hidden');
+            document.getElementById('step-2-code')?.classList.add('hidden');
+            document.getElementById('auth-back-container')?.classList.add('hidden');
+            
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const desc = document.getElementById('modal-desc');
+            if(submitBtn) submitBtn.innerText = "İleri";
+            if(desc) desc.innerText = "Platforma erişmek için e-posta adresinizi girin.";
+            
+            const mailIn = document.getElementById('auth-email');
+            const passIn = document.getElementById('auth-pass');
+            const codeIn = document.getElementById('auth-code');
+            if(mailIn) mailIn.value = ""; 
+            if(passIn) passIn.value = ""; 
+            if(codeIn) codeIn.value = "";
         };
 
         const logUserLogin = async (email, role) => {
@@ -396,30 +412,34 @@
         window.handleAuth = async (e) => {
             e.preventDefault();
             if (authStep === 1) {
-                const emailInput = document.getElementById('auth-email').value.trim();
+                const emailInput = document.getElementById('auth-email')?.value.trim();
                 if (!emailInput) return;
                 
                 currentAuthEmail = emailInput;
-                document.getElementById('step-1-email').classList.add('hidden');
-                document.getElementById('auth-back-container').classList.remove('hidden');
+                document.getElementById('step-1-email')?.classList.add('hidden');
+                document.getElementById('auth-back-container')?.classList.remove('hidden');
 
                 if (ADMIN_EMAILS.includes(currentAuthEmail)) {
-                    document.getElementById('step-2-pass').classList.remove('hidden');
-                    document.getElementById('modal-desc').innerText = "Yönetici hesabı algılandı. Şifrenizi girin.";
-                    document.getElementById('auth-submit-btn').innerText = "Giriş Yap";
+                    document.getElementById('step-2-pass')?.classList.remove('hidden');
+                    const desc = document.getElementById('modal-desc');
+                    const btn = document.getElementById('auth-submit-btn');
+                    if(desc) desc.innerText = "Yönetici hesabı algılandı. Şifrenizi girin.";
+                    if(btn) btn.innerText = "Giriş Yap";
                 } else {
                     generatedAuthCode = Math.floor(100000 + Math.random() * 900000).toString();
                     console.log(`[E-POSTA SİMÜLASYONU] Alıcı: ${currentAuthEmail} | Kod: ${generatedAuthCode}`);
                     window.showMessage(`Doğrulama Kodunuz: ${generatedAuthCode} (Demodur)`);
 
-                    document.getElementById('step-2-code').classList.remove('hidden');
-                    document.getElementById('modal-desc').innerText = `${currentAuthEmail} adresine kod gönderildi.`;
-                    document.getElementById('auth-submit-btn').innerText = "Kodu Doğrula ve Giriş Yap";
+                    document.getElementById('step-2-code')?.classList.remove('hidden');
+                    const desc = document.getElementById('modal-desc');
+                    const btn = document.getElementById('auth-submit-btn');
+                    if(desc) desc.innerText = `${currentAuthEmail} adresine kod gönderildi.`;
+                    if(btn) btn.innerText = "Kodu Doğrula ve Giriş Yap";
                 }
                 authStep = 2;
             } else if (authStep === 2) {
                 if (ADMIN_EMAILS.includes(currentAuthEmail)) {
-                    const pass = document.getElementById('auth-pass').value;
+                    const pass = document.getElementById('auth-pass')?.value;
                     if (pass === ADMIN_PASS) {
                         uiUser = { email: currentAuthEmail }; 
                         updateUI(); 
@@ -428,7 +448,7 @@
                         window.closeModal();
                     } else { window.showMessage("Hatalı yönetici şifresi!"); }
                 } else {
-                    const enteredCode = document.getElementById('auth-code').value.trim();
+                    const enteredCode = document.getElementById('auth-code')?.value.trim();
                     if (enteredCode === generatedAuthCode) {
                         uiUser = { email: currentAuthEmail }; 
                         updateUI(); 
@@ -443,19 +463,24 @@
         window.logout = async () => { uiUser = null; updateUI(); window.switchTab('others'); window.showMessage("Çıkış yapıldı."); };
 
         window.switchTab = (tab) => {
-            const secExam = document.getElementById(`section-exam`); const secOthers = document.getElementById(`section-others`);
-            const tabExam = document.getElementById(`tab-exam`); const tabOthers = document.getElementById(`tab-others`);
+            const secExam = document.getElementById(`section-exam`); 
+            const secOthers = document.getElementById(`section-others`);
+            const tabExam = document.getElementById(`tab-exam`); 
+            const tabOthers = document.getElementById(`tab-others`);
+            
             if (tab === 'exam') {
-                secExam.classList.remove('hidden'); secOthers.classList.add('hidden'); tabExam.classList.remove('hidden');
-                tabExam.className = 'pb-4 font-semibold tab-active text-lg'; tabOthers.className = 'pb-4 font-semibold text-[#8b949e] hover:text-[#c9d1d9] transition text-lg';
+                secExam?.classList.remove('hidden'); secOthers?.classList.add('hidden'); tabExam?.classList.remove('hidden');
+                if(tabExam) tabExam.className = 'pb-4 font-semibold tab-active text-lg'; 
+                if(tabOthers) tabOthers.className = 'pb-4 font-semibold text-[#8b949e] hover:text-[#c9d1d9] transition text-lg';
             } else {
-                secExam.classList.add('hidden'); secOthers.classList.remove('hidden'); tabExam.classList.add('hidden');
-                tabOthers.className = 'pb-4 font-semibold tab-active text-lg';
+                secExam?.classList.add('hidden'); secOthers?.classList.remove('hidden'); tabExam?.classList.add('hidden');
+                if(tabOthers) tabOthers.className = 'pb-4 font-semibold tab-active text-lg';
             }
         };
 
         window.renderExamsGrid = (posts) => {
             const grid = document.getElementById('dynamic-content-grid');
+            if(!grid) return;
             grid.innerHTML = '';
             
             if(posts.length === 0) {
@@ -495,6 +520,7 @@
         window.loadDynamicExam = (post) => {
             window.currentExamPost = post; 
             const area = document.getElementById('exam-content-area');
+            if(!area) return;
             let contentHtml = '';
 
             if (post.type === 'pdf') {
@@ -502,7 +528,7 @@
                 contentHtml = `<div class="bg-[#0d1117] p-1.5 rounded-xl border border-[#30363d]"><iframe src="${source}" class="w-full h-[600px] rounded-lg bg-white" frameborder="0"></iframe></div>`;
             } else {
                 contentHtml = `<div class="space-y-4">`;
-                post.questions.forEach((q, i) => {
+                post.questions?.forEach((q, i) => {
                     contentHtml += `
                         <div class="bg-[#0d1117] border border-[#30363d] p-5 rounded-xl">
                             <div class="flex justify-between items-start mb-4 gap-3">
@@ -542,14 +568,13 @@
             window.switchTab('exam'); window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // ==========================================
-        // 3. AHMET HOCA (YAPAY ZEKA) SİSTEMİ
-        // ==========================================
         window.generateQuestionsWithAI = async () => {
-            const topic = document.getElementById('ai-topic-input').value.trim();
+            const topic = document.getElementById('ai-topic-input')?.value.trim();
             if(!topic) { window.showMessage("Lütfen bir konu giriniz."); return; }
 
             const btn = document.getElementById('btn-ai-generate');
+            if(!btn) return;
+            
             const originalText = btn.innerHTML;
             btn.innerHTML = `<div class="w-4 h-4 border-2 border-transparent border-t-[#a371f7] rounded-full animate-spin"></div> Ahmet Hoca Düşünüyor...`;
             btn.disabled = true;
@@ -566,7 +591,8 @@
                     const questions = JSON.parse(textOutput);
                     questions.forEach(qData => window.addQuestionField(qData));
                     window.showMessage("Ahmet Hoca soruları üretti!");
-                    document.getElementById('ai-topic-input').value = ''; 
+                    const inp = document.getElementById('ai-topic-input');
+                    if(inp) inp.value = ''; 
                 }
             } catch (err) { 
                 window.showMessage("Ahmet Hoca demo sorular oluşturuyor... (Gerçek API anahtarı girilmedi)");
@@ -576,7 +602,8 @@
                     { q: `Ahmet Hoca Örnek Sorusu 3: ${topic} temel kavramı nedir?`, a: "Yanlış", b: "Yanlış 2", c: "Temel Kavram Budur", d: "Belirsiz", ans: "C" }
                 ];
                 demoQuestions.forEach(q => window.addQuestionField(q));
-                document.getElementById('ai-topic-input').value = ''; 
+                const inp = document.getElementById('ai-topic-input');
+                if(inp) inp.value = ''; 
             } 
             finally { btn.innerHTML = originalText; btn.disabled = false; }
         };
@@ -585,6 +612,7 @@
             if(!window.currentExamPost || !window.currentExamPost.questions) return;
             const qData = window.currentExamPost.questions[qIndex];
             const hintDiv = document.getElementById(hintDivId);
+            if(!hintDiv) return;
             
             const originalBtnHtml = btnElement.innerHTML;
             btnElement.innerHTML = `<div class="w-3 h-3 border-2 border-[#d29922] border-t-transparent rounded-full animate-spin"></div>`;
@@ -607,11 +635,8 @@
             }
         };
 
-        // ==========================================
-        // 4. ADMİN VE VERİ YÜKLEME 
-        // ==========================================
         let uploadedPdfBase64 = null;
-        document.getElementById('admin-pdf-file').addEventListener('change', (e) => {
+        document.getElementById('admin-pdf-file')?.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if(!file) return;
             if(file.size > 800000) { window.showMessage("PDF dosyası çok büyük (Max 800KB)."); e.target.value = ''; uploadedPdfBase64 = null; return; }
@@ -629,16 +654,26 @@
             const activeClass = "flex-1 py-2.5 px-4 text-xs font-bold rounded-md bg-[#21262d] text-white border border-[#30363d] shadow-sm transition-all flex items-center justify-center gap-2";
             const inactiveClass = "flex-1 py-2.5 px-4 text-xs font-bold rounded-md text-[#8b949e] hover:text-[#c9d1d9] border border-transparent transition-all flex items-center justify-center gap-2";
 
-            bPdf.className = inactiveClass; bCus.className = inactiveClass; bUsers.className = inactiveClass;
-            sPdf.classList.add('hidden'); sCus.classList.add('hidden'); sUsers.classList.add('hidden');
+            if(bPdf) bPdf.className = inactiveClass; 
+            if(bCus) bCus.className = inactiveClass; 
+            if(bUsers) bUsers.className = inactiveClass;
+            sPdf?.classList.add('hidden'); sCus?.classList.add('hidden'); sUsers?.classList.add('hidden');
 
-            if (tab === 'pdf') { bPdf.className = activeClass; sPdf.classList.remove('hidden'); inputContainer.classList.remove('hidden'); submitBtn.classList.remove('hidden');
-            } else if (tab === 'custom') { bCus.className = activeClass; sCus.classList.remove('hidden'); inputContainer.classList.remove('hidden'); submitBtn.classList.remove('hidden');
-            } else if (tab === 'users') { bUsers.className = activeClass; sUsers.classList.remove('hidden'); inputContainer.classList.add('hidden'); submitBtn.classList.add('hidden'); window.fetchUsers(); }
+            if (tab === 'pdf') { 
+                if(bPdf) bPdf.className = activeClass; 
+                sPdf?.classList.remove('hidden'); inputContainer?.classList.remove('hidden'); submitBtn?.classList.remove('hidden');
+            } else if (tab === 'custom') { 
+                if(bCus) bCus.className = activeClass; 
+                sCus?.classList.remove('hidden'); inputContainer?.classList.remove('hidden'); submitBtn?.classList.remove('hidden');
+            } else if (tab === 'users') { 
+                if(bUsers) bUsers.className = activeClass; 
+                sUsers?.classList.remove('hidden'); inputContainer?.classList.add('hidden'); submitBtn?.classList.add('hidden'); window.fetchUsers(); 
+            }
         };
 
         window.addQuestionField = (aiData = null) => {
             const container = document.getElementById('questions-container');
+            if(!container) return;
             const msg = document.getElementById('empty-question-msg');
             if(msg) msg.remove();
 
@@ -671,12 +706,12 @@
             e.preventDefault();
             if (!uiUser || !ADMIN_EMAILS.includes(uiUser.email)) { window.showMessage("Yetkisi yetersiz."); return; }
 
-            const title = document.getElementById('admin-title').value;
-            const subtitle = document.getElementById('admin-subtitle').value;
+            const title = document.getElementById('admin-title')?.value;
+            const subtitle = document.getElementById('admin-subtitle')?.value;
             let postData = { id: Date.now().toString(), title, subtitle, createdAt: Date.now(), author: uiUser.email, type: currentAdminTab };
 
             if (currentAdminTab === 'pdf') {
-                const pdfUrl = document.getElementById('admin-pdf-url').value;
+                const pdfUrl = document.getElementById('admin-pdf-url')?.value;
                 if (!uploadedPdfBase64 && !pdfUrl) { window.showMessage("PDF veya Link eksik."); return; }
                 postData.pdfUrl = pdfUrl || null; postData.pdfData = uploadedPdfBase64 || null;
             } else {
@@ -692,11 +727,12 @@
             if (!window.dbInstance) {
                 window.mockExams.unshift(postData);
                 window.renderExamsGrid(window.mockExams);
-                window.showMessage("Sınav demo depoya (yerel) eklendi! Gerçek veritabanı aktif değil.");
+                window.showMessage("Sınav demo depoya (yerel) eklendi! Veritabanı bağlı değil.");
                 window.closeAdminModal();
-                document.getElementById('admin-form').reset();
+                document.getElementById('admin-form')?.reset();
                 uploadedPdfBase64 = null;
-                document.getElementById('questions-container').innerHTML = '<div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>';
+                const qCont = document.getElementById('questions-container');
+                if(qCont) qCont.innerHTML = '<div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>';
                 customQuestionCount = 0;
                 return;
             }
@@ -705,15 +741,17 @@
                 await addDoc(collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'exams'), postData);
                 window.showMessage("İçerik depoya eklendi!");
                 window.closeAdminModal();
-                document.getElementById('admin-form').reset();
+                document.getElementById('admin-form')?.reset();
                 uploadedPdfBase64 = null;
-                document.getElementById('questions-container').innerHTML = '<div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>';
+                const qCont = document.getElementById('questions-container');
+                if(qCont) qCont.innerHTML = '<div class="text-center text-xs text-[#8b949e] py-6 border border-dashed border-[#30363d] rounded-lg" id="empty-question-msg">Henüz soru eklenmedi.</div>';
                 customQuestionCount = 0;
             } catch (err) { window.showMessage("Hata: " + err.message); }
         };
 
         window.fetchUsers = async () => {
             const tbody = document.getElementById('users-table-body');
+            if(!tbody) return;
             tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-[#8b949e]"><div class="w-6 h-6 border-2 border-transparent border-t-[#58a6ff] rounded-full animate-spin mx-auto mb-2"></div>Yükleniyor...</td></tr>';
             
             const usersMap = {};
@@ -761,10 +799,27 @@
         };
 
         // ==========================================
-        // 5. FIREBASE BAŞLATMA (GÜVENLİ BLOK)
+        // 5. FIREBASE BAŞLATMA (NETLIFY İÇİN ZORUNLU AYARLAR BURADA)
         // ==========================================
         try {
-            let fbConfig = {};
+            
+            // =========================================================================================
+            // 🔥 DİKKAT: NETLIFY'DA TÜM PC'LERİN SENKRONİZE ÇALIŞMASI İÇİN AŞAĞIYI DOLDURUN!
+            // 1. firebase.google.com adresinden yeni bir proje açın (Web App).
+            // 2. Oradaki `firebaseConfig` bilgilerini kopyalayıp aşağıdaki boşluğa yapıştırın.
+            // 3. Firebase Firestore veritabanı kurallarını okuma/yazmaya açık yapın.
+            // =========================================================================================
+            let fbConfig = {
+                // ÖRNEK (Buradaki // işaretlerini kaldırıp kendi bilgilerinizi girin):
+                // apiKey: "AIzaSyCx..._YOUR_API_KEY",
+                // authDomain: "proje-adi.firebaseapp.com",
+                // projectId: "proje-adi",
+                // storageBucket: "proje-adi.appspot.com",
+                // messagingSenderId: "1234567890",
+                // appId: "1:1234567890:web:abcdef"
+            };
+
+            // Eğer bu kod test ortamındaysa, gizli ayarları otomatik kullanır
             if (typeof __firebase_config !== 'undefined') {
                 fbConfig = JSON.parse(__firebase_config);
             }
@@ -773,6 +828,9 @@
                 const app = initializeApp(fbConfig);
                 const auth = getAuth(app);
                 window.dbInstance = getFirestore(app);
+
+                // Uyarı afişini kapat
+                document.getElementById('offline-banner')?.classList.add('hidden');
 
                 const initSystemAuth = async () => {
                     try {
@@ -807,15 +865,15 @@
                 initSystemAuth();
 
             } else {
-                console.warn("⚠️ Firebase ayarları eksik. Yerel Demo Modu Aktif.");
-                const loader = document.getElementById('loading-skeleton');
-                if (loader) loader.classList.add('hidden');
+                console.warn("⚠️ Firebase ayarları koda eklenmedi. Veriler sadece bu bilgisayarda kaydedilir.");
+                document.getElementById('loading-skeleton')?.classList.add('hidden');
+                document.getElementById('offline-banner')?.classList.remove('hidden');
                 window.renderExamsGrid(window.mockExams);
             }
         } catch (err) {
             console.error("Firebase Başlatma Hatası:", err);
-            const loader = document.getElementById('loading-skeleton');
-            if (loader) loader.classList.add('hidden');
+            document.getElementById('loading-skeleton')?.classList.add('hidden');
+            document.getElementById('offline-banner')?.classList.remove('hidden');
             window.renderExamsGrid(window.mockExams);
         }
     </script>
