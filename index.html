@@ -36,11 +36,6 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Offline Warning Banner -->
-    <div id="offline-banner" class="hidden bg-[#f85149] text-white text-xs font-bold py-2 px-4 text-center">
-        ⚠️ SİSTEM UYARISI: Veritabanı bağlantısı yok (Offline Mod). Eklediğiniz sınavlar SADECE bu bilgisayarda görünür. Senkronizasyon için koddaki Firebase ayarlarını girin.
-    </div>
-
     <!-- Navbar -->
     <nav class="glass-nav sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
@@ -279,27 +274,30 @@
         import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // =========================================================================
-        // 🔥 DİKKAT: NETLIFY'DA TÜM PC'LERİN SENKRONİZE ÇALIŞMASI İÇİN AŞAĞIYI DOLDURUN!
-        // Kendi Firebase projenizin (Web App) config bilgilerini buraya yapıştırın.
+        // 🔥 ENTEGRASYON İÇİN ZORUNLU ADIM (TÜM BİLGİSAYARLARDA GÖRÜNMESİ İÇİN)
+        // Netlify'ın kendi veritabanı yoktur. Sınavların herkes tarafından görülmesi için:
+        // 1. firebase.google.com adresine gidin ve ücretsiz bir "Web" projesi açın.
+        // 2. Size verilen "firebaseConfig" içindeki bilgileri aşağıdaki tırnakların içine yapıştırın.
         // =========================================================================
         let fbConfig = {
-            // Örnek:
-            // apiKey: "AIzaSy...",
-            // authDomain: "projeniz.firebaseapp.com",
-            // projectId: "projeniz",
-            // storageBucket: "projeniz.appspot.com",
-            // messagingSenderId: "12345",
-            // appId: "1:12345:web:abcd"
+            apiKey: "", // ÖRNEK: "AIzaSyCx..."
+            authDomain: "", // ÖRNEK: "sinavim-123.firebaseapp.com"
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: "",
+            appId: ""
         };
 
-        // Canvas (Demo) ortamında otomatik config varsa onu kullan
+        // Eğer bu kod test/önizleme ortamındaysa, ayarları otomatik kullanır
         if (typeof __firebase_config !== 'undefined') {
-            fbConfig = JSON.parse(__firebase_config);
+            try { fbConfig = JSON.parse(__firebase_config); } catch(e) {}
         }
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-platform-app';
         let dbUnsubscribe = null;
-        let isOfflineMode = Object.keys(fbConfig).length === 0;
+        
+        // Eğer apiKey girilmişse (uzunluğu 5'ten büyükse) sistemi Entegre modunda başlatır.
+        let isConfigValid = fbConfig.apiKey && fbConfig.apiKey.length > 5;
 
         // Global State
         window.currentExamPost = null; 
@@ -315,7 +313,7 @@
         let currentAdminTab = 'pdf'; 
         let customQuestionCount = 0;
 
-        // Offline (Demo) Verileri - Yüklediğiniz gerçek test!
+        // Veritabanı bağlanana kadar veya bağlantı yokken görünen standart sınav
         window.mockUsers = [];
         window.mockExams = [
             {
@@ -353,72 +351,6 @@
                 }
             }
         }
-
-        // ==========================================
-        // FIREBASE INITIALIZATION & SYNC
-        // ==========================================
-        let authApp;
-        if (!isOfflineMode) {
-            try {
-                const app = initializeApp(fbConfig);
-                authApp = getAuth(app);
-                window.dbInstance = getFirestore(app);
-                document.getElementById('offline-banner')?.classList.add('hidden');
-
-                const initSystemAuth = async () => {
-                    try {
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(authApp, __initial_auth_token);
-                        } else {
-                            await signInAnonymously(authApp);
-                        }
-                    } catch (err) { console.error("System Auth Error:", err); }
-                };
-
-                onAuthStateChanged(authApp, (user) => { 
-                    if (user) syncPublicExams(); 
-                });
-                initSystemAuth();
-            } catch (err) {
-                console.error("Firebase Init Hatası:", err);
-                isOfflineMode = true;
-            }
-        } 
-        
-        if (isOfflineMode) {
-            document.getElementById('offline-banner')?.classList.remove('hidden');
-            console.warn("⚠️ Firebase kapalı (Offline Mod). Sadece yerel veri kullanılacak.");
-            setTimeout(() => {
-                document.getElementById('loading-skeleton')?.classList.add('hidden');
-                window.renderExamsGrid(window.mockExams);
-            }, 500); // Küçük bir gecikme ile iskeleti gizle
-        }
-
-        const syncPublicExams = () => {
-            if (dbUnsubscribe) dbUnsubscribe();
-            
-            const loader = document.getElementById('loading-skeleton');
-            if (loader) loader.classList.remove('hidden');
-            
-            if (!window.dbInstance) {
-                if (loader) loader.classList.add('hidden');
-                window.renderExamsGrid(window.mockExams);
-                return;
-            }
-
-            const publicExamsRef = collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'exams');
-            dbUnsubscribe = onSnapshot(publicExamsRef, (snapshot) => {
-                if (loader) loader.classList.add('hidden');
-                const posts = [];
-                snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
-                posts.sort((a, b) => b.createdAt - a.createdAt);
-                window.renderExamsGrid(posts);
-            }, (error) => {
-                console.error("DB Fetch Error:", error);
-                if (loader) loader.classList.add('hidden');
-                window.showMessage("İçerikler yüklenirken bir hata oluştu.");
-            });
-        };
 
         // ==========================================
         // UI & MODAL FONKSİYONLARI (GÜVENLİ DOM)
@@ -662,9 +594,6 @@
             window.switchTab('exam'); window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // ==========================================
-        // AHMET HOCA (AI) FONKSİYONLARI
-        // ==========================================
         window.generateQuestionsWithAI = async () => {
             const topic = document.getElementById('ai-topic-input')?.value.trim();
             if(!topic) { window.showMessage("Lütfen bir konu giriniz."); return; }
@@ -834,7 +763,7 @@
             if (!window.dbInstance) {
                 window.mockExams.unshift(postData);
                 window.renderExamsGrid(window.mockExams);
-                window.showMessage("Sınav demo depoya (yerel) eklendi! Veritabanı bağlı değil.");
+                window.showMessage("Sınav demo depoya eklendi!");
                 window.closeAdminModal();
                 document.getElementById('admin-form')?.reset();
                 uploadedPdfBase64 = null;
@@ -885,7 +814,7 @@
             tbody.innerHTML = '';
             
             if(usersList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-[#8b949e]">${!window.dbInstance ? '(Yerel) ' : ''}Sisteme henüz kimse giriş yapmadı.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-[#8b949e]">Sisteme henüz kimse giriş yapmadı.</td></tr>`;
                 return;
             }
 
@@ -905,6 +834,63 @@
             });
         };
 
+        // ==========================================
+        // FIREBASE BAŞLATMA
+        // ==========================================
+        try {
+            if (isConfigValid) {
+                const app = initializeApp(fbConfig);
+                const authApp = getAuth(app);
+                window.dbInstance = getFirestore(app);
+
+                const initSystemAuth = async () => {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(authApp, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(authApp);
+                        }
+                    } catch (err) { console.error("System Auth Error:", err); }
+                };
+
+                const loadFirebaseData = () => {
+                    if (dbUnsubscribe) dbUnsubscribe();
+                    
+                    const loader = document.getElementById('loading-skeleton');
+                    if (loader) loader.classList.remove('hidden');
+
+                    const publicExamsRef = collection(window.dbInstance, 'artifacts', appId, 'public', 'data', 'exams');
+                    dbUnsubscribe = onSnapshot(publicExamsRef, (snapshot) => {
+                        if (loader) loader.classList.add('hidden');
+                        const posts = [];
+                        snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
+                        posts.sort((a, b) => b.createdAt - a.createdAt);
+                        window.renderExamsGrid(posts);
+                    }, (error) => {
+                        console.error("DB Fetch Error:", error);
+                        if (loader) loader.classList.add('hidden');
+                        window.renderExamsGrid(window.mockExams);
+                    });
+                };
+
+                onAuthStateChanged(authApp, (user) => { 
+                    if (user) loadFirebaseData(); 
+                });
+                
+                initSystemAuth();
+
+            } else {
+                // Konfigürasyon geçersizse veya boşsa Demo (Offline) Mod
+                const loader = document.getElementById('loading-skeleton');
+                if (loader) loader.classList.add('hidden');
+                window.renderExamsGrid(window.mockExams);
+            }
+        } catch (err) {
+            console.error("Firebase Başlatma Hatası:", err);
+            const loader = document.getElementById('loading-skeleton');
+            if (loader) loader.classList.add('hidden');
+            window.renderExamsGrid(window.mockExams);
+        }
     </script>
 </body>
 </html>
