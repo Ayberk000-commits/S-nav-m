@@ -1,401 +1,382 @@
 <!DOCTYPE html>
 
-<html class="light" lang="tr"><head>
+<html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Giriş - Sınavım Aetheris Scholastic</title>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS -->
+<title>Sınavım - The Academic Edge</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Theme Configuration -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                "primary": "#1e3a8a", // Brand Navy Blue
-                "on-primary": "#ffffff",
-                "primary-container": "#dbeafe",
-                "on-primary-container": "#1e3a8a",
-                "secondary": "#ea580c", // Brand Orange (Accent)
-                "on-secondary": "#ffffff",
-                "secondary-container": "#ffedd5",
-                "on-secondary-container": "#7c2d12",
-                "background": "#f8fafc",
-                "on-background": "#0f172a",
-                "surface": "#ffffff",
-                "on-surface": "#0f172a",
-                "surface-variant": "#f1f5f9",
-                "on-surface-variant": "#475569",
-                "outline": "#cbd5e1",
-                "outline-variant": "#e2e8f0"
-              },
-              "borderRadius": {
-                "DEFAULT": "0.5rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-              },
-              "fontFamily": {
-                "headline": ["Plus Jakarta Sans", "sans-serif"],
-                "body": ["Plus Jakarta Sans", "sans-serif"],
-                "label": ["Plus Jakarta Sans", "sans-serif"]
-              }
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#783200",
+                        "outline": "#8f909d",
+                        "primary-container": "#1e3a8a",
+                        "on-primary-container": "#90a8ff",
+                        "surface-container-lowest": "#0e0e10",
+                        "surface-bright": "#39393b",
+                        "primary": "#b6c4ff",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "error": "#ffb4ab",
+                        "secondary-container": "#ec6a06",
+                        "secondary": "#ffb690",
+                        "on-secondary": "#552100",
+                        "on-primary-fixed": "#00164e",
+                        "surface-container-highest": "#353437",
+                        "on-primary": "#05297a",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-surface": "#e5e1e4",
+                        "on-tertiary": "#552000",
+                        "background": "#131315",
+                        "surface-dim": "#131315",
+                        "on-tertiary-container": "#f39461",
+                        "on-tertiary-fixed-variant": "#773205",
+                        "on-primary-fixed-variant": "#264191",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e5e1e4",
+                        "on-error": "#690005",
+                        "inverse-primary": "#4059aa",
+                        "tertiary-container": "#6e2c00",
+                        "surface-container-high": "#2a2a2c",
+                        "secondary-fixed-dim": "#ffb690",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "on-tertiary-fixed": "#341100",
+                        "on-surface-variant": "#c5c5d3",
+                        "inverse-on-surface": "#313032",
+                        "tertiary": "#ffb691",
+                        "on-secondary-container": "#4a1c00",
+                        "secondary-fixed": "#ffdbca",
+                        "surface-tint": "#b6c4ff",
+                        "surface-container": "#201f21",
+                        "surface-variant": "#353437",
+                        "surface": "#131315",
+                        "on-secondary-fixed": "#341100",
+                        "primary-fixed": "#dce1ff",
+                        "outline-variant": "#444651",
+                        "surface-container-low": "#1c1b1d",
+                        "on-background": "#e5e1e4",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                }
             }
-          }
         }
     </script>
 <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f8fafc; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        #app-content { display: none; }
-        #auth-screen { display: flex; }
-        
-        body.is-logged-in #app-content { display: flex; }
-        body.is-logged-in #auth-screen { display: none; }
     </style>
 </head>
-<body class="bg-background text-on-background antialiased min-h-screen selection:bg-primary/20 selection:text-primary">
-<!-- Auth Screen (Initial View) -->
-<div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-slate-50" id="auth-screen">
-<div class="max-w-4xl w-full flex flex-col items-center">
-<!-- Prominent Logo -->
-<div class="mb-10 text-center">
-<img alt="Sınavım Logo" class="w-32 h-32 md:w-40 md:h-40 object-contain rounded-full shadow-xl mb-6 mx-auto bg-white p-2" src="https://lh3.googleusercontent.com/aida/ADBb0ugY42-WcKUUXcA1u68z90eC0hFxEfXJVTseBBlV0vzTA6aWvdp5YZ_ImW7szgFcLBAewRx0z3jt3g3hQ6lXtNR7DdOc6Q4wHduNO0VM13fV5gkCRD_tgpXjDP8uUPVjEN8VYM_fekhFIQRucXl8BcLSAq3HI0Vzgbrfg6M2rGbDXRP0PKpmZt27IEGJ5stDPKSujrXCYpMK282mgZzWKsP7dRSpgfL0_UsGWSli4TcR76N15DYoz_F0-qO1yxG4SwH2aY2Kg0ap"/>
-<h1 class="text-4xl font-black text-primary tracking-tighter mb-2">Sınavım</h1>
-<p class="text-slate-500 font-bold uppercase tracking-widest text-sm">Academic Edge Platform</p>
-</div>
-<!-- Auth Forms Container -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-white rounded-[2.5rem] shadow-2xl shadow-primary/10 overflow-hidden border border-outline-variant w-full">
-<!-- Login Flow -->
-<div class="p-10 md:p-12 flex flex-col gap-6">
-<div class="flex flex-col gap-2">
-<h3 class="text-2xl font-extrabold text-primary">Tekrar Hoş Geldiniz</h3>
-<p class="text-sm text-slate-500">Akademik yolculuğunuza devam etmek için giriş yapın.</p>
-</div>
-<div class="space-y-4">
+<body class="bg-background text-on-surface antialiased min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (Shared Component) -->
+<nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-[#1c1b1d] dark:bg-[#1c1b1d] shadow-[1px_0_0_0_rgba(255,255,255,0.05)] shadow-2xl font-['Plus_Jakarta_Sans'] antialiased tracking-tight z-50">
+<div class="flex flex-col h-full p-6 space-y-8">
+<!-- Brand -->
+<div class="flex items-center gap-4 px-2">
+<img alt="Sınavım Logo" class="h-10 w-10 object-contain rounded-lg bg-surface-container-highest p-1 w-12 h-12" data-alt="Abstract academic logo featuring an open book turning into a rising sun with deep blue and vibrant orange colors" src="https://lh3.googleusercontent.com/aida/ADBb0ugY42-WcKUUXcA1u68z90eC0hFxEfXJVTseBBlV0vzTA6aWvdp5YZ_ImW7szgFcLBAewRx0z3jt3g3hQ6lXtNR7DdOc6Q4wHduNO0VM13fV5gkCRD_tgpXjDP8uUPVjEN8VYM_fekhFIQRucXl8BcLSAq3HI0Vzgbrfg6M2rGbDXRP0PKpmZt27IEGJ5stDPKSujrXCYpMK282mgZzWKsP7dRSpgfL0_UsGWSli4TcR76N15DYoz_F0-qO1yxG4SwH2aY2Kg0ap"/>
 <div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">E-posta Adresi</label>
-<input class="w-full rounded-xl border-outline focus:border-primary focus:ring-primary text-sm py-3 px-4 bg-slate-50/50" id="login-email" placeholder="email@example.com" type="email"/>
-</div>
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Şifre</label>
-<input class="w-full rounded-xl border-outline focus:border-primary focus:ring-primary text-sm py-3 px-4 bg-slate-50/50" id="login-password" placeholder="••••••••" type="password"/>
-</div>
-<button class="w-full py-4 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 active:scale-[0.98]" onclick="handleLogin()">Giriş Yap</button>
-<p class="text-center text-xs text-slate-400 mt-2">Şifrenizi mi unuttunuz?</p>
+<h1 class="text-xl font-extrabold tracking-tighter text-[#b6c4ff]">Sınavım</h1>
+<p class="text-xs text-on-surface-variant font-medium">The Academic Edge</p>
 </div>
 </div>
-<!-- Registration Flow -->
-<div class="p-10 md:p-12 bg-slate-50/50 flex flex-col gap-6 border-l border-slate-100">
-<div class="flex flex-col gap-2">
-<h3 class="text-2xl font-extrabold text-primary">Yeni Hesap Oluştur</h3>
-<p class="text-sm text-slate-500">Sınavım ailesine katılarak başarınızı katlayın.</p>
+<!-- CTA -->
+<button class="w-full py-3 px-4 rounded-xl font-bold bg-gradient-to-r from-secondary-container to-secondary text-on-secondary-fixed-variant shadow-[0_4px_14px_0_rgba(236,106,6,0.2)] hover:shadow-[0_6px_20px_rgba(236,106,6,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                Yeni İçerik Ekle
+            </button>
+<!-- Main Navigation -->
+<div class="flex-1 space-y-2 flex flex-col">
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#909094] hover:text-[#e4e2e6] hover:bg-[#2a2a2c] transition-all duration-300 scale-95 active:scale-90 transition-transform group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors">library_books</span>
+<span class="font-medium text-[15px]">İçerik Havuzu</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#909094] hover:text-[#e4e2e6] hover:bg-[#2a2a2c] transition-all duration-300 scale-95 active:scale-90 transition-transform group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-secondary transition-colors">sports_esports</span>
+<span class="font-medium text-[15px]">Oyun Merkezi</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#909094] hover:text-[#e4e2e6] hover:bg-[#2a2a2c] transition-all duration-300 scale-95 active:scale-90 transition-transform group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors">input</span>
+<span class="font-medium text-[15px]">Girişler</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#b6c4ff] font-bold border-r-4 border-[#b6c4ff] bg-[#2a2a2c]/50 transition-all duration-300 scale-95 active:scale-90 transition-transform relative overflow-hidden" href="#">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent to-primary/5 pointer-events-none"></div>
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<span class="text-[15px]">Admin Paneli</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-[#909094] hover:text-[#e4e2e6] hover:bg-[#2a2a2c] transition-all duration-300 scale-95 active:scale-90 transition-transform group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors">science</span>
+<span class="font-medium text-[15px]">Laboratuvar</span>
+</a>
 </div>
-<div class="space-y-4">
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Ad Soyad</label>
-<input class="w-full rounded-xl border-outline focus:border-primary focus:ring-primary text-sm py-3 px-4 bg-white" placeholder="Adınız" type="text"/>
-</div>
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Rolünüzü Seçin</label>
-<div class="grid grid-cols-2 gap-3">
-<label class="cursor-pointer border-2 border-outline-variant rounded-xl p-3 flex items-center justify-center gap-2 hover:border-primary/50 has-[:checked]:border-primary has-[:checked]:bg-primary/5 transition-all bg-white">
-<input checked="" class="hidden" name="role" type="radio" value="student"/>
-<span class="material-symbols-outlined text-primary text-[20px]">school</span>
-<span class="text-sm font-bold">Öğrenci</span>
-</label>
-<label class="cursor-pointer border-2 border-outline-variant rounded-xl p-3 flex items-center justify-center gap-2 hover:border-primary/50 has-[:checked]:border-primary has-[:checked]:bg-primary/5 transition-all bg-white">
-<input class="hidden" name="role" type="radio" value="teacher"/>
-<span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
-<span class="text-sm font-bold">Öğretmen</span>
-</label>
-</div>
-</div>
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">E-posta</label>
-<input class="w-full rounded-xl border-outline focus:border-primary focus:ring-primary text-sm py-3 px-4 bg-white" placeholder="email@example.com" type="email"/>
-</div>
-<button class="w-full py-4 bg-secondary text-white rounded-xl font-bold hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 active:scale-[0.98]">Kaydı Tamamla</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Main Application Content (Hidden by default) -->
-<div class="min-h-screen flex w-full" id="app-content">
-<!-- SideNavBar Component -->
-<nav class="bg-white border-r border-outline-variant h-screen w-64 fixed left-0 top-0 z-40 flex flex-col p-4 gap-y-2">
-<!-- Brand Area -->
-<div class="flex items-center gap-4 px-4 py-6 mb-4">
-<img alt="Sınavım Logo" class="w-10 h-10 object-contain rounded-full shadow-sm" src="https://lh3.googleusercontent.com/aida/ADBb0ugY42-WcKUUXcA1u68z90eC0hFxEfXJVTseBBlV0vzTA6aWvdp5YZ_ImW7szgFcLBAewRx0z3jt3g3hQ6lXtNR7DdOc6Q4wHduNO0VM13fV5gkCRD_tgpXjDP8uUPVjEN8VYM_fekhFIQRucXl8BcLSAq3HI0Vzgbrfg6M2rGbDXRP0PKpmZt27IEGJ5stDPKSujrXCYpMK282mgZzWKsP7dRSpgfL0_UsGWSli4TcR76N15DYoz_F0-qO1yxG4SwH2aY2Kg0ap"/>
+<!-- Footer Navigation -->
+<div class="pt-6 border-t border-surface-container-highest/50 space-y-2">
+<a class="flex items-center gap-4 px-4 py-2.5 rounded-xl text-[#909094] hover:text-[#e4e2e6] hover:bg-[#353437] transition-colors scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-medium text-[14px]">Ayarlar</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-2.5 rounded-xl text-[#909094] hover:text-[#e4e2e6] hover:bg-[#353437] transition-colors scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-medium text-[14px]">Yardım</span>
+</a>
+<!-- User Profile Snippet -->
+<div class="mt-4 p-3 bg-surface-container-high rounded-xl flex items-center justify-between border border-outline-variant/15">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm">
+                            SÇ
+                        </div>
 <div class="flex flex-col">
-<span class="text-xl font-bold tracking-tighter text-primary">Sınavım</span>
-<span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Academic Edge</span>
+<span class="text-sm font-bold text-on-surface">Sunay Çapa</span>
+<span class="text-[10px] uppercase tracking-wider text-secondary font-bold">Admin</span>
 </div>
 </div>
-<!-- Navigation Links -->
-<div class="flex flex-col gap-y-1 flex-1">
-<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold bg-primary/5 rounded-lg transition-all group" href="#">
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">edit_note</span>
-<span>Yazılı Alanı</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-primary hover:bg-slate-50 transition-colors duration-200 rounded-lg group" href="#">
-<span class="material-symbols-outlined text-[20px]">sports_esports</span>
-<span>Oyun Merkezi</span>
-</a>
-<!-- Admin Only -->
-<div class="mt-6 pt-6 border-t border-slate-100" data-admin-only="">
-<span class="px-4 text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold mb-2 block">Yönetim</span>
-<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-primary hover:bg-primary/5 transition-colors duration-200 rounded-lg group" href="#">
-<span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
-<span>Admin Panel</span>
-</a>
-</div>
-</div>
-<!-- User Profile -->
-<div class="mt-auto px-4 py-4 flex items-center gap-3 bg-slate-50 rounded-xl border border-slate-200 flex-col">
-<div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs ring-2 ring-primary/10" id="user-avatar">
-                SÇ
-            </div>
-<div class="flex flex-col overflow-hidden text-center">
-<span class="text-sm font-semibold text-on-surface truncate" id="user-display-name">Sunay Çapa</span>
-<span class="text-[10px] text-slate-500 uppercase tracking-tighter font-bold">Premium Scholastic</span>
-</div>
-<button class="mt-4 flex items-center justify-center gap-2 w-full py-2 px-4 text-xs font-bold text-red-600 border border-red-100 bg-red-50/50 hover:bg-red-50 rounded-lg transition-colors" onclick="logoutUser()">
+<button class="text-on-surface-variant hover:text-error transition-colors p-1 rounded-md hover:bg-error/10">
 <span class="material-symbols-outlined text-[18px]">logout</span>
-<span>Çıkış Yap</span>
 </button>
+</div>
+</div>
 </div>
 </nav>
 <!-- Main Content Area -->
-<main class="flex-1 ml-64 flex flex-col min-h-screen bg-background relative">
-<!-- TopAppBar -->
-<header class="bg-white/80 backdrop-blur-md sticky top-0 z-30 flex justify-between items-center w-full px-8 py-4 border-b border-outline-variant">
+<div class="flex-1 ml-72 flex flex-col min-h-screen relative overflow-hidden bg-surface">
+<!-- Ambient Background Glow -->
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-container/20 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-secondary-container/10 blur-[100px] rounded-full pointer-events-none"></div>
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-40 bg-[#131315]/80 backdrop-blur-xl dark:bg-[#131315]/80 font-['Plus_Jakarta_Sans'] text-sm font-medium">
 <div class="flex items-center gap-4">
-<span class="text-lg font-bold text-on-surface">İçerik Havuzu</span>
+<h2 class="text-lg font-bold text-[#b6c4ff] tracking-tight">Admin Dashboard</h2>
 </div>
-<div class="flex items-center gap-6">
-<div class="relative group hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
-<input class="bg-slate-100 border-0 rounded-full focus:ring-2 focus:ring-primary/20 text-sm py-2 pl-10 pr-6 text-on-surface placeholder:text-slate-400 w-64 transition-all" placeholder="Ders veya konu ara..." type="text"/>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="pl-10 pr-4 py-2 w-64 bg-surface-container-high border-none border-b-2 border-outline-variant/30 text-on-surface focus:border-secondary focus:ring-0 transition-all rounded-t-lg rounded-b-none placeholder:text-on-surface-variant/50 text-sm" placeholder="İçerik, öğrenci veya döküman ara..." type="text"/>
 </div>
-<div class="flex items-center gap-2">
-<button class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600">
+<button class="text-[#909094] hover:text-[#b6c4ff] hover:bg-[#2a2a2c] rounded-full p-2 cursor-pointer transition-all relative">
 <span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
 </button>
-<img alt="User profile" class="w-8 h-8 object-contain rounded-full border border-slate-200 shadow-sm" src="https://lh3.googleusercontent.com/aida/ADBb0ugY42-WcKUUXcA1u68z90eC0hFxEfXJVTseBBlV0vzTA6aWvdp5YZ_ImW7szgFcLBAewRx0z3jt3g3hQ6lXtNR7DdOc6Q4wHduNO0VM13fV5gkCRD_tgpXjDP8uUPVjEN8VYM_fekhFIQRucXl8BcLSAq3HI0Vzgbrfg6M2rGbDXRP0PKpmZt27IEGJ5stDPKSujrXCYpMK282mgZzWKsP7dRSpgfL0_UsGWSli4TcR76N15DYoz_F0-qO1yxG4SwH2aY2Kg0ap"/>
-</div>
+<button class="text-[#909094] hover:text-[#b6c4ff] hover:bg-[#2a2a2c] rounded-full p-1 cursor-pointer transition-all border border-outline-variant/20">
+<img alt="Sınavım Logo Small" class="w-8 h-8 rounded-full object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ugY42-WcKUUXcA1u68z90eC0hFxEfXJVTseBBlV0vzTA6aWvdp5YZ_ImW7szgFcLBAewRx0z3jt3g3hQ6lXtNR7DdOc6Q4wHduNO0VM13fV5gkCRD_tgpXjDP8uUPVjEN8VYM_fekhFIQRucXl8BcLSAq3HI0Vzgbrfg6M2rGbDXRP0PKpmZt27IEGJ5stDPKSujrXCYpMK282mgZzWKsP7dRSpgfL0_UsGWSli4TcR76N15DYoz_F0-qO1yxG4SwH2aY2Kg0ap"/>
+</button>
 </div>
 </header>
-<!-- Content Area -->
-<div class="flex-1 p-8 overflow-y-auto pb-24">
-<!-- Hero Section -->
-<div class="relative w-full rounded-[2rem] p-8 md:p-12 mb-12 overflow-hidden bg-white border border-outline-variant shadow-sm">
-<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
-<div class="relative z-10 flex flex-col gap-4 max-w-2xl">
-<span class="font-label text-xs uppercase tracking-[0.2em] text-secondary font-extrabold">Akademik Durum</span>
-<h1 class="font-headline text-[2.5rem] md:text-[3rem] leading-tight font-extrabold text-primary tracking-tight">
-                        Bilgi mimarinizi <span class="text-secondary">inşa etmeye</span> devam edin.
-                    </h1>
-<p class="font-body text-slate-600 leading-relaxed max-w-xl text-lg">
-                        İleri seviye geometri modülünde 3 bekleyen göreviniz var. Düzenli çalışma kalıcı başarı getirir.
-                    </p>
-<div class="mt-4 flex gap-4">
-<button class="px-6 py-3 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">Çalışmaya Başla</button>
-<button class="px-6 py-3 bg-white border border-outline text-primary font-bold rounded-xl hover:bg-slate-50 transition-colors">İstatistikler</button>
-</div>
-</div>
-<!-- Progress Widget -->
-<div class="absolute right-12 top-1/2 -translate-y-1/2 hidden lg:flex w-56 h-56 rounded-[2.5rem] bg-white border border-outline flex items-center justify-center flex-col shadow-xl">
-<div class="relative flex items-center justify-center">
-<svg class="w-32 h-32 transform -rotate-90">
-<circle class="text-slate-100" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
-<circle class="text-secondary" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.42" stroke-dashoffset="80.17" stroke-linecap="round" stroke-width="8"></circle>
-</svg>
-<span class="absolute text-3xl font-black text-primary">78%</span>
-</div>
-<span class="text-[10px] text-slate-500 uppercase tracking-[0.2em] mt-4 font-bold">Genel Başarı</span>
-</div>
-</div>
-<!-- Yazılı Alanı Section -->
-<section class="mb-16">
-<div class="flex items-end justify-between mb-8">
-<h2 class="font-headline text-2xl font-bold tracking-tight text-on-surface flex items-center gap-3">
-<span class="w-1.5 h-8 rounded-full bg-secondary inline-block"></span>
-                        Yazılı Alanı
-                    </h2>
-<button class="text-sm font-bold text-primary hover:underline transition-all">Tüm Modülleri Gör</button>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[220px]">
-<!-- Featured Card -->
-<div class="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 rounded-[2rem] bg-slate-900 relative overflow-hidden group">
-<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&amp;w=2670&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-10 flex flex-col gap-3 w-full">
-<div class="flex gap-2">
-<span class="text-[10px] font-black uppercase tracking-widest text-white bg-white/10 px-3 py-1 rounded-full border border-white/20 backdrop-blur-md">MATEMATİK</span>
-</div>
-<h3 class="font-headline text-3xl font-extrabold text-white">İleri Seviye Geometri ve Uzay Analizi</h3>
-<p class="text-slate-300 text-sm max-w-md">Uzamsal mimari prensiplerini ve yüksek boyutlu geometrik ilişkileri temelden zirveye keşfedin.</p>
-<div class="w-full bg-white/20 h-1.5 rounded-full mt-4 overflow-hidden">
-<div class="bg-secondary h-full rounded-full" style="width: 65%;"></div>
-</div>
-</div>
-</div>
-<!-- Course Cards -->
-<div class="col-span-1 rounded-[1.5rem] bg-white p-6 flex flex-col justify-between group hover:shadow-lg transition-all border border-outline-variant">
-<div class="flex justify-between items-start">
-<div class="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
-<span class="material-symbols-outlined text-primary text-[24px]">science</span>
-</div>
-<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors cursor-pointer">bookmark_border</span>
-</div>
-<div>
-<span class="text-[9px] uppercase tracking-[0.2em] text-slate-400 font-bold">FEN BİLİMLERİ</span>
-<h4 class="font-headline text-lg font-bold text-primary mt-1">Kuantum Fiziği</h4>
-</div>
-</div>
-<div class="col-span-1 rounded-[1.5rem] bg-white p-6 flex flex-col justify-between group hover:shadow-lg transition-all border border-outline-variant">
-<div class="flex justify-between items-start">
-<div class="w-12 h-12 rounded-2xl bg-secondary/5 flex items-center justify-center border border-secondary/10">
-<span class="material-symbols-outlined text-secondary text-[24px]">menu_book</span>
-</div>
-<span class="material-symbols-outlined text-secondary">bookmark</span>
-</div>
-<div>
-<span class="text-[9px] uppercase tracking-[0.2em] text-slate-400 font-bold">EDEBİYAT</span>
-<h4 class="font-headline text-lg font-bold text-primary mt-1">Modern Roman Analizi</h4>
-</div>
-</div>
-<!-- Stats Summary -->
-<div class="col-span-1 md:col-span-2 rounded-[1.5rem] bg-primary p-8 flex items-center justify-between shadow-sm">
-<div class="flex flex-col gap-1">
-<h4 class="font-headline text-xl font-bold text-white">Haftalık Hedef: 8/10 Modül</h4>
-<p class="text-sm text-primary-container/80">Bu hafta akademik performansınız en üst %15'lik dilimde.</p>
-</div>
-<div class="flex gap-1.5 h-10 items-end">
-<div class="w-2.5 h-full bg-secondary rounded-full"></div>
-<div class="w-2.5 h-full bg-secondary rounded-full"></div>
-<div class="w-2.5 h-full bg-secondary rounded-full"></div>
-<div class="w-2.5 h-3/5 bg-secondary/40 rounded-full"></div>
-<div class="w-2.5 h-1/4 bg-white/20 rounded-full"></div>
-</div>
-</div>
+<!-- Dashboard Canvas -->
+<main class="flex-1 p-8 overflow-y-auto space-y-10 relative z-10">
+<!-- Welcome Hero -->
+<section class="bg-gradient-to-br from-surface-container-high to-surface-container-low p-8 rounded-3xl relative overflow-hidden border border-outline-variant/10">
+<div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-30 pointer-events-none mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%23b6c4ff\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');"></div>
+<div class="relative z-10 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-variant/50 border border-outline-variant/20 text-xs font-bold text-primary tracking-wider uppercase mb-4 backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                        Sistem Aktif
+                    </div>
+<h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">İçerik Yönetim Merkezi</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">Yeni sınavlar yükleyin, eğitim materyallerini güncelleyin ve laboratuvar modüllerini tek bir ekrandan yönetin.</p>
 </div>
 </section>
-<!-- Oyun Merkezi Section -->
-<section class="mb-16">
-<div class="flex items-end justify-between mb-8">
-<div class="flex flex-col gap-1">
-<h2 class="font-headline text-2xl font-bold tracking-tight text-primary flex items-center gap-3">
-<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">extension</span>
-                            Oyun Merkezi
+<!-- Admin Entry Form Section (Asymmetric Grid) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+<!-- Main Form Canvas -->
+<div class="xl:col-span-8 bg-surface-container-low rounded-3xl p-8 border border-outline-variant/10 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+<!-- Form Tabs -->
+<div class="flex items-center gap-2 mb-8 bg-surface-container p-1.5 rounded-2xl w-fit">
+<button class="px-6 py-2.5 rounded-xl bg-surface-container-highest text-primary font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">quiz</span>
+                            Sınav Yükle
+                        </button>
+<button class="px-6 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-medium text-sm transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+                            Video Ekle
+                        </button>
+<button class="px-6 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-medium text-sm transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                            Sunu/PDF Paylaş
+                        </button>
+</div>
+<!-- Form Body -->
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Input Field -->
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">İçerik Başlığı</label>
+<input class="w-full bg-surface-container-highest border-none border-b-2 border-outline-variant/50 text-on-surface focus:border-secondary focus:ring-0 rounded-t-xl rounded-b-none p-4 transition-colors font-medium" placeholder="Örn: 2024 LGS Deneme Sınavı #1" type="text"/>
+</div>
+<!-- Select Field -->
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">Konu / Kategori</label>
+<select class="w-full bg-surface-container-highest border-none border-b-2 border-outline-variant/50 text-on-surface focus:border-secondary focus:ring-0 rounded-t-xl rounded-b-none p-4 transition-colors font-medium appearance-none cursor-pointer">
+<option disabled="" selected="" value="">Kategori Seçin...</option>
+<option value="math">Matematik</option>
+<option value="science">Fen Bilimleri</option>
+<option value="turkish">Türkçe</option>
+<option value="social">Sosyal Bilgiler</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">Sorumlu Öğretmen</label>
+<select class="w-full bg-surface-container-highest border-none border-b-2 border-outline-variant/50 text-on-surface focus:border-secondary focus:ring-0 rounded-t-xl rounded-b-none p-4 transition-colors font-medium appearance-none cursor-pointer">
+<option disabled="" selected="" value="">Yetkili Seçin...</option>
+<option value="sunay1">Sunay Çapa (Admin 1)</option>
+<option value="sunay2">Sunay Çapa (Admin 2)</option>
+<option value="ahmet">Ahmet Akif</option>
+</select>
+</div>
+<!-- Drag & Drop Area -->
+<div class="mt-8 border-2 border-dashed border-outline-variant/30 rounded-2xl p-10 flex flex-col items-center justify-center bg-surface-variant/20 hover:bg-surface-variant/40 hover:border-primary/50 transition-all cursor-pointer group">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px] text-primary">cloud_upload</span>
+</div>
+<h4 class="text-on-surface font-bold text-lg mb-1">Dosyaları Sürükleyin veya Seçin</h4>
+<p class="text-on-surface-variant text-sm mb-4">PDF, DOCX, ZIP (Maks. 50MB)</p>
+<button class="px-5 py-2 rounded-lg border border-outline-variant/20 text-primary text-sm font-semibold hover:bg-primary/10 transition-colors" type="button">
+                                Gözat
+                            </button>
+</div>
+<!-- Submit Action -->
+<div class="flex justify-end pt-4">
+<button class="px-8 py-3.5 rounded-xl font-bold bg-gradient-to-r from-primary-container to-primary text-on-primary shadow-[0_4px_14px_0_rgba(182,196,255,0.1)] hover:shadow-[0_6px_20px_rgba(182,196,255,0.2)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2" type="button">
+                                İçeriği Yayınla
+                                <span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Side Info / Quick Stats Panel (Glassmorphism) -->
+<div class="xl:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-variant/40 backdrop-blur-2xl rounded-3xl p-6 border border-outline-variant/15 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 blur-[40px] rounded-full"></div>
+<h3 class="text-on-surface font-bold text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">insights</span>
+                            Sistem Durumu
+                        </h3>
+<div class="space-y-4">
+<div class="bg-surface-container-highest/50 p-4 rounded-2xl flex justify-between items-center border border-outline-variant/10">
+<div>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Aktif Sınav</p>
+<p class="text-2xl font-extrabold text-on-surface">142</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">description</span>
+</div>
+</div>
+<div class="bg-surface-container-highest/50 p-4 rounded-2xl flex justify-between items-center border border-outline-variant/10">
+<div>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Toplam Video</p>
+<p class="text-2xl font-extrabold text-on-surface">86</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">play_circle</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Admin Access Info -->
+<div class="bg-surface-container-low rounded-3xl p-6 border border-outline-variant/10">
+<h3 class="text-on-surface font-bold text-sm mb-4 uppercase tracking-wider text-on-surface-variant">Yetkili Hesaplar</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm font-medium text-on-surface">sunaycapa3@gmail.com</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm font-medium text-on-surface">sunaycapa2@gmail.com</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm font-medium text-on-surface">sunaycapa1@gmail.com</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-sm font-medium text-on-surface">ahmetakifabus91@gmail.com</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Gaming Lab Section (Bento Grid) -->
+<section class="pt-8">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-2xl font-extrabold text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[28px]" style="font-variation-settings: 'FILL' 1;">sports_esports</span>
+                            Oyun &amp; Laboratuvar Merkezi
                         </h2>
-<p class="text-sm text-slate-500">Etkileşimli simülasyonlar ile bilişsel pekiştirme.</p>
+<p class="text-on-surface-variant mt-1 text-sm">Etkileşimli öğrenme modülleri ve simülasyonlar.</p>
+</div>
+<button class="text-primary text-sm font-bold hover:underline flex items-center gap-1">
+                        Tümünü Gör <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Bento Tile 1: Python -->
+<div class="bg-surface-container-high rounded-[2rem] p-6 relative overflow-hidden group border border-outline-variant/10 hover:border-primary/30 transition-colors shadow-sm hover:shadow-lg cursor-pointer flex flex-col justify-between aspect-square">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-highest flex items-center justify-center border border-outline-variant/20 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[24px] text-primary">data_object</span>
+</div>
+<span class="bg-tertiary-container/30 text-tertiary text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wide border border-tertiary/20">Kodlama</span>
+</div>
+<div class="relative z-10 mt-auto">
+<h3 class="text-xl font-bold text-on-surface mb-2 leading-tight">Python Block Coder</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2">Sürükle bırak mantığıyla temel algoritma ve Python öğrenimi.</p>
 </div>
 </div>
-<div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scrollbar">
-<!-- Game Card 1 -->
-<div class="min-w-[300px] snap-start shrink-0 rounded-[2rem] bg-white p-8 border border-outline-variant flex flex-col relative overflow-hidden group shadow-sm hover:shadow-md transition-all">
-<div class="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mb-8 border border-secondary/10">
-<span class="material-symbols-outlined text-secondary text-[32px]">calculate</span>
+<!-- Bento Tile 2: Map -->
+<div class="bg-surface-container-high rounded-[2rem] p-6 relative overflow-hidden group border border-outline-variant/10 hover:border-secondary/30 transition-colors shadow-sm hover:shadow-lg cursor-pointer flex flex-col justify-between aspect-square">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-highest flex items-center justify-center border border-outline-variant/20 group-hover:bg-secondary/20 transition-colors">
+<span class="material-symbols-outlined text-[24px] text-secondary">location_on</span>
 </div>
-<h3 class="font-headline text-2xl font-extrabold text-primary mb-3">Hızlı Matematik</h3>
-<p class="text-sm text-slate-600 mb-10 flex-1 leading-relaxed">Yüksek tempolu bilişsel zorluklarla sayısal çevikliğinizi test edin ve rekorları kırın.</p>
-<button class="w-full py-4 rounded-xl bg-secondary text-white font-black text-xs tracking-widest uppercase hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20">
-                            OYUNU BAŞLAT
-                        </button>
+<span class="bg-surface-variant text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wide border border-outline-variant/20">Coğrafya</span>
 </div>
-<!-- Game Card 2 -->
-<div class="min-w-[300px] snap-start shrink-0 rounded-[2rem] bg-white p-8 border border-outline-variant flex flex-col relative overflow-hidden group shadow-sm hover:shadow-md transition-all">
-<div class="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 border border-primary/10">
-<span class="material-symbols-outlined text-primary text-[32px]">psychology</span>
+<div class="relative z-10 mt-auto">
+<h3 class="text-xl font-bold text-on-surface mb-2 leading-tight">Harita Dedektifi</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2">Türkiye haritası üzerinde şehir bulma ve konum tanıma oyunu.</p>
 </div>
-<h3 class="font-headline text-2xl font-extrabold text-primary mb-3">Kelime Hafızası</h3>
-<p class="text-sm text-slate-600 mb-10 flex-1 leading-relaxed">Aralıklı tekrarlama mekanikleri ile akademik kelime dağarcığınızı yapısal olarak genişletin.</p>
-<button class="w-full py-4 rounded-xl bg-primary text-white font-black text-xs tracking-widest uppercase hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-                            OYUNU BAŞLAT
-                        </button>
+</div>
+<!-- Bento Tile 3: Science -->
+<div class="bg-surface-container-high rounded-[2rem] p-6 relative overflow-hidden group border border-outline-variant/10 hover:border-primary/30 transition-colors shadow-sm hover:shadow-lg cursor-pointer flex flex-col justify-between aspect-square">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-highest flex items-center justify-center border border-outline-variant/20 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[24px] text-primary">biotech</span>
+</div>
+<span class="bg-primary-container/30 text-primary text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wide border border-primary/20">Fen Bilimleri</span>
+</div>
+<div class="relative z-10 mt-auto">
+<h3 class="text-xl font-bold text-on-surface mb-2 leading-tight">Science Lab</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2">Kimyasalları karıştırın, gezegenleri sıralayın. Sanal deney ortamı.</p>
+</div>
+</div>
+<!-- Bento Tile 4: Sim Corner -->
+<div class="bg-surface-variant/40 backdrop-blur-sm rounded-[2rem] p-6 relative overflow-hidden group border-2 border-dashed border-outline-variant/20 hover:border-outline-variant/50 transition-colors cursor-pointer flex flex-col justify-center items-center text-center aspect-square">
+<span class="material-symbols-outlined text-[40px] text-outline mb-4 group-hover:scale-110 transition-transform">view_in_ar</span>
+<h3 class="text-lg font-bold text-on-surface-variant mb-1">Simülasyon Köşesi</h3>
+<p class="text-xs text-outline">Arduino devreleri ve 3D tasarım tezgahı (Yakında)</p>
+<span class="mt-4 px-3 py-1 bg-surface-container-lowest text-xs font-bold rounded-full text-outline">Yapım Aşamasında</span>
 </div>
 </div>
 </section>
-</div>
+<!-- Bottom Spacing -->
+<div class="h-12"></div>
 </main>
 </div>
-<!-- Application Logic -->
-<script>
-    const CONFIG = {
-        ADMIN_EMAILS: [
-            'sunaycapa3@gmail.com',
-            'sunaycapa2@gmail.com',
-            'sunaycapa1@gmail.com',
-            'ahmetakifabus91@gmail.com'
-        ],
-        ADMIN_PASSWORD: 'k@ppOlXeee67/--A3',
-        user: null
-    };
-
-    function checkAdminAccess(email) {
-        return CONFIG.ADMIN_EMAILS.includes(email);
-    }
-
-    function handleLogin() {
-        const emailInput = document.getElementById('login-email').value;
-        const passwordInput = document.getElementById('login-password').value;
-
-        if (!emailInput || !passwordInput) {
-            alert('Lütfen tüm alanları doldurun.');
-            return;
-        }
-
-        // Dummy auth logic for demo
-        const isAdmin = checkAdminAccess(emailInput);
-        
-        CONFIG.user = {
-            email: emailInput,
-            name: emailInput.split('@')[0],
-            role: isAdmin ? 'admin' : 'student'
-        };
-
-        // Update UI
-        document.body.classList.add('is-logged-in');
-        document.getElementById('user-display-name').textContent = CONFIG.user.name;
-        document.getElementById('user-avatar').textContent = CONFIG.user.name.substring(0, 2).toUpperCase();
-
-        const adminElements = document.querySelectorAll('[data-admin-only]');
-        if (!isAdmin) {
-            adminElements.forEach(el => el.classList.add('hidden'));
-        } else {
-            adminElements.forEach(el => el.classList.remove('hidden'));
-        }
-
-        alert('Giriş başarılı! Hoş geldiniz, ' + CONFIG.user.name);
-    }
-
-    function logoutUser() {
-        CONFIG.user = null;
-        document.body.classList.remove('is-logged-in');
-        document.getElementById('login-email').value = '';
-        document.getElementById('login-password').value = '';
-        alert('Oturum kapatıldı.');
-    }
-
-    // Initial check (starts logged out)
-    document.addEventListener('DOMContentLoaded', () => {
-        // App starts with #auth-screen visible via CSS
-    });
-</script>
 </body></html>
