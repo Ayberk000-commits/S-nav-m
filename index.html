@@ -3,7 +3,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Sınavım - Türkiyenin yeni Eğitimhanesi</title>
+<title>Sınavım - The Academic Edge</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -79,7 +79,7 @@
     <div class="mb-10 text-center">
       <img alt="Sınavım Logo" class="w-56 h-56 md:w-64 md:h-64 object-contain rounded-full shadow-2xl mb-8 mx-auto bg-surface-container-lowest p-6 border-2 border-outline-variant/30" src="https://lh3.googleusercontent.com/aida/ADBb0uiffVnJ5nEaBY9G3OGk5Yf-0wsoWiLVFwpVWexT57GCrUH2qLKmpjtXYRgzxXPcH6fIbcgHU8-mxbjyJ3WbaY8a4z2uOsnFhL2w75zXrdgLQ_cZfM1yGgKc3Hz9CkL98DxFK2tuZdJKyiZmWwnN5VmyCBa5lom9UuyRUisbblP22xcMOzVDxbMEyWGd582-sA2ipSW-jEyEv6goPOdPwY4N6w1OJg-q2ncr_cEevATGWM6ZgcdqfKehPX92ftia8a8_zIenp4Ah"/>
       <h1 class="text-4xl font-extrabold text-primary tracking-tighter mb-2">Sınavım</h1>
-      <p class="text-on-surface-variant font-bold uppercase tracking-widest text-sm">Türkiyenin yeni Eğitimhanesi</p>
+      <p class="text-on-surface-variant font-bold uppercase tracking-widest text-sm">Academic Edge Platform</p>
     </div>
     <!-- Auth Forms -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-surface-container-lowest rounded-xl shadow-2xl shadow-black/5 overflow-hidden border border-outline-variant/30 w-full">
@@ -111,7 +111,7 @@
         <div class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Ad Soyad</label>
-            <input class="w-full rounded-xl border border-outline-variant/50 bg-surface-container-lowest text-on-surface text-sm py-3 px-4 focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-all" placeholder="Adınız" type="text"/>
+            <input id="reg-name" class="w-full rounded-xl border border-outline-variant/50 bg-surface-container-lowest text-on-surface text-sm py-3 px-4 focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-all" placeholder="Adınız" type="text"/>
           </div>
           <div>
             <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Rolünüzü Seçin</label>
@@ -130,9 +130,9 @@
           </div>
           <div>
             <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">E-posta</label>
-            <input class="w-full rounded-xl border border-outline-variant/50 bg-surface-container-lowest text-on-surface text-sm py-3 px-4 focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-all" placeholder="email@example.com" type="email"/>
+            <input id="reg-email" class="w-full rounded-xl border border-outline-variant/50 bg-surface-container-lowest text-on-surface text-sm py-3 px-4 focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-all" placeholder="email@example.com" type="email"/>
           </div>
-          <button class="w-full py-4 bg-secondary text-on-secondary rounded-xl font-bold hover:brightness-110 transition-all shadow-md active:scale-[0.98] cursor-pointer">Kaydı Tamamla</button>
+          <button onclick="handleRegister()" class="w-full py-4 bg-secondary text-on-secondary rounded-xl font-bold hover:brightness-110 transition-all shadow-md active:scale-[0.98] cursor-pointer">Kaydı Tamamla</button>
         </div>
       </div>
     </div>
@@ -149,7 +149,7 @@
         <img alt="Sınavım Logo" class="h-16 w-16 object-contain rounded-xl bg-surface-container-low p-1.5 border border-outline-variant/30" src="https://lh3.googleusercontent.com/aida/ADBb0uiffVnJ5nEaBY9G3OGk5Yf-0wsoWiLVFwpVWexT57GCrUH2qLKmpjtXYRgzxXPcH6fIbcgHU8-mxbjyJ3WbaY8a4z2uOsnFhL2w75zXrdgLQ_cZfM1yGgKc3Hz9CkL98DxFK2tuZdJKyiZmWwnN5VmyCBa5lom9UuyRUisbblP22xcMOzVDxbMEyWGd582-sA2ipSW-jEyEv6goPOdPwY4N6w1OJg-q2ncr_cEevATGWM6ZgcdqfKehPX92ftia8a8_zIenp4Ah"/>
         <div>
           <h1 class="text-xl font-extrabold tracking-tighter text-primary">Sınavım</h1>
-          <p class="text-xs text-on-surface-variant font-medium">Türkiyenin yeni Eğitimhanesi</p>
+          <p class="text-xs text-on-surface-variant font-medium">The Academic Edge</p>
         </div>
       </div>
       <!-- CTA -->
@@ -459,6 +459,24 @@
     } else {
       alert('Giriş başarısız. Lütfen bilgilerinizi kontrol ediniz.');
     }
+  }
+
+  function handleRegister() {
+    const name = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const role = document.querySelector('input[name="role"]:checked')?.value;
+    if (!name || !email) {
+      alert('Lutfen ad soyad ve e-posta adresinizi giriniz.');
+      return;
+    }
+    if (!email.includes('@')) {
+      alert('Gecerli bir e-posta adresi giriniz.');
+      return;
+    }
+    document.getElementById('user-display-name-sidebar').textContent = name;
+    document.getElementById('user-avatar-initials').textContent = name.substring(0, 2).toUpperCase();
+    document.getElementById('auth-screen').classList.add('auth-hidden');
+    document.getElementById('main-dashboard').classList.remove('dashboard-hidden');
   }
 
   function handleLogout() {
