@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Sınavım - The Academic Edge</title>
+    <!-- Sekme Logosu (Favicon) -->
+    <link rel="icon" type="image/jpeg" href="image_2cd20a.jpg">
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
@@ -51,14 +54,24 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .xp-progress-bar { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        #ai-chat-box { scrollbar-width: thin; }
         .spinner { border: 3px solid rgba(0,0,0,0.1); border-top-color: #4a7c59; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        #custom-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; }
     </style>
 </head>
 <body class="bg-background text-on-surface antialiased min-h-screen selection:bg-primary-container">
 
-<!-- Auth Section -->
+<!-- Özel Bilgi Modalı -->
+<div id="custom-modal-overlay">
+    <div class="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl animate-fadeIn border border-outline-variant/30 text-center">
+        <h3 id="modal-title-text" class="text-xl font-black text-primary mb-2">Bilgi</h3>
+        <p id="modal-body-text" class="text-sm text-on-surface-variant mb-6">İşlem yapılıyor...</p>
+        <button onclick="closeCustomModal()" class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 transition-all">Tamam</button>
+    </div>
+</div>
+
+<!-- Giriş Ekranı -->
 <div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-surface relative overflow-hidden" id="auth-screen">
     <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-container/40 blur-[120px] rounded-full pointer-events-none"></div>
     <div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-secondary-container/30 blur-[100px] rounded-full pointer-events-none"></div>
@@ -67,51 +80,62 @@
         <div class="mb-10 text-center">
             <img alt="Sınavım Logo" class="w-48 h-48 md:w-56 md:h-56 object-contain rounded-full shadow-2xl mb-6 mx-auto bg-white p-4 border-2 border-outline-variant/30" src="image_2cd20a.jpg"/>
             <h1 class="text-4xl font-extrabold text-primary tracking-tighter mb-2">Sınavım</h1>
-            <p class="text-on-surface-variant font-bold uppercase tracking-widest text-sm">Academic Edge Platform</p>
+            <p class="text-on-surface-variant font-bold uppercase tracking-widest text-sm">Akademik Başarı Platformu</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden border border-outline-variant/30 w-full">
-            <!-- Login -->
+            <!-- Giriş Kısmı -->
             <div class="p-10 md:p-12 flex flex-col gap-6">
-                <h3 class="text-2xl font-extrabold text-primary">Giriş Yap</h3>
+                <h3 class="text-2xl font-extrabold text-primary">Tekrar Hoş Geldiniz</h3>
                 <div class="space-y-4">
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm" id="login-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm" id="login-password" placeholder="Şifre" type="password"/>
-                    <button class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all" onclick="handleLogin()">Sisteme Gir</button>
+                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none" id="login-email" placeholder="E-posta" type="email"/>
+                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none" id="login-password" placeholder="Şifre" type="password"/>
+                    <button class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all shadow-md active:scale-95" onclick="handleLogin()">Sisteme Gir</button>
+                    
+                    <div class="relative flex items-center py-2">
+                        <div class="flex-grow border-t border-outline-variant/30"></div>
+                        <span class="flex-shrink mx-4 text-xs text-on-surface-variant font-bold uppercase">Veya</span>
+                        <div class="flex-grow border-t border-outline-variant/30"></div>
+                    </div>
+
+                    <button class="w-full py-3 bg-white border border-outline-variant/50 text-on-surface rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:bg-surface-container-low transition-all shadow-sm active:scale-95" onclick="handleGoogleLogin()">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
+                        Google ile Giriş Yap
+                    </button>
                 </div>
             </div>
-            <!-- Register -->
+            <!-- Kayıt Kısmı -->
             <div class="p-10 md:p-12 bg-surface-container-low flex flex-col gap-6 border-l border-outline-variant/30">
-                <h3 class="text-2xl font-extrabold text-secondary">Yeni Kayıt</h3>
+                <h3 class="text-2xl font-extrabold text-secondary">Yeni Hesap Oluştur</h3>
                 <div class="space-y-4">
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm" id="reg-name" placeholder="Ad Soyad" type="text"/>
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm" id="reg-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm" id="reg-password" placeholder="Şifre (Min 6)" type="password"/>
-                    <button class="w-full py-3 bg-secondary text-on-secondary rounded-xl font-bold hover:opacity-90 transition-all" onclick="handleRegister()">Hesap Oluştur</button>
+                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none" id="reg-name" placeholder="Ad Soyad" type="text"/>
+                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none" id="reg-email" placeholder="E-posta" type="email"/>
+                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none" id="reg-password" placeholder="Şifre (Min 6 Karakter)" type="password"/>
+                    <button class="w-full py-3 bg-secondary text-on-secondary rounded-xl font-bold hover:opacity-90 transition-all shadow-md active:scale-95" onclick="handleRegister()">Ücretsiz Kayıt Ol</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Main Dashboard Container -->
+<!-- Dashboard Ekranı -->
 <div class="hidden w-full flex" id="main-dashboard">
-    <!-- SideNavBar -->
+    <!-- Sidebar -->
     <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-surface-container-lowest shadow-xl z-50 border-r border-outline-variant/30">
         <div class="flex flex-col h-full p-6 space-y-6">
             <div class="flex items-center gap-4 px-2">
-                <img alt="Logo" class="h-12 w-12 object-contain rounded-full" src="image_2cd20a.jpg"/>
+                <img alt="Logo" class="h-14 w-14 object-contain rounded-full shadow-sm" src="image_2cd20a.jpg"/>
                 <div>
-                    <h1 class="text-lg font-extrabold text-primary">Sınavım</h1>
-                    <p class="text-[10px] text-on-surface-variant font-bold uppercase">Academic Edge</p>
+                    <h1 class="text-lg font-black text-primary tracking-tighter">Sınavım</h1>
+                    <p class="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">Academic Edge</p>
                 </div>
             </div>
 
-            <!-- Gamification Sidebar Info -->
+            <!-- Gamification -->
             <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 space-y-3">
                 <div class="flex justify-between items-center">
-                    <span class="text-xs font-bold text-primary px-2 py-1 bg-primary-container rounded-lg">Seviye <span id="user-level">1</span></span>
-                    <div class="flex items-center gap-1 text-secondary font-extrabold text-xs">
+                    <span class="text-[10px] font-black text-primary px-2 py-1 bg-primary-container rounded-lg uppercase">Seviye <span id="user-level">1</span></span>
+                    <div class="flex items-center gap-1 text-secondary font-black text-[10px] uppercase">
                         <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
                         <span id="user-streak">0</span> Gün Seri
                     </div>
@@ -119,43 +143,42 @@
                 <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
                     <div id="xp-bar" class="xp-progress-bar h-full bg-primary w-0"></div>
                 </div>
-                <p class="text-[10px] text-on-surface-variant text-center font-bold"><span id="user-xp">0</span> / 500 XP</p>
+                <p class="text-[10px] text-on-surface-variant text-center font-bold uppercase tracking-tighter"><span id="user-xp">0</span> / 500 XP Toplandı</p>
             </div>
 
             <div class="flex-1 space-y-1 flex flex-col">
                 <button onclick="showPage('admin')" class="nav-btn active flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="admin">
                     <span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
-                    <span class="font-bold text-[15px]">Panel</span>
+                    <span class="font-bold text-[15px]">İçerik Yönetimi</span>
                 </button>
                 <button onclick="showPage('pool')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="pool">
                     <span class="material-symbols-outlined text-[22px]">library_books</span>
-                    <span class="font-bold text-[15px]">Havuz</span>
+                    <span class="font-bold text-[15px]">İçerik Havuzu</span>
                 </button>
                 <button onclick="showPage('games')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="games">
                     <span class="material-symbols-outlined text-[22px]">sports_esports</span>
-                    <span class="font-bold text-[15px]">Oyunlar</span>
+                    <span class="font-bold text-[15px]">Oyun & Laboratuvar</span>
                 </button>
                 <button onclick="showPage('logs')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="logs">
                     <span class="material-symbols-outlined text-[22px]">history</span>
-                    <span class="font-bold text-[15px]">Girişler</span>
+                    <span class="font-bold text-[15px]">Giriş Kayıtları</span>
                 </button>
                 <button onclick="showPage('settings')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="settings">
                     <span class="material-symbols-outlined text-[22px]">settings</span>
-                    <span class="font-bold text-[15px]">Ayarlar</span>
+                    <span class="font-bold text-[15px]">Profil Ayarları</span>
                 </button>
                 <button onclick="showPage('help')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="help">
                     <span class="material-symbols-outlined text-[22px]">help</span>
-                    <span class="font-bold text-[15px]">Yardım</span>
+                    <span class="font-bold text-[15px]">Yardım Merkezi</span>
                 </button>
             </div>
 
-            <!-- Profile Info -->
             <div class="mt-4 p-3 bg-surface-container-low rounded-xl flex items-center justify-between border border-outline-variant/30">
                 <div class="flex items-center gap-3 overflow-hidden">
-                    <img id="user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-full border border-primary/20 bg-white" />
+                    <img id="user-avatar" src="" class="w-10 h-10 rounded-full border-2 border-primary/20 bg-white" />
                     <div class="flex flex-col truncate">
-                        <span class="text-xs font-bold text-on-surface truncate" id="user-name-display">Yükleniyor...</span>
-                        <span class="text-[9px] uppercase font-bold text-secondary">Akademisyen</span>
+                        <span class="text-xs font-black text-on-surface truncate" id="user-name-display">Sunay Çapa</span>
+                        <span class="text-[9px] uppercase font-black text-secondary tracking-widest">Yönetici</span>
                     </div>
                 </div>
                 <button class="text-on-surface-variant hover:text-error transition-colors p-1" onclick="handleLogout()">
@@ -165,13 +188,13 @@
         </div>
     </nav>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <div class="flex-1 ml-72 flex flex-col min-h-screen relative bg-background">
         <header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
-            <h2 id="page-title" class="text-lg font-extrabold text-primary">Panel</h2>
+            <h2 id="page-title" class="text-lg font-black text-primary uppercase tracking-tighter">Panel</h2>
             <div class="flex items-center gap-4">
-                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-bold text-primary animate-pulse">
-                    <span class="material-symbols-outlined text-[14px]">auto_awesome</span> Gemini AI Aktif
+                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-black text-primary animate-pulse uppercase">
+                    <span class="material-symbols-outlined text-[14px]">auto_awesome</span> Gemini AI Hazır
                 </div>
                 <button class="text-on-surface-variant hover:text-primary p-2 relative">
                     <span class="material-symbols-outlined">notifications</span>
@@ -184,13 +207,13 @@
             <!-- PAGE: ADMIN -->
             <section id="page-admin" class="page-section active">
                 <div class="bg-gradient-to-br from-primary/10 to-surface p-8 rounded-2xl border border-outline-variant/30 mb-8">
-                    <h2 class="text-3xl font-black tracking-tight mb-2">İçerik Yönetimi</h2>
-                    <p class="text-on-surface-variant">Sınav, video veya interaktif oyun modülleri ekleyin.</p>
+                    <h2 class="text-3xl font-black tracking-tight mb-2 text-on-surface">İçerik Yönetim Merkezi</h2>
+                    <p class="text-on-surface-variant text-sm font-medium">Sınavlar, videolar ve akıllı oyun modülleri oluşturun.</p>
                 </div>
 
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                    <div class="xl:col-span-2 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30 shadow-sm space-y-6">
-                        <div class="flex gap-2 p-1 bg-surface-container-low rounded-xl w-fit">
+                    <div class="xl:col-span-2 bg-white rounded-2xl p-8 border border-outline-variant/30 shadow-sm space-y-6">
+                        <div class="flex flex-wrap gap-2 p-1 bg-surface-container-low rounded-xl w-fit">
                             <button onclick="setContentType('exam')" class="type-btn px-4 py-2 rounded-lg bg-white shadow-sm font-bold text-xs text-primary" id="type-exam">Sınav/Deneme</button>
                             <button onclick="setContentType('video')" class="type-btn px-4 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:text-primary" id="type-video">Video</button>
                             <button onclick="setContentType('doc')" class="type-btn px-4 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:text-primary" id="type-doc">Döküman</button>
@@ -198,44 +221,39 @@
                         </div>
 
                         <div class="space-y-4">
-                            <div>
-                                <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-1">İçerik Başlığı</label>
-                                <input id="content-title" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm font-bold focus:ring-2 focus:ring-primary/20" placeholder="LGS Matematik Denemesi..."/>
-                            </div>
+                            <input id="content-title" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20" placeholder="Başlık girin (Örn: LGS Fen Denemesi)..."/>
                             
-                            <div class="flex gap-2">
-                                <button onclick="generateAIContent()" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-white font-bold text-xs flex items-center justify-center gap-2 hover:opacity-90 shadow-md">
-                                    <span class="material-symbols-outlined text-[18px]">auto_awesome</span> ✨ AI ile Taslak Oluştur
-                                </button>
-                            </div>
+                            <button onclick="generateAIContent()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-white font-black text-xs flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md">
+                                <span class="material-symbols-outlined text-[18px]">auto_awesome</span> ✨ GEMINI AI İLE İÇERİK ÜRET
+                            </button>
 
                             <div id="url-field" class="hidden">
-                                <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-1">Video / Dosya URL</label>
-                                <input id="content-url" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm" placeholder="https://..."/>
+                                <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1 ml-1">Video / Dosya URL</label>
+                                <input id="content-url" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm outline-none" placeholder="https://..."/>
                             </div>
 
                             <div id="code-field" class="block">
-                                <label class="block text-[10px] font-bold text-on-surface-variant uppercase mb-1">İçerik Metni / HTML Kodu</label>
-                                <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm min-h-[200px]" placeholder="Yazı içeriği veya oyun HTML kodunu buraya girin..."></textarea>
+                                <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1 ml-1">Metin İçeriği / HTML Kodu</label>
+                                <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm min-h-[250px] outline-none font-mono" placeholder="Yazı veya HTML kodunuzu buraya girin..."></textarea>
                             </div>
 
-                            <button onclick="publishContent()" class="w-full py-4 bg-secondary text-on-secondary rounded-xl font-black text-sm shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
-                                Yayınla ve Yayınla <span class="material-symbols-outlined">send</span>
+                            <button onclick="publishContent()" class="w-full py-4 bg-secondary text-on-secondary rounded-xl font-black text-sm shadow-lg hover:-translate-y-1 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                HEMEN YAYINLA <span class="material-symbols-outlined">send</span>
                             </button>
                         </div>
                     </div>
                     
                     <div class="space-y-6">
-                        <div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/30 shadow-sm">
-                            <h3 class="font-bold text-sm mb-4 text-primary">Sistem İstatistikleri</h3>
+                        <div class="bg-white rounded-2xl p-6 border border-outline-variant/30 shadow-sm h-fit">
+                            <h3 class="font-black text-xs mb-4 text-primary uppercase tracking-widest">Sistem İstatistikleri</h3>
                             <div class="space-y-4">
-                                <div class="flex justify-between items-center p-3 bg-surface-container-low rounded-xl">
-                                    <span class="text-xs font-bold">Toplam İçerik</span>
-                                    <span id="stat-total" class="text-lg font-black text-primary">0</span>
+                                <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
+                                    <p class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Toplam İçerik</p>
+                                    <p id="stat-total" class="text-2xl font-black text-primary">0</p>
                                 </div>
-                                <div class="flex justify-between items-center p-3 bg-surface-container-low rounded-xl">
-                                    <span class="text-xs font-bold">Girişler (Bugün)</span>
-                                    <span id="stat-logins" class="text-lg font-black text-secondary">0</span>
+                                <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
+                                    <p class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Girişler (Bugün)</p>
+                                    <p id="stat-logins" class="text-2xl font-black text-secondary">0</p>
                                 </div>
                             </div>
                         </div>
@@ -247,70 +265,61 @@
             <section id="page-pool" class="page-section">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-3xl font-black text-primary">İçerik Havuzu</h2>
-                    <div class="relative">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
-                        <input id="pool-search" class="pl-10 pr-4 py-2 bg-surface-container rounded-xl border-none text-sm w-64" placeholder="Havuzda ara..." />
-                    </div>
+                    <input id="pool-search" class="pl-4 pr-4 py-2 bg-surface-container rounded-xl border-none text-sm w-64 outline-none focus:ring-2 focus:ring-primary/20" placeholder="İçerik ara..." />
                 </div>
-                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Dynamic -->
-                </div>
-            </section>
-
-            <!-- PAGE: GAMES -->
-            <section id="page-games" class="page-section">
-                <h2 class="text-3xl font-black text-secondary mb-8">Oyun & Laboratuvar</h2>
-                <div id="games-list" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <!-- Dynamic -->
-                </div>
+                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
             <!-- PAGE: LOGS -->
             <section id="page-logs" class="page-section">
-                <h2 class="text-3xl font-black text-primary mb-8">Aktivite Günlüğü</h2>
-                <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm">
+                <h2 class="text-3xl font-black text-primary mb-8">Giriş Kayıtları</h2>
+                <div class="bg-white border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm overflow-x-auto">
                     <table class="w-full text-left text-sm">
-                        <thead class="bg-surface-container-low text-on-surface-variant font-bold uppercase text-[10px]">
+                        <thead class="bg-surface-container-low text-on-surface-variant font-black uppercase text-[10px]">
                             <tr>
                                 <th class="px-6 py-4">Kullanıcı</th>
                                 <th class="px-6 py-4">İşlem</th>
                                 <th class="px-6 py-4">Zaman</th>
                             </tr>
                         </thead>
-                        <tbody id="logs-table-body" class="divide-y divide-outline-variant/10">
-                            <!-- Dynamic -->
-                        </tbody>
+                        <tbody id="logs-table-body" class="divide-y divide-outline-variant/10"></tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- PAGE: SETTINGS -->
+            <!-- PAGE: AYARLAR -->
             <section id="page-settings" class="page-section">
                 <h2 class="text-3xl font-black text-primary mb-8">Profil Ayarları</h2>
-                <div class="max-w-md space-y-6">
-                    <div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 shadow-md flex flex-col items-center">
-                        <img id="settings-avatar-preview" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-24 h-24 rounded-full border-4 border-primary-container mb-6 bg-white" />
-                        <div class="w-full space-y-4">
-                            <input id="set-name" class="w-full rounded-xl border-outline-variant/50 p-3 text-sm font-bold" placeholder="Görünen Ad" />
-                            <input id="set-avatar-seed" class="w-full rounded-xl border-outline-variant/50 p-3 text-sm" placeholder="Avatar Seed (Örn: Suna)" />
-                            <button onclick="updateProfile()" class="w-full py-3 bg-primary text-white rounded-xl font-bold">Kaydet</button>
+                <div class="max-w-md bg-white p-8 rounded-2xl border border-outline-variant/30 shadow-md">
+                    <div class="flex flex-col items-center mb-8 text-center">
+                        <img id="settings-avatar-preview" src="" class="w-24 h-24 rounded-full border-4 border-primary-container mb-4 bg-white" />
+                        <p class="text-xs font-black text-on-surface-variant uppercase">Profil Görünümü</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1">Ad Soyad</label>
+                            <input id="set-name" class="w-full rounded-xl border-outline-variant/50 p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20" />
                         </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1">Avatar Seed (Değiştirerek Avatarı Güncelle)</label>
+                            <input id="set-avatar-seed" class="w-full rounded-xl border-outline-variant/50 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" placeholder="Örn: Sunay" />
+                        </div>
+                        <button onclick="updateProfile()" class="w-full py-3 bg-primary text-white rounded-xl font-black shadow-md active:scale-95 transition-transform uppercase text-xs tracking-widest">Değişiklikleri Kaydet</button>
                     </div>
                 </div>
             </section>
 
-            <!-- PAGE: HELP -->
+            <!-- PAGE: YARDIM -->
             <section id="page-help" class="page-section">
-                <h2 class="text-3xl font-black text-primary mb-8">Destek Merkezi</h2>
-                <div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 shadow-md">
-                    <p class="text-on-surface-variant mb-6 font-bold">Teknik sorularınız veya geri bildirimleriniz için:</p>
-                    <div class="p-6 bg-primary-container/20 rounded-2xl border border-primary/10 flex items-center gap-6">
-                        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white shadow-lg">
-                            <span class="material-symbols-outlined">mail</span>
+                <h2 class="text-3xl font-black text-primary mb-8">Destek</h2>
+                <div class="bg-white p-8 rounded-2xl border border-outline-variant/30 shadow-md">
+                    <div class="flex items-center gap-6">
+                        <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-3xl shadow-lg">
+                            <span class="material-symbols-outlined" style="font-size:36px;">support_agent</span>
                         </div>
                         <div>
-                            <p class="text-sm font-black text-primary">Sunay Çapa</p>
-                            <a href="mailto:sunaycapa3@gmail.com" class="text-lg font-bold hover:underline">sunaycapa3@gmail.com</a>
+                            <p class="text-sm font-black text-primary uppercase tracking-widest">İletişim Adresimiz</p>
+                            <a href="mailto:sunaycapa3@gmail.com" class="text-2xl font-black hover:underline text-on-surface">sunaycapa3@gmail.com</a>
                         </div>
                     </div>
                 </div>
@@ -321,30 +330,30 @@
 
 <!-- ✨ AI MENTOR WIDGET -->
 <div id="ai-mentor-container" class="hidden">
-    <button onclick="toggleAIMentor()" class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 text-white shadow-2xl z-[100] flex items-center justify-center hover:scale-110 transition-transform">
-        <span class="material-symbols-outlined text-[32px]">smart_toy</span>
+    <button onclick="toggleAIMentor()" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/80 text-white shadow-2xl z-[100] flex items-center justify-center hover:scale-110 transition-transform">
+        <span class="material-symbols-outlined text-[36px]">smart_toy</span>
     </button>
-    <div id="ai-mentor-box" class="hidden fixed bottom-24 right-8 w-80 h-[450px] bg-white rounded-3xl shadow-2xl border border-outline-variant/30 z-[100] flex flex-col overflow-hidden animate-slide-up">
+    <div id="ai-mentor-box" class="hidden fixed bottom-28 right-8 w-80 h-[500px] bg-white rounded-3xl shadow-2xl border border-outline-variant/30 z-[100] flex flex-col overflow-hidden">
         <div class="p-4 bg-primary text-white flex justify-between items-center">
-            <span class="text-xs font-black flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">auto_awesome</span> ✨ AI Mentor</span>
+            <span class="text-[10px] font-black flex items-center gap-2 uppercase tracking-widest"><span class="material-symbols-outlined text-[18px]">auto_awesome</span> AI Mentor</span>
             <button onclick="toggleAIMentor()"><span class="material-symbols-outlined text-[18px]">close</span></button>
         </div>
-        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-4 space-y-3 text-[13px]">
-            <div class="bg-surface-container-low p-3 rounded-2xl rounded-tl-none">Merhaba! Sınavım AI Mentor olarak derslerinize yardımcı olabilirim. Ne sormak istersin?</div>
+        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-4 space-y-3 text-[13px] bg-surface-container-low/20">
+            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-outline-variant/10 font-medium">Selam! Sınavım AI Mentor burada. Bugün hangi dersi hallediyoruz? 📚</div>
         </div>
-        <div class="p-3 border-t flex gap-2">
-            <input id="ai-input" class="flex-1 border-none bg-surface-container p-2 rounded-xl text-xs outline-none" placeholder="Sorunu yaz..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
-            <button onclick="sendAIMessage()" class="bg-primary text-white p-2 rounded-xl flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">send</span></button>
+        <div class="p-4 border-t flex gap-2 bg-white">
+            <input id="ai-input" class="flex-1 border-none bg-surface-container-low p-3 rounded-xl text-xs outline-none focus:ring-1 focus:ring-primary/20" placeholder="Bir şey sor..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
+            <button onclick="sendAIMessage()" class="bg-primary text-white p-3 rounded-xl flex items-center justify-center shadow-md active:scale-90 transition-all"><span class="material-symbols-outlined text-[18px]">send</span></button>
         </div>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile as updateFbProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile as updateFbProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // --- Firebase Configuration ---
+    // --- Firebase Yapılandırması ---
     const firebaseConfig = {
         apiKey: "AIzaSyBNPIIl0HjZtmO264uLIJco8KZRWgAM7mI",
         authDomain: "sinavim-a22da.firebaseapp.com",
@@ -358,14 +367,22 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v1';
-    const geminiKey = ""; // Empty string for environment handling
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v3-final';
+    const geminiKey = ""; 
 
     let currentUser = null;
     let userData = null;
     let currentContentType = 'exam';
 
-    // --- Core Logic ---
+    // --- UI YARDIMCILARI ---
+    window.showCustomModal = (title, msg) => {
+        document.getElementById('modal-title-text').innerText = title;
+        document.getElementById('modal-body-text').innerText = msg;
+        document.getElementById('custom-modal-overlay').style.display = 'flex';
+    };
+    window.closeCustomModal = () => { document.getElementById('custom-modal-overlay').style.display = 'none'; };
+
+    // --- KİMLİK YÖNETİMİ ---
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             currentUser = user;
@@ -373,51 +390,36 @@
             checkDailyStreak();
             initDashboard();
         } else {
-            showPage('auth');
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('hidden');
+            document.getElementById('ai-mentor-container').classList.add('hidden');
         }
     });
 
     async function syncProfile() {
         const statsRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats');
         let snap = await getDoc(statsRef);
-        
         if (!snap.exists()) {
             userData = {
-                displayName: currentUser.displayName || 'Kullanıcı',
-                xp: 0,
-                level: 1,
-                streak: 1,
+                displayName: currentUser.displayName || 'Akademisyen',
+                xp: 0, level: 1, streak: 1,
                 lastLogin: new Date().toISOString(),
-                avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.uid.substring(0,5)}`
+                avatar: currentUser.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.uid.substring(0,5)}`
             };
             await setDoc(statsRef, userData);
-        } else {
-            userData = snap.data();
-        }
+        } else { userData = snap.data(); }
         updateUI();
     }
 
     async function checkDailyStreak() {
         const today = new Date().toLocaleDateString('tr-TR');
         const lastDate = userData.lastLogin ? new Date(userData.lastLogin).toLocaleDateString('tr-TR') : null;
-        
         if (today !== lastDate) {
-            let newStreak = userData.streak || 0;
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            
-            if (lastDate === yesterday.toLocaleDateString('tr-TR')) {
-                newStreak++;
-            } else {
-                newStreak = 1;
-            }
-
+            let newStreak = (lastDate === new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString('tr-TR')) ? userData.streak + 1 : 1;
             await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), {
-                streak: newStreak,
-                lastLogin: new Date().toISOString()
+                streak: newStreak, lastLogin: new Date().toISOString()
             });
-            userData.streak = newStreak;
-            updateUI();
+            userData.streak = newStreak; updateUI();
         }
     }
 
@@ -425,11 +427,7 @@
         document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('main-dashboard').classList.remove('hidden');
         document.getElementById('ai-mentor-container').classList.remove('hidden');
-        
-        // Listeners
-        listenToContents();
-        listenToLogs();
-        logActivity('Sisteme Giriş Yapıldı');
+        listenToContents(); listenToLogs(); logActivity('Sisteme Giriş Yapıldı');
     }
 
     function updateUI() {
@@ -440,13 +438,11 @@
         document.getElementById('user-name-display').innerText = userData.displayName;
         document.getElementById('user-avatar').src = userData.avatar;
         document.getElementById('xp-bar').style.width = (userData.xp % 500 / 5) + '%';
-        
-        // Settings page
         document.getElementById('set-name').value = userData.displayName;
         document.getElementById('settings-avatar-preview').src = userData.avatar;
     }
 
-    // --- Gemini AI Functions ---
+    // --- GEMINI AI ---
     async function callGemini(prompt, systemMsg = "") {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`;
         try {
@@ -461,116 +457,74 @@
             });
             const data = await response.json();
             document.getElementById('ai-status').classList.add('hidden');
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Üzgünüm, bir hata oluştu.";
-        } catch (e) {
-            document.getElementById('ai-status').classList.add('hidden');
-            return "Bağlantı hatası.";
-        }
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Yanıt alınamadı.";
+        } catch (e) { document.getElementById('ai-status').classList.add('hidden'); return "Bağlantı hatası."; }
     }
 
     window.generateAIContent = async () => {
-        const title = document.getElementById('content-title').value;
-        if (!title) return alert("Önce bir başlık girmelisiniz.");
-        
-        const prompt = `'${title}' konusu için akademik düzeyde bir sınav taslağı, açıklayıcı metin veya deneme hazırlasın. Format Markdown olsun.`;
-        const res = await callGemini(prompt, "Sen bir öğretmen asistanısın. Kısa, öz ve akademik içerikler üretirsin.");
+        const title = document.getElementById('content-title').value.trim();
+        if (!title) return showCustomModal("Uyarı", "Önce bir başlık girin.");
+        const res = await callGemini(`'${title}' konusuyla ilgili detaylı bir sınav veya ders metni oluştur.`, "Sen akademik bir içerik üreticisisin.");
         document.getElementById('content-body').value = res;
     };
 
     window.sendAIMessage = async () => {
         const input = document.getElementById('ai-input');
         const chat = document.getElementById('ai-chat-box');
-        const text = input.value.trim();
-        if (!text) return;
-
-        chat.innerHTML += `<div class="bg-primary-container/30 p-3 rounded-2xl rounded-tr-none self-end ml-auto max-w-[80%]">${text}</div>`;
+        const text = input.value.trim(); if (!text) return;
+        chat.innerHTML += `<div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none self-end ml-auto max-w-[85%] font-medium">${text}</div>`;
         input.value = "";
-        
         const botDiv = document.createElement('div');
-        botDiv.className = "bg-surface-container-low p-3 rounded-2xl rounded-tl-none";
-        botDiv.innerText = "...";
-        chat.appendChild(botDiv);
-        chat.scrollTop = chat.scrollHeight;
-
-        const res = await callGemini(text, "Sen Sınavım platformunun yapay zeka mentorusun. Öğrencilere derslerinde rehberlik edersin.");
-        botDiv.innerText = res;
-        chat.scrollTop = chat.scrollHeight;
+        botDiv.className = "bg-white p-3 rounded-2xl rounded-tl-none self-start max-w-[85%] shadow-sm border border-outline-variant/10 font-medium";
+        botDiv.innerHTML = '<div class="spinner"></div>';
+        chat.appendChild(botDiv); chat.scrollTop = chat.scrollHeight;
+        const res = await callGemini(text, "Öğrencilere rehberlik eden sempatik ve zeki bir mentorsun.");
+        botDiv.innerHTML = res.replace(/\n/g, '<br>'); chat.scrollTop = chat.scrollHeight;
     };
 
-    // --- Content & Logs ---
+    // --- İÇERİK YÖNETİMİ ---
     window.setContentType = (type) => {
         currentContentType = type;
-        document.querySelectorAll('.type-btn').forEach(b => {
-            b.classList.remove('bg-white', 'shadow-sm', 'text-primary');
-            b.classList.add('text-on-surface-variant');
-        });
-        const btn = document.getElementById('type-' + type);
-        btn.classList.add('bg-white', 'shadow-sm', 'text-primary');
-        
+        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('bg-white', 'shadow-sm', 'text-primary'));
+        document.getElementById('type-' + type).classList.add('bg-white', 'shadow-sm', 'text-primary');
         document.getElementById('url-field').style.display = (type === 'video' || type === 'doc') ? 'block' : 'none';
-        document.getElementById('code-field').style.display = (type === 'game' || type === 'exam') ? 'block' : 'none';
+        document.getElementById('code-field').style.display = (type === 'game' || type === 'exam' || type === 'doc') ? 'block' : 'none';
     };
 
     window.publishContent = async () => {
-        const title = document.getElementById('content-title').value;
-        const body = document.getElementById('content-body').value;
-        const url = document.getElementById('content-url').value;
-        if (!title) return alert("Başlık zorunlu.");
-
+        const title = document.getElementById('content-title').value.trim();
+        const body = document.getElementById('content-body').value.trim();
+        const url = document.getElementById('content-url').value.trim();
+        if (!title) return showCustomModal("Hata", "Başlık girmek zorunludur.");
         try {
             await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'contents'), {
-                type: currentContentType,
-                title,
-                body,
-                url,
-                author: userData.displayName,
-                timestamp: serverTimestamp()
+                type: currentContentType, title, body, url, author: userData.displayName, timestamp: serverTimestamp()
             });
             await addXP(50);
-            logActivity(`İçerik Eklendi: ${title}`);
-            alert("İçerik başarıyla yayınlandı!");
-            document.getElementById('content-title').value = "";
-            document.getElementById('content-body').value = "";
-        } catch (e) { alert("Hata: " + e.message); }
+            logActivity(`İçerik Yayınlandı: ${title}`);
+            showCustomModal("Başarılı", "İçeriğiniz kütüphaneye eklendi!");
+            document.getElementById('content-title').value = ""; document.getElementById('content-body').value = "";
+        } catch (e) { showCustomModal("Hata", "Yayınlama sırasında bir hata oluştu."); }
     };
 
     function listenToContents() {
         onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'contents'), (snap) => {
-            const pool = document.getElementById('pool-list');
-            const games = document.getElementById('games-list');
-            pool.innerHTML = "";
-            games.innerHTML = "";
+            const pool = document.getElementById('pool-list'); pool.innerHTML = "";
             let total = 0;
-
             snap.docs.forEach(docSnap => {
-                const item = docSnap.data();
-                const id = docSnap.id;
-                total++;
-
-                const card = `
-                    <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-all">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-[10px] font-black uppercase px-2 py-1 bg-surface-container rounded-lg">${item.type}</span>
-                            <span class="text-[10px] text-on-surface-variant">${item.author}</span>
+                const item = docSnap.data(); const id = docSnap.id; total++;
+                pool.innerHTML += `
+                    <div class="bg-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-all">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-[9px] font-black uppercase px-2 py-1 bg-surface-container-high rounded-md">${item.type}</span>
+                            <span class="text-[9px] text-on-surface-variant font-black">${item.author}</span>
                         </div>
-                        <h4 class="font-bold text-sm mb-4">${item.title}</h4>
+                        <h4 class="font-bold text-sm mb-4 truncate">${item.title}</h4>
                         <div class="flex gap-2">
-                            <button onclick="viewContent('${id}')" class="flex-1 py-2 bg-primary/10 text-primary rounded-lg text-xs font-bold">Görüntüle</button>
-                            ${item.url ? `<a href="${item.url}" target="_blank" class="flex-1 py-2 bg-secondary text-white text-center rounded-lg text-xs font-bold">Aç</a>` : ''}
+                            <button onclick="viewContent('${id}')" class="flex-1 py-2 bg-primary/10 text-primary rounded-lg text-[10px] font-black uppercase tracking-wider">İncele</button>
+                            ${item.url ? `<a href="${item.url}" target="_blank" class="flex-1 py-2 bg-secondary text-white text-center rounded-lg text-[10px] font-black uppercase tracking-wider">Aç</a>` : ''}
                         </div>
-                    </div>
-                `;
-
-                if (item.type === 'game') {
-                    games.innerHTML += `
-                        <div class="bg-surface-container-low p-5 rounded-2xl border-2 border-dashed border-outline-variant hover:border-secondary transition-all cursor-pointer group" onclick="playGame('${id}')">
-                            <span class="material-symbols-outlined text-secondary text-[32px] mb-3">sports_esports</span>
-                            <h5 class="text-xs font-bold">${item.title}</h5>
-                            <p class="text-[10px] text-on-surface-variant mt-1">Oyna ve Öğren</p>
-                        </div>
-                    `;
-                }
-                pool.innerHTML += card;
+                    </div>`;
             });
             document.getElementById('stat-total').innerText = total;
         });
@@ -578,136 +532,88 @@
 
     window.viewContent = async (id) => {
         const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contents', id));
-        if (snap.exists()) {
-            const item = snap.data();
-            const win = window.open("", "_blank");
-            win.document.write(`<html><head><title>${item.title}</title><style>body{font-family:sans-serif; padding:40px; line-height:1.6;}</style></head><body><h1>${item.title}</h1><hr/><div>${item.body}</div></body></html>`);
-        }
+        const win = window.open("", "_blank");
+        win.document.write(`<html><head><title>Sınavım - ${snap.data().title}</title><style>body{font-family:sans-serif; padding:40px; color:#191c1a; line-height:1.6; max-width:900px; margin:auto;}</style></head><body><h1>${snap.data().title}</h1><hr/><br/><div>${snap.data().body}</div></body></html>`);
     };
 
-    window.playGame = async (id) => {
-        const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contents', id));
-        if (snap.exists()) {
-            const win = window.open("", "_blank");
-            win.document.write(snap.data().body);
-        }
-    };
-
-    // --- Logs ---
+    // --- LOGLAR ---
     async function logActivity(action) {
         if (!currentUser) return;
         await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), {
-            email: currentUser.email,
-            action,
-            timestamp: serverTimestamp()
+            email: currentUser.email, action, timestamp: serverTimestamp()
         });
     }
 
     function listenToLogs() {
         onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), (snap) => {
             const tbody = document.getElementById('logs-table-body');
-            tbody.innerHTML = "";
-            let todayCount = 0;
-            const todayStr = new Date().toLocaleDateString();
-
-            snap.docs.map(d => ({id: d.id, ...d.data()}))
-                .sort((a,b) => b.timestamp?.seconds - a.timestamp?.seconds)
-                .forEach(log => {
-                    const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date();
-                    if (date.toLocaleDateString() === todayStr) todayCount++;
-                    
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-surface-container-lowest transition-colors">
-                            <td class="px-6 py-4 font-bold text-xs">${log.email}</td>
-                            <td class="px-6 py-4 text-on-surface-variant text-xs">${log.action}</td>
-                            <td class="px-6 py-4 text-outline text-[10px]">${date.toLocaleString()}</td>
-                        </tr>
-                    `;
-                });
+            tbody.innerHTML = ""; let todayCount = 0; const todayStr = new Date().toLocaleDateString('tr-TR');
+            const logs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+            logs.forEach(log => {
+                const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date();
+                if (date.toLocaleDateString('tr-TR') === todayStr) todayCount++;
+                tbody.innerHTML += `<tr class="hover:bg-surface-container-low transition-colors"><td class="px-6 py-4 font-bold text-xs">${log.email}</td><td class="px-6 py-4 text-xs font-medium">${log.action}</td><td class="px-6 py-4 text-[10px] font-bold text-outline">${date.toLocaleString('tr-TR')}</td></tr>`;
+            });
             document.getElementById('stat-logins').innerText = todayCount;
         });
     }
 
-    // --- Auth Actions ---
+    // --- GİRİŞ / KAYIT ---
     window.handleLogin = async () => {
         const email = document.getElementById('login-email').value;
         const pass = document.getElementById('login-password').value;
-        try {
-            await signInWithEmailAndPassword(auth, email, pass);
-        } catch (e) { alert("Giriş hatası: " + e.message); }
+        try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { showCustomModal("Hata", "Lütfen bilgilerinizi ve Firebase (Email/Password) ayarlarını kontrol edin."); }
+    };
+
+    window.handleGoogleLogin = async () => {
+        const provider = new GoogleAuthProvider();
+        try { await signInWithPopup(auth, provider); } catch (e) { showCustomModal("Hata", "Google girişi başarısız oldu. Konsol ayarlarınızı kontrol edin."); }
     };
 
     window.handleRegister = async () => {
         const name = document.getElementById('reg-name').value;
         const email = document.getElementById('reg-email').value;
         const pass = document.getElementById('reg-password').value;
-        if (pass.length < 6) return alert("Şifre en az 6 karakter olmalı.");
-        
+        if (pass.length < 6) return showCustomModal("Uyarı", "Şifre en az 6 karakter olmalıdır.");
         try {
             const res = await createUserWithEmailAndPassword(auth, email, pass);
             await updateFbProfile(res.user, { displayName: name });
-        } catch (e) { alert("Kayıt hatası: " + e.message); }
+        } catch (e) { showCustomModal("Kayıt Hatası", e.message); }
     };
 
-    window.handleLogout = () => { if(confirm("Çıkış yapmak üzeresiniz?")) signOut(auth); };
+    window.handleLogout = () => { if(confirm("Oturumu kapatmak istediğinize emin misiniz?")) signOut(auth); };
 
-    // --- Profile Settings ---
+    // --- AYARLAR & XP ---
     window.updateProfile = async () => {
         const name = document.getElementById('set-name').value;
         const seed = document.getElementById('set-avatar-seed').value;
         const avatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed || name}`;
-        
         try {
-            await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), {
-                displayName: name,
-                avatar: avatar
-            });
-            userData.displayName = name;
-            userData.avatar = avatar;
-            updateUI();
-            alert("Profil güncellendi.");
-        } catch (e) { alert("Hata"); }
+            await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { displayName: name, avatar });
+            userData.displayName = name; userData.avatar = avatar; updateUI();
+            showCustomModal("Başarılı", "Profiliniz güncellendi.");
+        } catch (e) { showCustomModal("Hata", "Kaydedilemedi."); }
     };
 
-    // --- XP Logic ---
     async function addXP(amount) {
+        if(!userData) return;
         let newXP = userData.xp + amount;
         let newLevel = Math.floor(newXP / 500) + 1;
-        await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), {
-            xp: newXP,
-            level: newLevel
-        });
-        userData.xp = newXP;
-        userData.level = newLevel;
+        await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel });
+        userData.xp = newXP; if(newLevel > userData.level) showCustomModal("SEVİYE ATLANDI!", `Tebrikler! Yeni seviyen: ${newLevel}`);
         updateUI();
     }
 
-    // --- UI Navigation ---
+    // --- NAVİGASYON ---
     window.showPage = (page) => {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById('page-' + page);
-        if(target) target.classList.add('active');
-        
-        document.querySelectorAll('.nav-btn').forEach(b => {
-            b.classList.remove('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-bold');
-            b.classList.add('text-on-surface-variant');
-        });
-        
-        const activeBtn = document.querySelector(`.nav-btn[data-page="${page}"]`);
-        if(activeBtn) {
-            activeBtn.classList.add('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-bold');
-            activeBtn.classList.remove('text-on-surface-variant');
-        }
-
-        const titleMap = { admin: 'Panel', pool: 'İçerik Havuzu', games: 'Oyunlar', logs: 'Aktivite', settings: 'Ayarlar', help: 'Yardım' };
-        document.getElementById('page-title').innerText = titleMap[page] || 'Dashboard';
+        document.getElementById('page-' + page).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-bold'));
+        const btn = document.querySelector(`.nav-btn[data-page="${page}"]`);
+        if(btn) btn.classList.add('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-bold');
     };
 
-    window.toggleAIMentor = () => {
-        document.getElementById('ai-mentor-box').classList.toggle('hidden');
-    };
-
-    // Global helper for content types
+    window.toggleAIMentor = () => document.getElementById('ai-mentor-box').classList.toggle('hidden');
     window.setContentType = setContentType;
 </script>
 </body>
