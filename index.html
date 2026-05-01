@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sınavım - 1 Mayıs Kutlu Olsun</title>
+    <title>Sınavım - The Academic Edge</title>
     <!-- Sekme Logosu (Favicon) -->
     <link rel="icon" type="image/jpeg" href="image_2cd20a.jpg">
     
@@ -58,16 +58,22 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         #custom-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; }
+        
+        /* Glassmorphism effects */
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
     </style>
 </head>
 <body class="bg-background text-on-surface antialiased min-h-screen selection:bg-primary-container">
 
 <!-- Özel Bilgi Modalı -->
 <div id="custom-modal-overlay">
-    <div class="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl animate-fadeIn border border-outline-variant/30 text-center">
-        <h3 id="modal-title-text" class="text-xl font-black text-primary mb-2">Bilgi</h3>
-        <p id="modal-body-text" class="text-sm text-on-surface-variant mb-6">İşlem yapılıyor...</p>
-        <button onclick="closeCustomModal()" class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 transition-all">Tamam</button>
+    <div class="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 shadow-2xl animate-fadeIn border border-outline-variant/30 text-center">
+        <div id="modal-icon-container" class="mb-4 flex justify-center">
+            <span class="material-symbols-outlined text-5xl text-primary">info</span>
+        </div>
+        <h3 id="modal-title-text" class="text-2xl font-black text-primary mb-2 tracking-tight">Bilgi</h3>
+        <p id="modal-body-text" class="text-sm text-on-surface-variant mb-6 leading-relaxed">İşlem yapılıyor...</p>
+        <button onclick="closeCustomModal()" class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold text-sm hover:brightness-110 active:scale-95 transition-all shadow-lg">Anladım</button>
     </div>
 </div>
 
@@ -78,40 +84,61 @@
     
     <div class="max-w-4xl w-full flex flex-col items-center relative z-10">
         <div class="mb-10 text-center">
-            <img alt="Sınavım Logo" class="w-48 h-48 md:w-56 md:h-56 object-contain rounded-full shadow-2xl mb-6 mx-auto bg-white p-4 border-2 border-outline-variant/30" src="image_2cd20a.jpg"/>
-            <h1 class="text-4xl font-extrabold text-primary tracking-tighter mb-2">Sınavım</h1>
-            <p class="text-on-surface-variant font-bold uppercase tracking-widest text-sm">Akademik Başarı Platformu</p>
+            <img alt="Sınavım Logo" class="w-48 h-48 md:w-56 md:h-56 object-contain rounded-full shadow-2xl mb-6 mx-auto bg-white p-4 border-4 border-primary/10" src="image_2cd20a.jpg"/>
+            <h1 class="text-4xl font-extrabold text-primary tracking-tighter mb-1">Sınavım</h1>
+            <p class="text-on-surface-variant font-bold uppercase tracking-[0.2em] text-[10px]">Academic Edge Platform</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden border border-outline-variant/30 w-full">
-            <!-- Giriş Kısmı -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-surface-container-lowest rounded-3xl shadow-2xl overflow-hidden border border-outline-variant/20 w-full glass-card">
+            <!-- Giriş -->
             <div class="p-10 md:p-12 flex flex-col gap-6">
-                <h3 class="text-2xl font-extrabold text-primary">Tekrar Hoş Geldiniz</h3>
+                <div class="flex flex-col gap-1">
+                    <h3 class="text-2xl font-black text-primary tracking-tight">Tekrar Hoş Geldiniz</h3>
+                    <p class="text-xs text-on-surface-variant font-medium">Bilgilerinizle güvenli bir şekilde giriş yapın.</p>
+                </div>
                 <div class="space-y-4">
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none" id="login-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none" id="login-password" placeholder="Şifre" type="password"/>
-                    <button class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all shadow-md active:scale-95" onclick="handleLogin()">Sisteme Gir</button>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1">E-posta Adresi</label>
+                        <input class="w-full rounded-xl border border-outline-variant/40 bg-white/50 p-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="login-email" placeholder="ornek@mail.com" type="email"/>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1">Şifre</label>
+                        <input class="w-full rounded-xl border border-outline-variant/40 bg-white/50 p-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="login-password" placeholder="••••••••" type="password"/>
+                    </div>
+                    <button class="w-full py-3.5 bg-primary text-on-primary rounded-xl font-bold hover:brightness-110 transition-all shadow-md active:scale-95" onclick="handleLogin()">Giriş Yap</button>
                     
                     <div class="relative flex items-center py-2">
-                        <div class="flex-grow border-t border-outline-variant/30"></div>
-                        <span class="flex-shrink mx-4 text-xs text-on-surface-variant font-bold uppercase">Veya</span>
-                        <div class="flex-grow border-t border-outline-variant/30"></div>
+                        <div class="flex-grow border-t border-outline-variant/20"></div>
+                        <span class="flex-shrink mx-4 text-[10px] text-on-surface-variant font-black uppercase tracking-widest">Veya</span>
+                        <div class="flex-grow border-t border-outline-variant/20"></div>
                     </div>
 
-                    <button class="w-full py-3 bg-white border border-outline-variant/50 text-on-surface rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:bg-surface-container-low transition-all shadow-sm active:scale-95" onclick="handleGoogleLogin()">
+                    <button class="w-full py-3 bg-white border border-outline-variant/40 text-on-surface rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:bg-surface-container-low transition-all shadow-sm active:scale-95" onclick="handleGoogleLogin()">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
-                        Google ile Giriş Yap
+                        Google ile Devam Et
                     </button>
                 </div>
             </div>
-            <!-- Kayıt Kısmı -->
-            <div class="p-10 md:p-12 bg-surface-container-low flex flex-col gap-6 border-l border-outline-variant/30">
-                <h3 class="text-2xl font-extrabold text-secondary">Yeni Hesap Oluştur</h3>
+            <!-- Kayıt -->
+            <div class="p-10 md:p-12 bg-surface-container-low/50 flex flex-col gap-6 border-l border-outline-variant/10">
+                <div class="flex flex-col gap-1">
+                    <h3 class="text-2xl font-black text-secondary tracking-tight">Yeni Hesap Aç</h3>
+                    <p class="text-xs text-on-surface-variant font-medium">Sınavım ailesine katılarak başarınızı katlayın.</p>
+                </div>
                 <div class="space-y-4">
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none" id="reg-name" placeholder="Ad Soyad" type="text"/>
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none" id="reg-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-xl border border-outline-variant/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none" id="reg-password" placeholder="Şifre (Min 6 Karakter)" type="password"/>
-                    <button class="w-full py-3 bg-secondary text-on-secondary rounded-xl font-bold hover:opacity-90 transition-all shadow-md active:scale-95" onclick="handleRegister()">Ücretsiz Kayıt Ol</button>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1">Tam Adınız</label>
+                        <input class="w-full rounded-xl border border-outline-variant/40 bg-white/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none transition-all" id="reg-name" placeholder="Ad Soyad" type="text"/>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1">E-posta</label>
+                        <input class="w-full rounded-xl border border-outline-variant/40 bg-white/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none transition-all" id="reg-email" placeholder="email@web.com" type="email"/>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1">Şifre Belirleyin</label>
+                        <input class="w-full rounded-xl border border-outline-variant/40 bg-white/50 p-3 text-sm focus:ring-2 focus:ring-secondary/20 outline-none transition-all" id="reg-password" placeholder="En az 6 karakter" type="password"/>
+                    </div>
+                    <button class="w-full py-3.5 bg-secondary text-on-secondary rounded-xl font-bold hover:brightness-110 transition-all shadow-md active:scale-95" onclick="handleRegister()">Hesap Oluştur</button>
                 </div>
             </div>
         </div>
@@ -121,64 +148,67 @@
 <!-- Dashboard Ekranı -->
 <div class="hidden w-full flex" id="main-dashboard">
     <!-- Sidebar -->
-    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-surface-container-lowest shadow-xl z-50 border-r border-outline-variant/30">
+    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-white shadow-xl z-50 border-r border-outline-variant/20">
         <div class="flex flex-col h-full p-6 space-y-6">
             <div class="flex items-center gap-4 px-2">
-                <img alt="Logo" class="h-14 w-14 object-contain rounded-full shadow-sm" src="image_2cd20a.jpg"/>
+                <img alt="Logo" class="h-14 w-14 object-contain rounded-full border border-outline-variant/20 p-1" src="image_2cd20a.jpg"/>
                 <div>
                     <h1 class="text-lg font-black text-primary tracking-tighter">Sınavım</h1>
-                    <p class="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">Academic Edge</p>
+                    <p class="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.1em]">Academic Edge</p>
                 </div>
             </div>
 
             <!-- Gamification -->
-            <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 space-y-3">
+            <div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20 space-y-4">
                 <div class="flex justify-between items-center">
-                    <span class="text-[10px] font-black text-primary px-2 py-1 bg-primary-container rounded-lg uppercase">Seviye <span id="user-level">1</span></span>
+                    <span class="text-[10px] font-black text-primary px-3 py-1 bg-primary-container rounded-lg uppercase tracking-wider">Level <span id="user-level">1</span></span>
                     <div class="flex items-center gap-1 text-secondary font-black text-[10px] uppercase">
-                        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                        <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
                         <span id="user-streak">0</span> Gün Seri
                     </div>
                 </div>
-                <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-                    <div id="xp-bar" class="xp-progress-bar h-full bg-primary w-0"></div>
+                <div class="space-y-1.5">
+                    <div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+                        <div id="xp-bar" class="xp-progress-bar h-full bg-primary w-0 shadow-[0_0_10px_rgba(74,124,89,0.3)]"></div>
+                    </div>
+                    <p class="text-[9px] text-on-surface-variant text-center font-black uppercase tracking-widest"><span id="user-xp">0</span> / 500 XP</p>
                 </div>
-                <p class="text-[10px] text-on-surface-variant text-center font-bold uppercase tracking-tighter"><span id="user-xp">0</span> / 500 XP Toplandı</p>
             </div>
 
-            <div class="flex-1 space-y-1 flex flex-col">
-                <button onclick="showPage('admin')" class="nav-btn active flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="admin">
-                    <span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
-                    <span class="font-bold text-[15px]">İçerik Yönetimi</span>
+            <div class="flex-1 space-y-1.5 flex flex-col">
+                <button onclick="showPage('admin')" class="nav-btn active flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group" data-page="admin">
+                    <span class="material-symbols-outlined text-[24px]">admin_panel_settings</span>
+                    <span class="font-bold text-[15px]">Yönetim Paneli</span>
                 </button>
-                <button onclick="showPage('pool')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="pool">
-                    <span class="material-symbols-outlined text-[22px]">library_books</span>
+                <button onclick="showPage('pool')" class="nav-btn flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group" data-page="pool">
+                    <span class="material-symbols-outlined text-[24px]">library_books</span>
                     <span class="font-bold text-[15px]">İçerik Havuzu</span>
                 </button>
-                <button onclick="showPage('games')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="games">
-                    <span class="material-symbols-outlined text-[22px]">sports_esports</span>
-                    <span class="font-bold text-[15px]">Oyun & Laboratuvar</span>
+                <button onclick="showPage('games')" class="nav-btn flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group" data-page="games">
+                    <span class="material-symbols-outlined text-[24px]">sports_esports</span>
+                    <span class="font-bold text-[15px]">Laboratuvar</span>
                 </button>
-                <button onclick="showPage('logs')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="logs">
-                    <span class="material-symbols-outlined text-[22px]">history</span>
-                    <span class="font-bold text-[15px]">Giriş Kayıtları</span>
+                <button onclick="showPage('logs')" class="nav-btn flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group" data-page="logs">
+                    <span class="material-symbols-outlined text-[24px]">history</span>
+                    <span class="font-bold text-[15px]">Aktiviteler</span>
                 </button>
-                <button onclick="showPage('settings')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="settings">
-                    <span class="material-symbols-outlined text-[22px]">settings</span>
-                    <span class="font-bold text-[15px]">Profil Ayarları</span>
+                <button onclick="showPage('settings')" class="nav-btn flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group" data-page="settings">
+                    <span class="material-symbols-outlined text-[24px]">settings</span>
+                    <span class="font-bold text-[15px]">Ayarlar</span>
                 </button>
-                <button onclick="showPage('help')" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl transition-all group" data-page="help">
-                    <span class="material-symbols-outlined text-[22px]">help</span>
-                    <span class="font-bold text-[15px]">Yardım Merkezi</span>
+                <button onclick="showPage('help')" class="nav-btn flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group" data-page="help">
+                    <span class="material-symbols-outlined text-[24px]">help</span>
+                    <span class="font-bold text-[15px]">Yardım</span>
                 </button>
             </div>
 
-            <div class="mt-4 p-3 bg-surface-container-low rounded-xl flex items-center justify-between border border-outline-variant/30">
+            <!-- Profile Info -->
+            <div class="mt-4 p-3 bg-surface-container-low rounded-2xl flex items-center justify-between border border-outline-variant/10">
                 <div class="flex items-center gap-3 overflow-hidden">
                     <img id="user-avatar" src="" class="w-10 h-10 rounded-full border-2 border-primary/20 bg-white" />
                     <div class="flex flex-col truncate">
                         <span class="text-xs font-black text-on-surface truncate" id="user-name-display">Sunay Çapa</span>
-                        <span class="text-[9px] uppercase font-black text-secondary tracking-widest">Yönetici</span>
+                        <span class="text-[9px] uppercase font-black text-secondary tracking-widest">Akademisyen</span>
                     </div>
                 </div>
                 <button class="text-on-surface-variant hover:text-error transition-colors p-1" onclick="handleLogout()">
@@ -190,15 +220,15 @@
 
     <!-- Main Content -->
     <div class="flex-1 ml-72 flex flex-col min-h-screen relative bg-background">
-        <header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
-            <h2 id="page-title" class="text-lg font-black text-primary uppercase tracking-tighter">Panel</h2>
+        <header class="flex justify-between items-center w-full px-8 py-5 sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+            <h2 id="page-title" class="text-xl font-black text-primary tracking-tighter uppercase">Panel</h2>
             <div class="flex items-center gap-4">
-                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-black text-primary animate-pulse uppercase">
-                    <span class="material-symbols-outlined text-[14px]">auto_awesome</span> Gemini AI Hazır
+                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-black text-primary animate-pulse uppercase tracking-wider">
+                    <span class="material-symbols-outlined text-[16px]">auto_awesome</span> Gemini AI Hazır
                 </div>
-                <button class="text-on-surface-variant hover:text-primary p-2 relative">
+                <button class="text-on-surface-variant hover:text-primary p-2 relative transition-all">
                     <span class="material-symbols-outlined">notifications</span>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
+                    <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
                 </button>
             </div>
         </header>
@@ -206,56 +236,66 @@
         <main class="flex-1 p-8 space-y-8">
             <!-- PAGE: ADMIN -->
             <section id="page-admin" class="page-section active">
-                <div class="bg-gradient-to-br from-primary/10 to-surface p-8 rounded-2xl border border-outline-variant/30 mb-8">
-                    <h2 class="text-3xl font-black tracking-tight mb-2 text-on-surface">İçerik Yönetim Merkezi</h2>
-                    <p class="text-on-surface-variant text-sm font-medium">Sınavlar, videolar ve akıllı oyun modülleri oluşturun.</p>
+                <div class="bg-gradient-to-br from-primary/10 to-surface-container-low p-10 rounded-3xl border border-outline-variant/20 mb-8 relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h2 class="text-4xl font-black tracking-tighter mb-2 text-on-surface">İçerik Yönetimi</h2>
+                        <p class="text-on-surface-variant font-medium">Sınav, video veya interaktif oyun modülleri tasarlayın ve yayınlayın.</p>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                    <div class="xl:col-span-2 bg-white rounded-2xl p-8 border border-outline-variant/30 shadow-sm space-y-6">
-                        <div class="flex flex-wrap gap-2 p-1 bg-surface-container-low rounded-xl w-fit">
-                            <button onclick="setContentType('exam')" class="type-btn px-4 py-2 rounded-lg bg-white shadow-sm font-bold text-xs text-primary" id="type-exam">Sınav/Deneme</button>
-                            <button onclick="setContentType('video')" class="type-btn px-4 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:text-primary" id="type-video">Video</button>
-                            <button onclick="setContentType('doc')" class="type-btn px-4 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:text-primary" id="type-doc">Döküman</button>
-                            <button onclick="setContentType('game')" class="type-btn px-4 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:text-primary" id="type-game">Oyun Kodu</button>
+                    <div class="xl:col-span-2 bg-white rounded-3xl p-8 border border-outline-variant/20 shadow-xl space-y-6">
+                        <div class="flex flex-wrap gap-2.5 p-1.5 bg-surface-container-low rounded-2xl w-fit">
+                            <button onclick="setContentType('exam')" class="type-btn px-5 py-2.5 rounded-xl bg-white shadow-md font-black text-xs text-primary" id="type-exam">SINAV</button>
+                            <button onclick="setContentType('video')" class="type-btn px-5 py-2.5 rounded-xl font-black text-xs text-on-surface-variant hover:text-primary transition-all" id="type-video">VİDEO</button>
+                            <button onclick="setContentType('doc')" class="type-btn px-5 py-2.5 rounded-xl font-black text-xs text-on-surface-variant hover:text-primary transition-all" id="type-doc">DÖKÜMAN</button>
+                            <button onclick="setContentType('game')" class="type-btn px-5 py-2.5 rounded-xl font-black text-xs text-on-surface-variant hover:text-primary transition-all" id="type-game">OYUN</button>
                         </div>
 
-                        <div class="space-y-4">
-                            <input id="content-title" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20" placeholder="Başlık girin (Örn: LGS Fen Denemesi)..."/>
+                        <div class="space-y-5">
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1 tracking-widest">İçerik Başlığı</label>
+                                <input id="content-title" class="w-full bg-surface-container-low border-none rounded-2xl p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-primary/10 transition-all" placeholder="Örn: 2024 LGS Matematik Denemesi..."/>
+                            </div>
                             
-                            <button onclick="generateAIContent()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-white font-black text-xs flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md">
-                                <span class="material-symbols-outlined text-[18px]">auto_awesome</span> ✨ GEMINI AI İLE İÇERİK ÜRET
+                            <button onclick="generateAIContent()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-primary to-primary/80 text-white font-black text-xs flex items-center justify-center gap-3 hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-primary/10">
+                                <span class="material-symbols-outlined text-[20px]">auto_awesome</span> ✨ GEMINI AI İLE TASLAK OLUŞTUR
                             </button>
 
-                            <div id="url-field" class="hidden">
-                                <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1 ml-1">Video / Dosya URL</label>
-                                <input id="content-url" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm outline-none" placeholder="https://..."/>
+                            <div id="url-field" class="hidden space-y-1">
+                                <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1 tracking-widest">Kaynak Bağlantısı (Link)</label>
+                                <input id="content-url" class="w-full bg-surface-container-low border-none rounded-2xl p-4 text-sm outline-none focus:ring-4 focus:ring-primary/10" placeholder="https://..."/>
                             </div>
 
-                            <div id="code-field" class="block">
-                                <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1 ml-1">Metin İçeriği / HTML Kodu</label>
-                                <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm min-h-[250px] outline-none font-mono" placeholder="Yazı veya HTML kodunuzu buraya girin..."></textarea>
+                            <div id="code-field" class="block space-y-1">
+                                <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1 tracking-widest">Metin veya HTML Kodu</label>
+                                <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-2xl p-5 text-sm min-h-[300px] outline-none font-mono focus:ring-4 focus:ring-primary/10" placeholder="Buraya yazın veya HTML kodunu yapıştırın..."></textarea>
                             </div>
 
-                            <button onclick="publishContent()" class="w-full py-4 bg-secondary text-on-secondary rounded-xl font-black text-sm shadow-lg hover:-translate-y-1 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                HEMEN YAYINLA <span class="material-symbols-outlined">send</span>
+                            <button onclick="publishContent()" class="w-full py-4.5 bg-secondary text-on-secondary rounded-2xl font-black text-sm shadow-2xl hover:-translate-y-1 active:scale-95 transition-all flex items-center justify-center gap-3 uppercase tracking-widest">
+                                İçeriği Yayınla <span class="material-symbols-outlined">send</span>
                             </button>
                         </div>
                     </div>
                     
-                    <div class="space-y-6">
-                        <div class="bg-white rounded-2xl p-6 border border-outline-variant/30 shadow-sm h-fit">
-                            <h3 class="font-black text-xs mb-4 text-primary uppercase tracking-widest">Sistem İstatistikleri</h3>
-                            <div class="space-y-4">
-                                <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
-                                    <p class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Toplam İçerik</p>
-                                    <p id="stat-total" class="text-2xl font-black text-primary">0</p>
+                    <div class="space-y-8">
+                        <div class="bg-white rounded-3xl p-8 border border-outline-variant/20 shadow-xl h-fit">
+                            <h3 class="font-black text-xs mb-6 text-primary uppercase tracking-[0.2em] border-b border-outline-variant/10 pb-4">Sistem İstatistikleri</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <div class="p-5 bg-surface-container-low rounded-2xl border border-outline-variant/10 group hover:border-primary/30 transition-all">
+                                    <p class="text-[10px] font-black text-on-surface-variant uppercase mb-1">Havuzdaki İçerik</p>
+                                    <p id="stat-total" class="text-3xl font-black text-primary">0</p>
                                 </div>
-                                <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
-                                    <p class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Girişler (Bugün)</p>
-                                    <p id="stat-logins" class="text-2xl font-black text-secondary">0</p>
+                                <div class="p-5 bg-surface-container-low rounded-2xl border border-outline-variant/10 group hover:border-secondary/30 transition-all">
+                                    <p class="text-[10px] font-black text-on-surface-variant uppercase mb-1">Girişler (Bugün)</p>
+                                    <p id="stat-logins" class="text-3xl font-black text-secondary">0</p>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div class="bg-primary/5 rounded-3xl p-8 border border-primary/10">
+                            <h4 class="text-xs font-black text-primary uppercase tracking-widest mb-3">İpucu</h4>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">Yeni içerik yayınladığınızda hesabınıza <strong>+50 XP</strong> eklenir. Her 500 XP'de seviye atlarsınız!</p>
                         </div>
                     </div>
                 </div>
@@ -263,63 +303,69 @@
 
             <!-- PAGE: POOL -->
             <section id="page-pool" class="page-section">
-                <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-3xl font-black text-primary">İçerik Havuzu</h2>
-                    <input id="pool-search" class="pl-4 pr-4 py-2 bg-surface-container rounded-xl border-none text-sm w-64 outline-none focus:ring-2 focus:ring-primary/20" placeholder="İçerik ara..." />
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+                    <h2 class="text-4xl font-black text-primary tracking-tight">İçerik Havuzu</h2>
+                    <div class="relative max-w-sm w-full">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                        <input id="pool-search" class="pl-12 pr-6 py-3.5 bg-white shadow-xl rounded-2xl border border-outline-variant/20 text-sm w-full outline-none focus:ring-4 focus:ring-primary/10 transition-all" placeholder="Ders, konu veya yazar ara..." />
+                    </div>
                 </div>
-                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             </section>
 
             <!-- PAGE: LOGS -->
             <section id="page-logs" class="page-section">
-                <h2 class="text-3xl font-black text-primary mb-8">Giriş Kayıtları</h2>
-                <div class="bg-white border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm overflow-x-auto">
+                <h2 class="text-4xl font-black text-primary mb-10 tracking-tight">Giriş Kayıtları</h2>
+                <div class="bg-white border border-outline-variant/20 rounded-3xl overflow-hidden shadow-2xl overflow-x-auto">
                     <table class="w-full text-left text-sm">
-                        <thead class="bg-surface-container-low text-on-surface-variant font-black uppercase text-[10px]">
+                        <thead class="bg-surface-container-low text-on-surface-variant font-black uppercase text-[10px] tracking-widest">
                             <tr>
-                                <th class="px-6 py-4">Kullanıcı</th>
-                                <th class="px-6 py-4">İşlem</th>
-                                <th class="px-6 py-4">Zaman</th>
+                                <th class="px-8 py-5">Kullanıcı</th>
+                                <th class="px-8 py-5">Eylem</th>
+                                <th class="px-8 py-5">Tarih / Saat</th>
                             </tr>
                         </thead>
-                        <tbody id="logs-table-body" class="divide-y divide-outline-variant/10"></tbody>
+                        <tbody id="logs-table-body" class="divide-y divide-outline-variant/10 font-medium"></tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- PAGE: AYARLAR -->
+            <!-- PAGE: SETTINGS -->
             <section id="page-settings" class="page-section">
-                <h2 class="text-3xl font-black text-primary mb-8">Profil Ayarları</h2>
-                <div class="max-w-md bg-white p-8 rounded-2xl border border-outline-variant/30 shadow-md">
-                    <div class="flex flex-col items-center mb-8 text-center">
-                        <img id="settings-avatar-preview" src="" class="w-24 h-24 rounded-full border-4 border-primary-container mb-4 bg-white" />
-                        <p class="text-xs font-black text-on-surface-variant uppercase">Profil Görünümü</p>
+                <h2 class="text-4xl font-black text-primary mb-10 tracking-tight">Ayarlar</h2>
+                <div class="max-w-xl bg-white p-10 rounded-3xl border border-outline-variant/20 shadow-2xl">
+                    <div class="flex flex-col items-center mb-10 text-center">
+                        <div class="relative group">
+                            <img id="settings-avatar-preview" src="" class="w-28 h-24 rounded-full border-4 border-primary-container mb-4 bg-white shadow-lg transition-transform group-hover:scale-105" />
+                        </div>
+                        <p class="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Profil Kartınız</p>
                     </div>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1">Ad Soyad</label>
-                            <input id="set-name" class="w-full rounded-xl border-outline-variant/50 p-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20" />
+                    <div class="space-y-6">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1">Görünen Ad</label>
+                            <input id="set-name" class="w-full rounded-2xl border border-outline-variant/30 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-primary/10 transition-all" />
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-on-surface-variant uppercase mb-1">Avatar Seed (Değiştirerek Avatarı Güncelle)</label>
-                            <input id="set-avatar-seed" class="w-full rounded-xl border-outline-variant/50 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/20" placeholder="Örn: Sunay" />
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-on-surface-variant uppercase ml-1">Avatar Tohumu (Seed)</label>
+                            <input id="set-avatar-seed" class="w-full rounded-2xl border border-outline-variant/30 p-4 text-sm outline-none focus:ring-4 focus:ring-primary/10 transition-all" placeholder="Örn: Sunay" />
                         </div>
-                        <button onclick="updateProfile()" class="w-full py-3 bg-primary text-white rounded-xl font-black shadow-md active:scale-95 transition-transform uppercase text-xs tracking-widest">Değişiklikleri Kaydet</button>
+                        <button onclick="updateProfile()" class="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-xl hover:brightness-110 active:scale-95 transition-all uppercase tracking-widest text-xs">Ayarları Kaydet</button>
                     </div>
                 </div>
             </section>
 
-            <!-- PAGE: YARDIM -->
+            <!-- PAGE: HELP -->
             <section id="page-help" class="page-section">
-                <h2 class="text-3xl font-black text-primary mb-8">Destek</h2>
-                <div class="bg-white p-8 rounded-2xl border border-outline-variant/30 shadow-md">
-                    <div class="flex items-center gap-6">
-                        <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-3xl shadow-lg">
-                            <span class="material-symbols-outlined" style="font-size:36px;">support_agent</span>
+                <h2 class="text-4xl font-black text-primary mb-10 tracking-tight">Yardım Merkezi</h2>
+                <div class="bg-white p-10 rounded-3xl border border-outline-variant/20 shadow-2xl">
+                    <div class="flex items-center gap-8">
+                        <div class="w-24 h-24 rounded-3xl bg-primary flex items-center justify-center text-white shadow-2xl shadow-primary/20">
+                            <span class="material-symbols-outlined text-5xl">contact_support</span>
                         </div>
                         <div>
-                            <p class="text-sm font-black text-primary uppercase tracking-widest">İletişim Adresimiz</p>
-                            <a href="mailto:sunaycapa3@gmail.com" class="text-2xl font-black hover:underline text-on-surface">sunaycapa3@gmail.com</a>
+                            <p class="text-xs font-black text-primary uppercase tracking-[0.3em] mb-2">Resmi İletişim</p>
+                            <h3 class="text-2xl font-black mb-1">Sunay Çapa</h3>
+                            <a href="mailto:sunaycapa3@gmail.com" class="text-xl font-bold hover:text-primary transition-colors border-b-2 border-primary/20 pb-1">sunaycapa3@gmail.com</a>
                         </div>
                     </div>
                 </div>
@@ -330,20 +376,29 @@
 
 <!-- ✨ AI MENTOR WIDGET -->
 <div id="ai-mentor-container" class="hidden">
-    <button onclick="toggleAIMentor()" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/80 text-white shadow-2xl z-[100] flex items-center justify-center hover:scale-110 transition-transform">
+    <button onclick="toggleAIMentor()" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/80 text-white shadow-2xl z-[100] flex items-center justify-center hover:scale-110 transition-all active:scale-90">
         <span class="material-symbols-outlined text-[36px]">smart_toy</span>
     </button>
-    <div id="ai-mentor-box" class="hidden fixed bottom-28 right-8 w-80 h-[500px] bg-white rounded-3xl shadow-2xl border border-outline-variant/30 z-[100] flex flex-col overflow-hidden">
-        <div class="p-4 bg-primary text-white flex justify-between items-center">
-            <span class="text-[10px] font-black flex items-center gap-2 uppercase tracking-widest"><span class="material-symbols-outlined text-[18px]">auto_awesome</span> AI Mentor</span>
-            <button onclick="toggleAIMentor()"><span class="material-symbols-outlined text-[18px]">close</span></button>
+    <div id="ai-mentor-box" class="hidden fixed bottom-28 right-8 w-[350px] h-[550px] bg-white rounded-[2rem] shadow-2xl border border-outline-variant/20 z-[100] flex flex-col overflow-hidden animate-fadeIn">
+        <div class="p-5 bg-primary text-white flex justify-between items-center shadow-lg">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined">auto_awesome</span>
+                <span class="text-xs font-black uppercase tracking-widest">AI Mentor</span>
+            </div>
+            <button onclick="toggleAIMentor()" class="hover:bg-white/20 p-1.5 rounded-lg transition-colors"><span class="material-symbols-outlined">close</span></button>
         </div>
-        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-4 space-y-3 text-[13px] bg-surface-container-low/20">
-            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-outline-variant/10 font-medium">Selam! Sınavım AI Mentor burada. Bugün hangi dersi hallediyoruz? 📚</div>
+        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-5 space-y-4 text-[13px] bg-surface-container-low/30">
+            <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-outline-variant/10 leading-relaxed">
+                Selam! Sınavım AI Mentor burada. Bugün hangi dersi hallediyoruz? Senin için her türlü akademik desteği vermeye hazırım. 📚
+            </div>
         </div>
-        <div class="p-4 border-t flex gap-2 bg-white">
-            <input id="ai-input" class="flex-1 border-none bg-surface-container-low p-3 rounded-xl text-xs outline-none focus:ring-1 focus:ring-primary/20" placeholder="Bir şey sor..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
-            <button onclick="sendAIMessage()" class="bg-primary text-white p-3 rounded-xl flex items-center justify-center shadow-md active:scale-90 transition-all"><span class="material-symbols-outlined text-[18px]">send</span></button>
+        <div class="p-5 border-t bg-white">
+            <div class="flex gap-2 bg-surface-container-low p-1.5 rounded-2xl">
+                <input id="ai-input" class="flex-1 border-none bg-transparent p-3 text-xs outline-none focus:ring-0" placeholder="Sorunu buraya yaz..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
+                <button onclick="sendAIMessage()" class="bg-primary text-white p-3 rounded-xl flex items-center justify-center shadow-md active:scale-90 transition-all">
+                    <span class="material-symbols-outlined text-[18px]">send</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -367,17 +422,20 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-main-v4';
-    const geminiKey = ""; 
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-main-v5';
+    const geminiKey = ""; // Sistem tarafından otomatik olarak işlenir
 
     let currentUser = null;
     let userData = null;
     let currentContentType = 'exam';
 
     // --- UI YARDIMCILARI ---
-    window.showCustomModal = (title, msg) => {
+    window.showCustomModal = (title, msg, type = 'info') => {
         document.getElementById('modal-title-text').innerText = title;
         document.getElementById('modal-body-text').innerText = msg;
+        const iconEl = document.getElementById('modal-icon-container').firstElementChild;
+        iconEl.innerText = type === 'error' ? 'error' : (type === 'success' ? 'check_circle' : 'info');
+        iconEl.className = `material-symbols-outlined text-5xl ${type === 'error' ? 'text-error' : (type === 'success' ? 'text-primary' : 'text-primary')}`;
         document.getElementById('custom-modal-overlay').style.display = 'flex';
     };
     window.closeCustomModal = () => { document.getElementById('custom-modal-overlay').style.display = 'none'; };
@@ -402,7 +460,7 @@
         let snap = await getDoc(statsRef);
         if (!snap.exists()) {
             userData = {
-                displayName: currentUser.displayName || 'Akademisyen',
+                displayName: currentUser.displayName || 'Yeni Üye',
                 xp: 0, level: 1, streak: 1,
                 lastLogin: new Date().toISOString(),
                 avatar: currentUser.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.uid.substring(0,5)}`
@@ -418,7 +476,7 @@
         if (today !== lastDate) {
             let yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
-            let newStreak = (lastDate === yesterday.toLocaleDateString('tr-TR')) ? userData.streak + 1 : 1;
+            let newStreak = (lastDate === yesterday.toLocaleDateString('tr-TR')) ? (userData.streak || 0) + 1 : 1;
             
             await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), {
                 streak: newStreak, lastLogin: new Date().toISOString()
@@ -467,8 +525,9 @@
 
     window.generateAIContent = async () => {
         const title = document.getElementById('content-title').value.trim();
-        if (!title) return showCustomModal("Uyarı", "Önce bir başlık girin.");
-        const res = await callGemini(`'${title}' konusuyla ilgili detaylı bir sınav veya ders metni oluştur.`, "Sen akademik bir içerik üreticisisin.");
+        if (!title) return showCustomModal("Uyarı", "Lütfen önce bir içerik başlığı belirleyin.");
+        
+        const res = await callGemini(`'${title}' konusuyla ilgili detaylı bir sınav veya ders metni oluştur.`, "Sen profesyonel bir içerik üreticisisin.");
         document.getElementById('content-body').value = res;
     };
 
@@ -476,21 +535,27 @@
         const input = document.getElementById('ai-input');
         const chat = document.getElementById('ai-chat-box');
         const text = input.value.trim(); if (!text) return;
-        chat.innerHTML += `<div class="bg-primary text-white p-3 rounded-2xl rounded-tr-none self-end ml-auto max-w-[85%] font-medium">${text}</div>`;
+        
+        chat.innerHTML += `<div class="bg-primary text-white p-4 rounded-2xl rounded-tr-none self-end ml-auto max-w-[85%] font-bold shadow-md animate-fadeIn">${text}</div>`;
         input.value = "";
+        
         const botDiv = document.createElement('div');
-        botDiv.className = "bg-white p-3 rounded-2xl rounded-tl-none self-start max-w-[85%] shadow-sm border border-outline-variant/10 font-medium";
+        botDiv.className = "bg-white p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] shadow-sm border border-outline-variant/10 font-medium animate-fadeIn";
         botDiv.innerHTML = '<div class="spinner"></div>';
         chat.appendChild(botDiv); chat.scrollTop = chat.scrollHeight;
-        const res = await callGemini(text, "Öğrencilere rehberlik eden sempatik ve zeki bir mentorsun.");
+        
+        const res = await callGemini(text, "Öğrencilere rehberlik eden sempatik ve çok zeki bir mentorsun.");
         botDiv.innerHTML = res.replace(/\n/g, '<br>'); chat.scrollTop = chat.scrollHeight;
     };
 
     // --- İÇERİK YÖNETİMİ ---
     window.setContentType = (type) => {
         currentContentType = type;
-        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('bg-white', 'shadow-sm', 'text-primary'));
-        document.getElementById('type-' + type).classList.add('bg-white', 'shadow-sm', 'text-primary');
+        document.querySelectorAll('.type-btn').forEach(b => {
+            b.classList.remove('bg-white', 'shadow-md', 'text-primary');
+            b.classList.add('text-on-surface-variant');
+        });
+        document.getElementById('type-' + type).classList.add('bg-white', 'shadow-md', 'text-primary');
         document.getElementById('url-field').style.display = (type === 'video' || type === 'doc') ? 'block' : 'none';
         document.getElementById('code-field').style.display = (type === 'game' || type === 'exam' || type === 'doc') ? 'block' : 'none';
     };
@@ -499,16 +564,17 @@
         const title = document.getElementById('content-title').value.trim();
         const body = document.getElementById('content-body').value.trim();
         const url = document.getElementById('content-url').value.trim();
-        if (!title) return showCustomModal("Hata", "Başlık girmek zorunludur.");
+        if (!title) return showCustomModal("Eksik Bilgi", "Başlık girmek zorunludur.", "error");
+        
         try {
             await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'contents'), {
                 type: currentContentType, title, body, url, author: userData.displayName, timestamp: serverTimestamp()
             });
             await addXP(50);
-            logActivity(`İçerik Yayınlandı: ${title}`);
-            showCustomModal("Başarılı", "İçeriğiniz kütüphaneye eklendi!");
+            logActivity(`Yeni İçerik: ${title}`);
+            showCustomModal("Başarılı", "İçeriğiniz kütüphaneye eklendi!", "success");
             document.getElementById('content-title').value = ""; document.getElementById('content-body').value = "";
-        } catch (e) { showCustomModal("Hata", "Yayınlama sırasında bir hata oluştu."); }
+        } catch (e) { showCustomModal("Hata", "Yayınlama sırasında bir hata oluştu.", "error"); }
     };
 
     function listenToContents() {
@@ -518,15 +584,16 @@
             snap.docs.forEach(docSnap => {
                 const item = docSnap.data(); const id = docSnap.id; total++;
                 pool.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-all">
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="text-[9px] font-black uppercase px-2 py-1 bg-surface-container-high rounded-md">${item.type}</span>
-                            <span class="text-[9px] text-on-surface-variant font-black">${item.author}</span>
+                    <div class="bg-white p-6 rounded-3xl border border-outline-variant/20 shadow-lg hover:shadow-2xl transition-all group overflow-hidden relative">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-[5rem] -mr-10 -mt-10 transition-all group-hover:bg-primary/10"></div>
+                        <div class="flex justify-between items-start mb-5 relative z-10">
+                            <span class="text-[9px] font-black uppercase px-3 py-1 bg-surface-container-high rounded-full tracking-widest">${item.type}</span>
+                            <span class="text-[10px] text-on-surface-variant font-black">${item.author}</span>
                         </div>
-                        <h4 class="font-bold text-sm mb-4 truncate">${item.title}</h4>
-                        <div class="flex gap-2">
-                            <button onclick="viewContent('${id}')" class="flex-1 py-2 bg-primary/10 text-primary rounded-lg text-[10px] font-black uppercase tracking-wider">İncele</button>
-                            ${item.url ? `<a href="${item.url}" target="_blank" class="flex-1 py-2 bg-secondary text-white text-center rounded-lg text-[10px] font-black uppercase tracking-wider">Aç</a>` : ''}
+                        <h4 class="font-black text-lg mb-6 truncate text-on-surface leading-tight">${item.title}</h4>
+                        <div class="flex gap-3 relative z-10">
+                            <button onclick="viewContent('${id}')" class="flex-1 py-3 bg-primary/10 text-primary rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all">İncele</button>
+                            ${item.url ? `<a href="${item.url}" target="_blank" class="flex-1 py-3 bg-secondary text-on-secondary text-center rounded-xl text-[10px] font-black uppercase tracking-widest hover:brightness-110 shadow-lg shadow-secondary/20 transition-all">Görüntüle</a>` : ''}
                         </div>
                     </div>`;
             });
@@ -537,7 +604,7 @@
     window.viewContent = async (id) => {
         const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contents', id));
         const win = window.open("", "_blank");
-        win.document.write(`<html><head><title>Sınavım - ${snap.data().title}</title><style>body{font-family:sans-serif; padding:40px; color:#191c1a; line-height:1.6; max-width:900px; margin:auto;}</style></head><body><h1>${snap.data().title}</h1><hr/><br/><div>${snap.data().body}</div></body></html>`);
+        win.document.write(`<html><head><title>Sınavım - ${snap.data().title}</title><style>body{font-family: 'Nunito Sans', sans-serif; padding:60px; color:#191c1a; line-height:1.8; max-width:900px; margin:auto; background:#fbfdf9;} h1{font-weight:900; color:#4a7c59; font-size:3rem; letter-spacing:-0.05em;} hr{border:none; border-top:2px solid #eff2ee; margin:30px 0;} div{font-size:1.1rem;}</style></head><body><h1>${snap.data().title}</h1><hr/><div>${snap.data().body}</div></body></html>`);
     };
 
     // --- LOGLAR ---
@@ -552,11 +619,11 @@
         onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), (snap) => {
             const tbody = document.getElementById('logs-table-body');
             tbody.innerHTML = ""; let todayCount = 0; const todayStr = new Date().toLocaleDateString('tr-TR');
-            const logs = snap.docs.map(d => d.data()).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+            const logs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
             logs.forEach(log => {
                 const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date();
                 if (date.toLocaleDateString('tr-TR') === todayStr) todayCount++;
-                tbody.innerHTML += `<tr class="hover:bg-surface-container-low transition-colors"><td class="px-6 py-4 font-bold text-xs">${log.email}</td><td class="px-6 py-4 text-xs font-medium">${log.action}</td><td class="px-6 py-4 text-[10px] font-bold text-outline">${date.toLocaleString('tr-TR')}</td></tr>`;
+                tbody.innerHTML += `<tr class="hover:bg-surface-container-low transition-colors"><td class="px-8 py-5 font-bold text-xs">${log.email}</td><td class="px-8 py-5 text-xs font-medium">${log.action}</td><td class="px-8 py-5 text-[10px] font-bold text-outline uppercase tracking-wider">${date.toLocaleString('tr-TR')}</td></tr>`;
             });
             document.getElementById('stat-logins').innerText = todayCount;
         });
@@ -568,7 +635,7 @@
         const pass = document.getElementById('login-password').value;
         try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { 
             console.error(e);
-            showCustomModal("Giriş Hatası", "Hata Kodu: " + e.code + "\nLütfen bilgilerinizi ve Firebase ayarlarınızı kontrol edin."); 
+            showCustomModal("Hata", "Giriş bilgileri geçersiz. E-posta/Şifre sağlayıcısının aktif olduğundan emin olun.", "error"); 
         }
     };
 
@@ -578,13 +645,13 @@
             await signInWithPopup(auth, provider); 
         } catch (e) { 
             console.error(e);
-            let errorMsg = "Google girişi başarısız oldu.";
+            let errorMsg = "Google girişi başarısız.";
             if (e.code === 'auth/unauthorized-domain') {
-                errorMsg = "Bu alan adı (Netlify) Firebase konsolunda yetkilendirilmemiş. Lütfen Authentication > Settings > Authorized Domains kısmına sitenizi ekleyin.";
+                errorMsg = "Bu alan adı Firebase konsolunda yetkilendirilmemiş. Lütfen Authentication > Settings > Authorized Domains kısmına 'sinavim.netlify.app' adresini ekleyin.";
             } else {
-                errorMsg += " Hata Kodu: " + e.code;
+                errorMsg += " Kod: " + e.code;
             }
-            showCustomModal("Hata", errorMsg); 
+            showCustomModal("Bağlantı Hatası", errorMsg, "error"); 
         }
     };
 
@@ -592,11 +659,11 @@
         const name = document.getElementById('reg-name').value;
         const email = document.getElementById('reg-email').value;
         const pass = document.getElementById('reg-password').value;
-        if (pass.length < 6) return showCustomModal("Uyarı", "Şifre en az 6 karakter olmalıdır.");
+        if (pass.length < 6) return showCustomModal("Güvenlik", "Şifre en az 6 karakter olmalıdır.", "error");
         try {
             const res = await createUserWithEmailAndPassword(auth, email, pass);
             await updateFbProfile(res.user, { displayName: name });
-        } catch (e) { showCustomModal("Kayıt Hatası", e.message); }
+        } catch (e) { showCustomModal("Kayıt Hatası", e.message, "error"); }
     };
 
     window.handleLogout = () => { if(confirm("Oturumu kapatmak istediğinize emin misiniz?")) signOut(auth); };
@@ -609,16 +676,20 @@
         try {
             await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { displayName: name, avatar });
             userData.displayName = name; userData.avatar = avatar; updateUI();
-            showCustomModal("Başarılı", "Profiliniz güncellendi.");
-        } catch (e) { showCustomModal("Hata", "Kaydedilemedi."); }
+            showCustomModal("Başarılı", "Profiliniz güncellendi.", "success");
+        } catch (e) { showCustomModal("Hata", "Kaydedilemedi.", "error"); }
     };
 
     async function addXP(amount) {
         if(!userData) return;
-        let newXP = userData.xp + amount;
+        let newXP = (userData.xp || 0) + amount;
         let newLevel = Math.floor(newXP / 500) + 1;
         await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel });
-        userData.xp = newXP; if(newLevel > userData.level) showCustomModal("SEVİYE ATLANDI!", `Tebrikler! Yeni seviyen: ${newLevel}`);
+        userData.xp = newXP; 
+        if(newLevel > (userData.level || 1)) {
+            userData.level = newLevel;
+            showCustomModal("LEVEL ATLANDI!", `Tebrikler Sunay! Yeni seviyen: ${newLevel}`, "success");
+        }
         updateUI();
     }
 
@@ -626,9 +697,17 @@
     window.showPage = (page) => {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
         document.getElementById('page-' + page).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-bold'));
+        document.querySelectorAll('.nav-btn').forEach(b => {
+            b.classList.remove('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-black');
+            b.classList.add('text-on-surface-variant');
+        });
         const btn = document.querySelector(`.nav-btn[data-page="${page}"]`);
-        if(btn) btn.classList.add('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-bold');
+        if(btn) {
+            btn.classList.add('active', 'text-primary', 'bg-primary-container/30', 'border-r-4', 'border-primary', 'font-black');
+            btn.classList.remove('text-on-surface-variant');
+        }
+        const titleMap = { admin: 'Yönetim Paneli', pool: 'İçerik Havuzu', games: 'Laboratuvar', logs: 'Aktiviteler', settings: 'Ayarlar', help: 'Yardım' };
+        document.getElementById('page-title').innerText = titleMap[page] || 'Dashboard';
     };
 
     window.toggleAIMentor = () => document.getElementById('ai-mentor-box').classList.toggle('hidden');
