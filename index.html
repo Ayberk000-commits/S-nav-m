@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sınavım - Sınav Platformu</title>
+    <title>Sınavım - 1 Mayıs Kutlu Olsun</title>
     <!-- Sekme Logosu (Favicon) -->
     <link rel="icon" type="image/jpeg" href="image_2cd20a.jpg">
     
@@ -367,7 +367,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v3-final';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-main-v4';
     const geminiKey = ""; 
 
     let currentUser = null;
@@ -397,6 +397,7 @@
     });
 
     async function syncProfile() {
+        if(!currentUser) return;
         const statsRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats');
         let snap = await getDoc(statsRef);
         if (!snap.exists()) {
@@ -415,7 +416,10 @@
         const today = new Date().toLocaleDateString('tr-TR');
         const lastDate = userData.lastLogin ? new Date(userData.lastLogin).toLocaleDateString('tr-TR') : null;
         if (today !== lastDate) {
-            let newStreak = (lastDate === new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString('tr-TR')) ? userData.streak + 1 : 1;
+            let yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            let newStreak = (lastDate === yesterday.toLocaleDateString('tr-TR')) ? userData.streak + 1 : 1;
+            
             await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), {
                 streak: newStreak, lastLogin: new Date().toISOString()
             });
@@ -548,7 +552,7 @@
         onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), (snap) => {
             const tbody = document.getElementById('logs-table-body');
             tbody.innerHTML = ""; let todayCount = 0; const todayStr = new Date().toLocaleDateString('tr-TR');
-            const logs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+            const logs = snap.docs.map(d => d.data()).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
             logs.forEach(log => {
                 const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date();
                 if (date.toLocaleDateString('tr-TR') === todayStr) todayCount++;
@@ -562,12 +566,26 @@
     window.handleLogin = async () => {
         const email = document.getElementById('login-email').value;
         const pass = document.getElementById('login-password').value;
-        try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { showCustomModal("Hata", "Lütfen bilgilerinizi ve Firebase (Email/Password) ayarlarını kontrol edin."); }
+        try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { 
+            console.error(e);
+            showCustomModal("Giriş Hatası", "Hata Kodu: " + e.code + "\nLütfen bilgilerinizi ve Firebase ayarlarınızı kontrol edin."); 
+        }
     };
 
     window.handleGoogleLogin = async () => {
         const provider = new GoogleAuthProvider();
-        try { await signInWithPopup(auth, provider); } catch (e) { showCustomModal("Hata", "Google girişi başarısız oldu. Konsol ayarlarınızı kontrol edin."); }
+        try { 
+            await signInWithPopup(auth, provider); 
+        } catch (e) { 
+            console.error(e);
+            let errorMsg = "Google girişi başarısız oldu.";
+            if (e.code === 'auth/unauthorized-domain') {
+                errorMsg = "Bu alan adı (Netlify) Firebase konsolunda yetkilendirilmemiş. Lütfen Authentication > Settings > Authorized Domains kısmına sitenizi ekleyin.";
+            } else {
+                errorMsg += " Hata Kodu: " + e.code;
+            }
+            showCustomModal("Hata", errorMsg); 
+        }
     };
 
     window.handleRegister = async () => {
