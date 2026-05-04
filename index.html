@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sınavım - Akademi Platformu</title>
+    <title>Sınavım - Akademi Merkezi</title>
+    <!-- Sekme Logosu -->
     <link rel="icon" type="image/jpeg" href="image_2cd20a.jpg">
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -19,25 +20,13 @@
                         "primary": "#4a7c59",
                         "on-primary": "#ffffff",
                         "primary-container": "#cce8d4",
-                        "on-primary-container": "#082110",
                         "secondary": "#a67c52",
                         "on-secondary": "#ffffff",
                         "secondary-container": "#f4dcc2",
-                        "on-secondary-container": "#2a1b0d",
                         "tertiary": "#6b7a63",
                         "background": "#f8faf7",
-                        "on-background": "#191c1a",
                         "surface": "#ffffff",
-                        "on-surface": "#191c1a",
-                        "surface-variant": "#dbe5dd",
-                        "on-surface-variant": "#404943",
                         "outline": "#707973",
-                        "outline-variant": "#bfc9c1",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-low": "#f5f8f4",
-                        "surface-container": "#eff2ee",
-                        "surface-container-high": "#e9ece8",
-                        "surface-container-highest": "#e3e6e2",
                         "error": "#ba1a1a",
                     }
                 }
@@ -46,84 +35,107 @@
     </script>
 
     <style>
-        body { font-family: 'Nunito Sans', sans-serif; scroll-behavior: smooth; }
+        body { font-family: 'Nunito Sans', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
         .page-section { display: none; }
         .page-section.active { display: block; animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         .xp-progress-bar { transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .spinner { border: 3px solid rgba(0,0,0,0.1); border-top-color: #4a7c59; border-radius: 50%; width: 24px; height: 24px; animation: spin 0.8s linear infinite; }
+        .spinner { border: 2px solid rgba(0,0,0,0.1); border-top-color: #4a7c59; border-radius: 50%; width: 24px; height: 24px; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* Premium AI Mentor Drawer UI */
         #ai-mentor-drawer {
             transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.1);
         }
         #ai-mentor-drawer.open { transform: translateX(0); }
         
-        .nav-btn { transition: all 0.2s; border-radius: 1rem; border-right: 4px solid transparent; }
-        .nav-btn:hover { background: rgba(74, 124, 89, 0.05); color: #4a7c59; }
-        .nav-btn.active { background: white; border-right: 4px solid #4a7c59; color: #4a7c59; box-shadow: 10px 0 30px rgba(0,0,0,0.02); }
-        
-        .profile-card { background: linear-gradient(180deg, #ffffff 0%, #fcfdfc 100%); box-shadow: 0 40px 100px -20px rgba(74, 124, 89, 0.08); }
-        
+        /* Game Runner UI */
+        #game-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; flex-direction: column; }
+        #game-overlay.active { display: flex; }
+
+        .nav-btn { transition: all 0.3s ease; border-right: 4px solid transparent; }
+        .nav-btn:hover { background: rgba(74, 124, 89, 0.05); }
+        .nav-btn.active { background: #fbfdf9; border-right: 4px solid #4a7c59; box-shadow: 10px 0 30px rgba(74, 124, 89, 0.05); }
+
         #custom-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); z-index: 9000; align-items: center; justify-content: center; }
+        .avatar-glow { box-shadow: 0 15px 35px rgba(74, 124, 89, 0.15); }
         
-        /* Song Card Animation */
-        @keyframes musicWave {
-            0%, 100% { height: 10px; }
-            50% { height: 20px; }
-        }
-        .music-bar { width: 3px; background: white; animation: musicWave 1s ease-in-out infinite; }
-        .music-bar:nth-child(2) { animation-delay: 0.2s; }
-        .music-bar:nth-child(3) { animation-delay: 0.4s; }
+        .drop-area { border: 2px dashed #bfc9c1; transition: all 0.3s; }
+        .drop-area.active { border-color: #4a7c59; background: #cce8d4; }
     </style>
 </head>
-<body class="bg-[#f8faf7] text-on-surface antialiased min-h-screen selection:bg-primary-container">
+<body class="bg-background text-[#191c1a] antialiased min-h-screen selection:bg-primary-container">
 
-<!-- Global Custom Modal -->
-<div id="custom-modal-overlay">
-    <div class="bg-white rounded-[2.5rem] p-10 max-w-sm w-full mx-4 shadow-2xl border border-outline-variant/20 text-center">
-        <div id="modal-icon-container" class="mb-6 flex justify-center text-primary">
-            <span class="material-symbols-outlined text-7xl">info</span>
-        </div>
-        <h3 id="modal-title-text" class="text-2xl font-black mb-2 tracking-tighter uppercase">Bilgi</h3>
-        <p id="modal-body-text" class="text-sm text-on-surface-variant mb-10 font-bold leading-relaxed">...</p>
-        <button onclick="closeCustomModal()" class="w-full py-4 bg-primary text-on-primary rounded-2xl font-black text-xs tracking-widest uppercase hover:brightness-110 transition-all">Anladım</button>
+<!-- GAME STAGE OVERLAY (İçerik/Oyun Burada Çalışacak) -->
+<div id="game-overlay" class="p-4">
+    <div class="flex justify-between items-center mb-4 px-6">
+        <h3 id="game-stage-title" class="text-white font-black text-xl uppercase tracking-tighter">Oyun Sahnesi</h3>
+        <button onclick="closeGameStage()" class="w-12 h-12 rounded-full bg-white/10 text-white hover:bg-red-500 transition-all flex items-center justify-center">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div class="flex-1 bg-white rounded-3xl overflow-hidden shadow-2xl relative">
+        <iframe id="game-iframe" class="w-full h-full border-none" src="about:blank"></iframe>
     </div>
 </div>
 
-<!-- Auth Screen -->
-<div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-surface relative overflow-hidden" id="auth-screen">
+<!-- Global Custom Modal -->
+<div id="custom-modal-overlay">
+    <div class="bg-white rounded-[2.5rem] p-12 max-w-sm w-full mx-4 shadow-2xl border border-outline-variant/30 text-center">
+        <div id="modal-icon-container" class="mb-6 flex justify-center">
+            <span class="material-symbols-outlined text-8xl text-primary">verified_user</span>
+        </div>
+        <h3 id="modal-title-text" class="text-3xl font-black text-primary mb-3 tracking-tighter uppercase">Bilgi</h3>
+        <p id="modal-body-text" class="text-sm text-[#404943] mb-10 leading-relaxed font-bold uppercase tracking-tighter">...</p>
+        <button onclick="closeCustomModal()" class="w-full py-5 bg-primary text-on-primary rounded-2xl font-black text-xs tracking-[0.2em] hover:brightness-110 active:scale-95 transition-all shadow-xl uppercase">Anladım</button>
+    </div>
+</div>
+
+<!-- Auth Section -->
+<div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-white relative overflow-hidden" id="auth-screen">
+    <div class="absolute top-[-30%] left-[-10%] w-[70%] h-[70%] bg-primary-container/20 blur-[150px] rounded-full pointer-events-none animate-pulse"></div>
+    <div class="absolute bottom-[-20%] right-[-5%] w-[60%] h-[60%] bg-secondary-container/10 blur-[150px] rounded-full pointer-events-none animate-pulse"></div>
+    
     <div class="max-w-4xl w-full flex flex-col items-center relative z-10">
-        <div class="mb-12 text-center">
-            <img alt="Logo" class="w-32 h-32 object-contain rounded-full shadow-2xl mb-4 mx-auto bg-white p-2 border-2 border-primary/10" src="image_2cd20a.jpg"/>
-            <h1 class="text-4xl font-black text-primary tracking-tighter uppercase">Sınavım</h1>
-            <p class="text-on-surface-variant font-bold uppercase tracking-[0.2em] text-[10px]">Academic Edge Platform</p>
+        <div class="mb-14 text-center">
+            <img alt="Sınavım Logo" class="w-44 h-44 md:w-56 md:h-56 object-contain rounded-full shadow-2xl mb-6 mx-auto bg-white p-4 border-4 border-primary/10" src="image_2cd20a.jpg"/>
+            <h1 class="text-5xl font-black text-primary tracking-tighter mb-1 uppercase leading-none">Sınavım</h1>
+            <p class="text-[#404943] font-black uppercase tracking-[0.4em] text-[9px] opacity-70">Türkiye'nin Ders Çalışma ve Sınav Yeri</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-[3rem] shadow-2xl border border-outline-variant/10 w-full overflow-hidden">
-            <div class="p-10 md:p-14 flex flex-col gap-10">
-                <h3 class="text-2xl font-black text-primary tracking-tight">Giriş Yap</h3>
-                <div class="space-y-4">
-                    <input class="w-full rounded-2xl border border-outline-variant/40 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-primary/5 transition-all" id="login-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-2xl border border-outline-variant/40 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-primary/5 transition-all" id="login-password" placeholder="Şifre" type="password"/>
-                    <button class="w-full py-4 bg-primary text-on-primary rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-primary/20 active:scale-95 transition-all" onclick="handleLogin()">Sisteme Gir</button>
-                    <button class="w-full py-4 bg-white border border-outline-variant/30 text-on-surface rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all" onclick="handleGoogleLogin()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-white shadow-2xl rounded-[3.5rem] overflow-hidden border border-outline-variant/10 w-full">
+            <!-- Login -->
+            <div class="p-12 md:p-16 flex flex-col gap-10">
+                <div class="space-y-1">
+                    <h3 class="text-3xl font-black text-primary tracking-tight">Giriş Yap</h3>
+                    <p class="text-[10px] text-[#404943] font-black uppercase tracking-widest">Kaldığın yerden devam et.</p>
+                </div>
+                <div class="space-y-5">
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white p-4 text-sm focus:ring-8 focus:ring-primary/5 outline-none transition-all font-bold" id="login-email" placeholder="E-posta" type="email"/>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white p-4 text-sm focus:ring-8 focus:ring-primary/5 outline-none transition-all font-bold" id="login-password" placeholder="Şifre" type="password"/>
+                    <button class="w-full py-5 bg-primary text-on-primary rounded-3xl font-black uppercase text-[11px] tracking-[0.2em] shadow-2xl shadow-primary/30 active:scale-95 transition-all" onclick="handleLogin()">Giriş Yap</button>
+                    <button class="w-full py-4.5 bg-white border border-outline-variant/40 text-on-surface rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-surface-container-low transition-all" onclick="handleGoogleLogin()">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
                         Google Giriş
                     </button>
                 </div>
             </div>
-            <div class="p-10 md:p-14 bg-primary/5 border-l border-outline-variant/10 flex flex-col gap-8">
-                <h3 class="text-2xl font-black text-secondary tracking-tight">Kayıt Ol</h3>
-                <div class="space-y-4">
-                    <input class="w-full rounded-2xl border border-outline-variant/40 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/5 transition-all" id="reg-name" placeholder="Ad Soyad" type="text"/>
-                    <input class="w-full rounded-2xl border border-outline-variant/40 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/5 transition-all" id="reg-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-2xl border border-outline-variant/40 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/5 transition-all" id="reg-password" placeholder="Şifre" type="password"/>
-                    <div class="grid grid-cols-2 gap-3 mt-2">
+            <!-- Register -->
+            <div class="p-12 md:p-16 bg-primary/5 border-l border-outline-variant/10 flex flex-col gap-8">
+                <div class="space-y-1">
+                    <h3 class="text-3xl font-black text-secondary tracking-tight">Kayıt Ol</h3>
+                    <p class="text-[10px] text-[#404943] font-black uppercase tracking-widest">Sınavım ailesine katıl!</p>
+                </div>
+                <div class="space-y-5">
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white p-4 text-sm focus:ring-8 focus:ring-secondary/5 outline-none transition-all font-bold" id="reg-name" placeholder="Ad Soyad" type="text"/>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white p-4 text-sm focus:ring-8 focus:ring-secondary/5 outline-none transition-all font-bold" id="reg-email" placeholder="E-posta" type="email"/>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white p-4 text-sm focus:ring-8 focus:ring-secondary/5 outline-none transition-all font-bold" id="reg-password" placeholder="Şifre" type="password"/>
+                    <div class="grid grid-cols-2 gap-3">
                         <label class="cursor-pointer border-2 border-outline-variant/10 rounded-2xl p-3 flex items-center justify-center gap-2 has-[:checked]:border-secondary has-[:checked]:bg-white bg-white/50 transition-all">
                             <input type="radio" name="reg-role" value="student" class="hidden" checked>
                             <span class="text-[10px] font-black uppercase">Öğrenci</span>
@@ -133,103 +145,101 @@
                             <span class="text-[10px] font-black uppercase">Öğretmen</span>
                         </label>
                     </div>
-                    <button class="w-full py-4 bg-secondary text-on-secondary rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-secondary/20 active:scale-95 transition-all" onclick="handleRegister()">Hesabı Aç</button>
+                    <button class="w-full py-5 bg-secondary text-on-secondary rounded-3xl font-black uppercase text-[11px] tracking-[0.2em] shadow-xl shadow-secondary/30 active:scale-95 transition-all" onclick="handleRegister()">Hesabı Aç</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- App Dashboard -->
+<!-- Main App -->
 <div class="hidden w-full flex" id="main-dashboard">
     <!-- Sidebar -->
-    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-[#fdfdfc] z-[100] border-r border-outline-variant/5 shadow-sm">
-        <div class="flex flex-col h-full p-8 space-y-10">
-            <!-- Brand -->
+    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-white shadow-2xl z-[100] border-r border-outline-variant/5">
+        <div class="flex flex-col h-full p-8 space-y-8">
             <div class="flex items-center gap-4">
-                <img alt="Logo" class="h-14 w-14 object-contain rounded-full bg-white p-1 border border-primary/5" src="image_2cd20a.jpg"/>
+                <img alt="Logo" class="h-14 w-14 object-contain rounded-full border border-primary/10 p-1" src="image_2cd20a.jpg"/>
                 <div>
                     <h1 class="text-xl font-black text-primary tracking-tighter uppercase leading-none">Sınavım</h1>
-                    <p class="text-[9px] text-on-surface-variant font-bold uppercase tracking-[0.2em] mt-1 opacity-60">The Academic Edge</p>
+                    <p class="text-[9px] text-[#404943] font-bold uppercase tracking-[0.2em] mt-1 opacity-60">The Academic Edge</p>
                 </div>
             </div>
 
-            <!-- Dashboard Level Card -->
-            <div class="bg-white p-6 rounded-[2.5rem] border border-outline-variant/10 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.03)] space-y-6">
-                <div class="flex justify-between items-center px-1">
-                    <span class="text-[10px] font-black text-primary px-3 py-1.5 bg-primary-container rounded-xl uppercase tracking-widest shadow-sm">Level <span id="user-level">1</span></span>
-                    <div class="flex items-center gap-1.5 text-secondary font-black text-[11px] uppercase tracking-tighter">
-                        <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-                        <span id="user-streak">1</span> GÜN SERİ
+            <!-- Stats Sidebar -->
+            <div class="bg-surface-container-low p-6 rounded-[2.5rem] border border-outline-variant/10 space-y-5 shadow-inner">
+                <div class="flex justify-between items-center">
+                    <span class="text-[9px] font-black text-primary px-3 py-1.5 bg-white rounded-xl uppercase tracking-widest shadow-sm">Level <span id="user-level">1</span></span>
+                    <div class="flex items-center gap-1.5 text-secondary font-black text-[9px] uppercase tracking-tighter">
+                        <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                        <span id="user-streak">1</span> GÜN
                     </div>
                 </div>
-                <div class="space-y-3">
-                    <div class="w-full bg-[#f5f8f4] h-2.5 rounded-full overflow-hidden">
-                        <div id="xp-bar" class="xp-progress-bar h-full bg-primary rounded-full w-0"></div>
+                <div class="space-y-2">
+                    <div class="w-full bg-white h-2 rounded-full overflow-hidden">
+                        <div id="xp-bar" class="xp-progress-bar h-full bg-gradient-to-r from-primary to-[#6b7a63] rounded-full w-0"></div>
                     </div>
-                    <div class="flex justify-between px-1 text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-50">
+                    <div class="flex justify-between text-[8px] font-black text-[#404943] uppercase tracking-widest opacity-60">
                         <span><span id="user-xp">0</span> XP</span>
                         <span>500 XP</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Nav List -->
-            <div class="flex-1 space-y-1 flex flex-col font-['Nunito_Sans']">
+            <div class="flex-1 space-y-1.5 flex flex-col">
                 <button id="nav-admin" onclick="showPage('admin')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="admin">
-                    <span class="material-symbols-outlined text-[24px]">grid_view</span>
-                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Yönetim</span>
+                    <span class="material-symbols-outlined text-[24px]">dashboard</span>
+                    <span class="font-black text-[13px] uppercase tracking-widest">Yönetim</span>
                 </button>
                 <button onclick="showPage('pool')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="pool">
                     <span class="material-symbols-outlined text-[24px]">school</span>
-                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Havuz</span>
+                    <span class="font-black text-[13px] uppercase tracking-widest">Havuz</span>
                 </button>
                 <button onclick="showPage('games')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="games">
                     <span class="material-symbols-outlined text-[24px]">videogame_asset</span>
-                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Oyun Merkezi</span>
+                    <span class="font-black text-[13px] uppercase tracking-widest">Oyun Merkezi</span>
                 </button>
                 <button onclick="showPage('settings')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="settings">
                     <span class="material-symbols-outlined text-[24px]">person</span>
-                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Profil</span>
+                    <span class="font-black text-[13px] uppercase tracking-widest">Profil</span>
                 </button>
                 <button id="nav-logs" onclick="showPage('logs')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="logs">
                     <span class="material-symbols-outlined text-[24px]">history_edu</span>
-                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Kayıtlar</span>
+                    <span class="font-black text-[13px] uppercase tracking-widest">Kayıtlar</span>
                 </button>
                 <button onclick="showPage('help')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="help">
                     <span class="material-symbols-outlined text-[24px]">help_center</span>
-                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Destek</span>
+                    <span class="font-black text-[13px] uppercase tracking-widest">Destek</span>
                 </button>
             </div>
 
-            <!-- Mini Profil Card -->
+            <!-- Sidebar User Mini Card -->
             <div class="mt-auto p-4 bg-surface-container-low rounded-[2rem] flex items-center justify-between border border-outline-variant/10">
                 <div class="flex items-center gap-3 overflow-hidden">
                     <div class="relative shrink-0">
                         <img id="user-avatar-mini" src="" class="w-12 h-12 rounded-full border-2 border-primary/20 bg-white object-cover" />
                         <span id="side-level-tag" class="absolute -bottom-1 -right-1 bg-primary text-white text-[8px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">1</span>
                     </div>
-                    <div class="flex flex-col truncate">
-                        <span class="text-[13px] font-black text-on-surface truncate tracking-tighter" id="user-name-mini">Yükleniyor...</span>
-                        <span id="side-xp-mini" class="text-[10px] font-black text-secondary tracking-widest uppercase">0 XP</span>
+                    <div class="flex flex-col truncate uppercase tracking-tighter">
+                        <span class="text-xs font-black text-on-surface truncate" id="user-name-mini">...</span>
+                        <span id="side-xp-mini" class="text-[9px] font-black text-secondary tracking-widest">0 XP</span>
                     </div>
                 </div>
-                <button class="text-on-surface-variant hover:text-error transition-all p-2 rounded-xl" onclick="handleLogout()">
+                <button class="text-[#404943] hover:text-error transition-all p-2 rounded-xl" onclick="handleLogout()">
                     <span class="material-symbols-outlined text-[22px]">logout</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="flex-1 ml-72 flex flex-col min-h-screen bg-[#f8faf7] relative">
-        <header class="flex justify-between items-center w-full px-12 py-8 bg-transparent">
+    <!-- Main Content Area -->
+    <div class="flex-1 ml-72 flex flex-col min-h-screen bg-[#f8faf7]">
+        <header class="flex justify-between items-center w-full px-12 py-8 sticky top-0 z-40 bg-[#f8faf7]/80 backdrop-blur-xl">
             <h2 id="page-title" class="text-3xl font-black text-primary tracking-tighter uppercase">Panel</h2>
             <div class="flex items-center gap-6">
-                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-black text-primary bg-white px-4 py-2 rounded-full border border-primary/10 tracking-[0.2em] shadow-sm uppercase">
-                    <span class="material-symbols-outlined text-[18px] animate-spin">auto_awesome</span> Gemini AI
+                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-black text-primary bg-white px-4 py-2 rounded-full border border-primary/10 tracking-[0.2em] shadow-sm uppercase animate-pulse">
+                    <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Gemini AI
                 </div>
-                <button onclick="toggleAIMentor()" class="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary/20 hover:brightness-110 transition-all active:scale-95">
+                <button onclick="toggleAIMentor()" class="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">
                     <span class="material-symbols-outlined text-[22px]">smart_toy</span> Mentor
                 </button>
             </div>
@@ -238,30 +248,10 @@
         <main class="flex-1 px-12 pb-12">
             <!-- PAGE: ADMIN -->
             <section id="page-admin" class="page-section active space-y-12">
-                
-                <!-- 🎵 NEW SONG ANNOUNCEMENT CARD -->
-                <div onclick="window.open('https://www.flowmusic.app/song/ba912096-94e6-401d-b2b1-49d7d7323884', '_blank')" class="cursor-pointer bg-gradient-to-r from-secondary via-[#bf916d] to-secondary p-8 rounded-[2.5rem] shadow-xl shadow-secondary/20 flex items-center justify-between group overflow-hidden relative border border-white/20 transition-all hover:scale-[1.01] hover:brightness-105">
-                    <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity"></div>
-                    <div class="flex items-center gap-8 relative z-10">
-                        <div class="w-16 h-16 rounded-[1.5rem] bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-lg">
-                            <span class="material-symbols-outlined text-white text-3xl font-bold group-hover:scale-110 transition-transform">play_arrow</span>
-                        </div>
-                        <div class="space-y-1">
-                            <h3 class="text-2xl font-black text-white tracking-tighter uppercase leading-none">Sitemizin ilk şarkısı çıktı</h3>
-                            <p class="text-white/80 font-bold uppercase tracking-[0.3em] text-[10px]">Flowmusic Özel Yayını</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-1 relative z-10 mr-4 opacity-70">
-                        <div class="music-bar"></div>
-                        <div class="music-bar"></div>
-                        <div class="music-bar"></div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-[3rem] p-12 border border-outline-variant/10 shadow-xl space-y-12">
+                <div class="bg-white rounded-[3rem] p-12 border border-outline-variant/10 shadow-2xl space-y-12">
                     <div class="space-y-2">
                         <h2 class="text-5xl font-black tracking-tighter uppercase text-primary">İçerik Stüdyosu</h2>
-                        <p class="text-on-surface-variant font-black uppercase tracking-[0.3em] text-[11px] opacity-60">Derslerinizi interaktif hale getirin</p>
+                        <p class="text-[#404943] font-black uppercase tracking-[0.3em] text-[11px] opacity-60">Öğretmenler için Tasarım Paneli</p>
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-10">
@@ -271,29 +261,47 @@
                                 <button onclick="setContentType('video')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest" id="type-video">VİDEO</button>
                                 <button onclick="setContentType('doc')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest" id="type-doc">DÖKÜMAN</button>
                                 <button onclick="setContentType('game')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest" id="type-game">OYUN</button>
+                                <button onclick="setContentType('wordwall')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest" id="type-wordwall">WORDWALL</button>
                             </div>
 
                             <div class="space-y-6">
                                 <div class="space-y-2">
-                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">İçerik Başlığı</label>
-                                    <input id="content-title" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm font-black outline-none focus:ring-[15px] focus:ring-primary/5 transition-all" placeholder="Örn: 2024 Deneme Sınavı #1"/>
+                                    <label class="text-[11px] font-black text-[#404943] uppercase ml-3 tracking-[0.3em]">İçerik Başlığı</label>
+                                    <input id="content-title" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm font-black outline-none focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Başlık girin..."/>
                                 </div>
                                 
-                                <button onclick="generateAIContent()" class="w-full py-6 rounded-3xl bg-white border-2 border-primary/20 text-primary font-black text-xs tracking-widest flex items-center justify-center gap-4 hover:bg-primary/5 active:scale-95 transition-all uppercase">
+                                <button onclick="generateAIContent()" class="w-full py-6 rounded-3xl bg-white border-2 border-primary/20 text-primary font-black text-xs tracking-widest flex items-center justify-center gap-4 hover:bg-primary/5 active:scale-95 transition-all shadow-2xl uppercase">
                                     <span class="material-symbols-outlined text-[28px]">auto_awesome</span> ✨ GEMINI AI İLE TASLAK OLUŞTUR
                                 </button>
 
+                                <!-- Kaynak Linki (Video, Doc, Wordwall) -->
                                 <div id="url-field" class="hidden space-y-3">
-                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">Kaynak Linki</label>
-                                    <input id="content-url" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm outline-none font-bold" placeholder="https://..."/>
+                                    <label id="url-label" class="text-[11px] font-black text-[#404943] uppercase ml-3 tracking-[0.3em]">Kaynak Linki</label>
+                                    <input id="content-url" class="w-full bg-surface-container-low border-none rounded-[2rem] p-6 text-sm outline-none focus:ring-8 focus:ring-primary/5 font-bold shadow-inner" placeholder="https://..."/>
                                 </div>
 
-                                <div id="code-field" class="block space-y-3">
-                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">İçerik veya HTML Kodu</label>
-                                    <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-[2.5rem] p-8 text-sm min-h-[400px] outline-none font-mono focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Yazı içeriği veya oyun kodunu buraya girin..."></textarea>
+                                <!-- Dosya Yükleme (Sınav, Döküman, HTML Oyun) -->
+                                <div id="file-field" class="space-y-3">
+                                    <label class="text-[11px] font-black text-[#404943] uppercase ml-3 tracking-[0.3em]">Dosya Yükle (PDF, DOCX, HTML)</label>
+                                    <div id="dropzone" class="drop-area h-48 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-primary/5 group" onclick="document.getElementById('file-upload').click()">
+                                        <div class="w-16 h-16 rounded-full bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                                            <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <p id="file-name-display" class="text-sm font-black text-[#404943] uppercase tracking-tighter uppercase">Dosya Seç veya Sürükle</p>
+                                            <p class="text-[10px] font-bold text-outline uppercase tracking-widest">Max: 1MB</p>
+                                        </div>
+                                        <input type="file" id="file-upload" class="hidden" onchange="handleFileUpload(this)"/>
+                                    </div>
                                 </div>
 
-                                <button onclick="publishContent()" class="w-full py-8 bg-secondary text-on-secondary rounded-[2.5rem] font-black text-sm shadow-2xl hover:-translate-y-2 active:scale-95 transition-all flex items-center justify-center gap-5 uppercase tracking-[0.3em]">
+                                <!-- HTML Kodu (Sadece Oyun ve Döküman Metni için) -->
+                                <div id="code-field" class="hidden space-y-3">
+                                    <label class="text-[11px] font-black text-[#404943] uppercase ml-3 tracking-[0.3em]">İçerik Metni / Manuel HTML</label>
+                                    <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-[2.5rem] p-8 text-sm min-h-[400px] outline-none font-mono focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Buraya yazın..."></textarea>
+                                </div>
+
+                                <button onclick="publishContent()" class="w-full py-8 bg-[#a67c52] text-white rounded-[2.5rem] font-black text-sm shadow-2xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-5 uppercase tracking-[0.3em]">
                                     Hemen Yayınla <span class="material-symbols-outlined text-3xl font-bold">rocket_launch</span>
                                 </button>
                             </div>
@@ -303,12 +311,12 @@
                             <div class="p-10 bg-surface-container-low rounded-[3rem] border border-outline-variant/10 text-center shadow-inner">
                                 <h3 class="font-black text-[11px] mb-12 text-primary uppercase tracking-[0.4em] border-b border-outline-variant/10 pb-6 uppercase tracking-widest">Sistem İstatistikleri</h3>
                                 <div class="grid grid-cols-2 gap-8">
-                                    <div class="space-y-2">
-                                        <p class="text-[10px] font-black text-on-surface-variant uppercase opacity-60">İçerik Havuzu</p>
+                                    <div class="space-y-2 text-center">
+                                        <p class="text-[10px] font-black text-[#404943] uppercase opacity-60">Havuz</p>
                                         <p id="stat-total" class="text-6xl font-black text-primary tracking-tighter">0</p>
                                     </div>
-                                    <div class="space-y-2">
-                                        <p class="text-[10px] font-black text-on-surface-variant uppercase opacity-60">Girişler</p>
+                                    <div class="space-y-2 text-center">
+                                        <p class="text-[10px] font-black text-[#404943] uppercase opacity-60">Girişler</p>
                                         <p id="stat-logins" class="text-6xl font-black text-secondary tracking-tighter">0</p>
                                     </div>
                                 </div>
@@ -321,76 +329,20 @@
             <!-- PAGE: POOL -->
             <section id="page-pool" class="page-section">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-10 mb-16 px-4">
-                    <h2 class="text-6xl font-black text-primary tracking-tighter uppercase">İçerik Havuzu</h2>
+                    <h2 class="text-6xl font-black text-primary tracking-tighter uppercase leading-none">İçerik Havuzu</h2>
                     <div class="relative max-w-lg w-full">
-                        <span class="material-symbols-outlined absolute left-8 top-1/2 -translate-y-1/2 text-on-surface-variant text-3xl">search</span>
-                        <input id="pool-search" class="pl-20 pr-10 py-6 bg-white shadow-xl rounded-[2.5rem] border border-outline-variant/10 text-sm w-full outline-none focus:ring-[15px] focus:ring-primary/5 transition-all font-black" placeholder="Havuzda ara..." />
+                        <span class="material-symbols-outlined absolute left-8 top-1/2 -translate-y-1/2 text-[#404943] text-3xl">search</span>
+                        <input id="pool-search" class="pl-20 pr-10 py-6 bg-white shadow-xl rounded-[2.5rem] border border-outline-variant/10 text-sm w-full outline-none focus:ring-8 focus:ring-primary/5 transition-all font-black" placeholder="Havuzda ara..." />
                     </div>
                 </div>
-                
-                <!-- 🎵 POOL SONG ANNOUNCEMENT (FOR EVERYONE) -->
-                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                     <!-- This container will be filled dynamically, but let's make sure the script adds the song first or we manually keep a spot -->
-                </div>
+                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
             </section>
 
-            <!-- PAGE: SETTINGS -->
-            <section id="page-settings" class="page-section">
-                <div class="max-w-6xl mx-auto space-y-10">
-                    <h2 class="text-5xl font-black text-primary tracking-tighter uppercase tracking-wide">Profil</h2>
-                    
-                    <div class="bg-white p-20 rounded-[4rem] border border-outline-variant/5 shadow-[0_60px_150px_-30px_rgba(74,124,89,0.12)] relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#f8faf7] rounded-bl-[15rem] -mr-40 -mt-40 z-0"></div>
-                        
-                        <div class="relative z-10 space-y-20">
-                            <h3 class="text-6xl font-black text-primary tracking-tighter uppercase leading-none">Profil Yönetimi</h3>
-                            
-                            <div class="flex flex-col items-center text-center">
-                                <div class="relative mb-12">
-                                    <div class="w-64 h-64 rounded-[3.5rem] border-[12px] border-primary-container bg-white shadow-2xl overflow-hidden avatar-glow transition-all duration-700 hover:scale-105">
-                                        <img id="settings-avatar-preview" src="" class="w-full h-full object-cover" />
-                                    </div>
-                                    <label for="avatar-upload" class="absolute -bottom-6 -right-6 bg-primary text-white p-6 rounded-[2.5rem] shadow-2xl border-[8px] border-white cursor-pointer hover:scale-110 active:scale-90 transition-all flex items-center justify-center">
-                                        <span class="material-symbols-outlined text-4xl">photo_camera</span>
-                                        <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleUserPhotoUpload(this)" />
-                                    </label>
-                                </div>
-                                
-                                <div class="space-y-4">
-                                    <h3 id="card-name-display" class="text-7xl font-black text-on-surface tracking-tighter uppercase leading-none">...</h3>
-                                    <div class="inline-flex items-center gap-4 px-10 py-4 bg-secondary/5 text-secondary rounded-full border border-secondary/10">
-                                        <span id="card-role-display" class="text-sm font-black uppercase tracking-[0.5em]">LEVEL 1 AKADEMİSYEN</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="w-full max-w-lg space-y-6 mt-16">
-                                    <div class="flex justify-between items-center text-[13px] font-black text-on-surface-variant uppercase tracking-[0.4em] px-2">
-                                        <span>Gelişim İlerlemesi</span>
-                                        <span id="card-xp-text" class="text-primary">0 / 500 XP</span>
-                                    </div>
-                                    <div class="w-full bg-[#eff2ee] h-5 rounded-[2.5rem] overflow-hidden p-1.5 shadow-inner">
-                                        <div id="card-xp-bar" class="xp-progress-bar h-full bg-gradient-to-r from-primary via-[#6b7a63] to-primary-container rounded-full"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="max-w-xl mx-auto space-y-10">
-                                <div class="space-y-4">
-                                    <label class="text-[13px] font-black text-on-surface-variant uppercase ml-6 tracking-[0.4em] opacity-60">Görünen İsim</label>
-                                    <input id="set-name" class="w-full bg-[#f8faf7] rounded-[2.5rem] border-none p-8 text-lg font-black outline-none focus:ring-[20px] focus:ring-primary/5 transition-all shadow-inner" placeholder="İsminiz..." />
-                                </div>
-                                <button onclick="updateProfile()" class="w-full py-10 bg-primary text-on-primary rounded-[3rem] font-black shadow-[0_30px_60px_-10px_rgba(74,124,89,0.3)] hover:brightness-110 active:scale-95 transition-all uppercase tracking-[0.5em] text-sm">Ayarları Kaydet ve Güncelle</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- OYUNLAR, KAYITLAR, DESTEK SECTIONS -->
+            <!-- PAGE: GAMES -->
             <section id="page-games" class="page-section">
-                <div class="bg-gradient-to-r from-secondary to-secondary-container p-16 rounded-[4rem] mb-16 relative overflow-hidden shadow-2xl">
-                    <div class="relative z-10 text-on-secondary-container space-y-4">
-                        <h2 class="text-6xl font-black tracking-tighter uppercase leading-none">Oyun Merkezi</h2>
+                <div class="bg-gradient-to-r from-[#a67c52] to-[#f4dcc2] p-20 rounded-[4rem] mb-16 relative overflow-hidden shadow-2xl">
+                    <div class="relative z-10 text-white space-y-4">
+                        <h2 class="text-7xl font-black tracking-tighter uppercase leading-none">Oyun Sahnesi</h2>
                         <p class="font-black uppercase tracking-[0.5em] text-[13px] opacity-80 uppercase tracking-widest">Eğlenceli dersler, devasa XP ödülleri!</p>
                     </div>
                 </div>
@@ -398,12 +350,59 @@
                 <div id="no-games-msg" class="hidden flex flex-col items-center justify-center p-32 bg-white rounded-[4rem] border-8 border-dashed border-outline-variant/10 text-center uppercase tracking-widest font-black opacity-40 uppercase tracking-[0.3em]">Henüz Oyun Yok</div>
             </section>
 
+            <!-- PAGE: SETTINGS (image_226180 match) -->
+            <section id="page-settings" class="page-section">
+                <div class="max-w-6xl mx-auto space-y-10">
+                    <h2 class="text-5xl font-black text-primary tracking-tighter uppercase tracking-wide">Profil</h2>
+                    <div class="bg-white p-20 rounded-[4rem] border border-outline-variant/5 shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#f8faf7] rounded-bl-[15rem] -mr-40 -mt-40 z-0"></div>
+                        <div class="relative z-10 space-y-20">
+                            <h3 class="text-6xl font-black text-primary tracking-tighter uppercase leading-none text-center md:text-left">Profil Yönetimi</h3>
+                            <div class="flex flex-col items-center text-center">
+                                <div class="relative mb-12">
+                                    <div class="w-64 h-64 rounded-[3.5rem] border-[12px] border-primary-container bg-white shadow-2xl overflow-hidden avatar-glow transition-all duration-700 hover:scale-105">
+                                        <img id="settings-avatar-preview" src="" class="w-full h-full object-cover" />
+                                    </div>
+                                    <label for="avatar-upload" class="absolute -bottom-6 -right-6 bg-primary text-white p-6 rounded-[2.5rem] shadow-2xl border-[8px] border-white cursor-pointer hover:scale-110 active:scale-90 transition-all flex items-center justify-center shadow-primary/20">
+                                        <span class="material-symbols-outlined text-4xl">photo_camera</span>
+                                        <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleUserPhotoUpload(this)" />
+                                    </label>
+                                </div>
+                                <div class="space-y-4">
+                                    <h3 id="card-name-display" class="text-7xl font-black text-on-surface tracking-tighter uppercase leading-none tracking-wide">...</h3>
+                                    <div class="inline-flex items-center gap-4 px-10 py-4 bg-secondary/5 text-[#a67c52] rounded-full border border-secondary/10">
+                                        <span id="card-role-display" class="text-sm font-black uppercase tracking-[0.5em]">LEVEL 1 AKADEMİSYEN</span>
+                                    </div>
+                                </div>
+                                <div class="w-full max-w-lg space-y-6 mt-16">
+                                    <div class="flex justify-between items-center text-[13px] font-black text-[#404943] uppercase tracking-[0.4em] px-2">
+                                        <span>Gelişim İlerlemesi</span>
+                                        <span id="card-xp-text" class="text-primary font-black uppercase tracking-widest">0 / 500 XP</span>
+                                    </div>
+                                    <div class="w-full bg-[#eff2ee] h-5 rounded-[2.5rem] overflow-hidden p-1.5 shadow-inner">
+                                        <div id="card-xp-bar" class="xp-progress-bar h-full bg-gradient-to-r from-primary via-[#6b7a63] to-primary-container rounded-full shadow-lg shadow-primary/10"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="max-w-xl mx-auto space-y-10">
+                                <div class="space-y-4">
+                                    <label class="text-[13px] font-black text-[#404943] uppercase ml-6 tracking-[0.4em] opacity-60">Görünen İsim</label>
+                                    <input id="set-name" class="w-full bg-[#f8faf7] rounded-[2.5rem] border-none p-8 text-lg font-black outline-none focus:ring-[20px] focus:ring-primary/5 transition-all shadow-inner" placeholder="İsminiz..." />
+                                </div>
+                                <button onclick="updateProfile()" class="w-full py-10 bg-primary text-on-primary rounded-[3rem] font-black shadow-2xl hover:brightness-110 active:scale-95 transition-all uppercase tracking-[0.5em] text-sm">Ayarları Kaydet ve Güncelle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REMAINING SECTIONS -->
             <section id="page-logs" class="page-section">
                 <h2 class="text-4xl font-black text-primary mb-12 uppercase tracking-tighter">Aktivite Geçmişi</h2>
-                <div class="bg-white border border-outline-variant/5 rounded-[4rem] overflow-hidden shadow-2xl overflow-x-auto">
-                    <table class="w-full text-left text-sm uppercase font-black">
-                        <thead class="bg-surface-container-low text-on-surface-variant text-[13px] tracking-[0.3em]">
-                            <tr><th class="px-14 py-12">Kullanıcı</th><th class="px-14 py-12">İşlem</th><th class="px-14 py-12 text-right">Zaman</th></tr>
+                <div class="bg-white border border-outline-variant/5 rounded-[4rem] overflow-hidden shadow-2xl overflow-x-auto uppercase font-black tracking-widest">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-[#eff2ee] text-[#404943] text-[13px] tracking-[0.3em] uppercase tracking-widest">
+                            <tr><th class="px-14 py-12">Kullanıcı</th><th class="px-14 py-12 text-center">İşlem</th><th class="px-14 py-12 text-right">Zaman</th></tr>
                         </thead>
                         <tbody id="logs-table-body" class="divide-y divide-outline-variant/5 text-on-surface/70"></tbody>
                     </table>
@@ -413,9 +412,9 @@
             <section id="page-help" class="page-section">
                 <h2 class="text-4xl font-black text-primary mb-12 uppercase tracking-tighter text-center">Destek</h2>
                 <div class="bg-white p-24 rounded-[4rem] border border-outline-variant/10 shadow-2xl flex flex-col md:flex-row items-center gap-20">
-                    <div class="w-48 h-48 rounded-[4rem] bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shadow-3xl shadow-primary/20"><span class="material-symbols-outlined text-8xl">support_agent</span></div>
+                    <div class="w-48 h-48 rounded-[4rem] bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shadow-3xl shadow-primary/30"><span class="material-symbols-outlined text-8xl">support_agent</span></div>
                     <div class="space-y-6 text-center md:text-left">
-                        <p class="text-sm font-black text-primary uppercase tracking-[0.6em] opacity-60 uppercase">Akademi İletişim</p>
+                        <p class="text-sm font-black text-primary uppercase tracking-[0.6em] opacity-60">Akademi İletişim</p>
                         <h3 class="text-6xl font-black tracking-tighter uppercase leading-none">Sunay Çapa</h3>
                         <a href="mailto:sunaycapa3@gmail.com" class="text-4xl font-black hover:text-primary transition-all border-b-8 border-primary/10 pb-4 inline-block tracking-tighter">sunaycapa3@gmail.com</a>
                     </div>
@@ -425,26 +424,26 @@
     </div>
 </div>
 
-<!-- AI MENTOR SIDE DRAWER -->
+<!-- ✨ PREMIUM AI MENTOR SIDE DRAWER -->
 <div id="ai-mentor-container" class="hidden">
     <div id="ai-mentor-drawer" class="fixed top-0 right-0 w-[550px] h-screen z-[10000] flex flex-col border-l border-white/20">
         <div class="p-16 bg-white border-b border-white/40 flex justify-between items-center relative overflow-hidden">
             <div class="absolute right-0 top-0 w-64 h-64 bg-primary/5 rounded-full -mr-32 -mt-32 blur-3xl uppercase tracking-widest font-black uppercase"></div>
             <div class="flex items-center gap-8 relative z-10">
-                <div class="w-20 h-20 rounded-[2.5rem] bg-gradient-to-br from-primary to-primary-container text-white flex items-center justify-center shadow-3xl shadow-primary/30"><span class="material-symbols-outlined text-5xl font-bold">auto_awesome</span></div>
-                <div><h4 class="text-4xl font-black tracking-tighter uppercase leading-none">Mentor Pro</h4><span class="text-sm font-black uppercase tracking-[0.4em] text-primary opacity-60">Akademik Rehber</span></div>
+                <div class="w-20 h-20 rounded-[2.5rem] bg-gradient-to-br from-primary to-primary-container text-white flex items-center justify-center shadow-3xl shadow-primary/30 font-black tracking-widest uppercase"><span class="material-symbols-outlined text-5xl">auto_awesome</span></div>
+                <div><h4 class="text-4xl font-black tracking-tighter uppercase leading-none tracking-widest">Mentor Pro</h4><span class="text-sm font-black uppercase tracking-[0.4em] text-primary opacity-60 uppercase tracking-widest">Akademik Rehber</span></div>
             </div>
             <button onclick="toggleAIMentor()" class="w-16 h-16 rounded-[2rem] bg-surface-container-highest hover:bg-white flex items-center justify-center transition-all group shadow-xl"><span class="material-symbols-outlined text-4xl group-hover:rotate-180 transition-transform duration-500 font-black">close</span></button>
         </div>
         <div id="ai-chat-box" class="flex-1 overflow-y-auto p-16 space-y-12 bg-white/30">
             <div class="ai-bubble-bot p-10 font-black text-lg leading-relaxed animate-fadeIn">Merhaba! Ben Sınavım AI Mentor. Senin akademik başarı yolculuğunda her an yanındayım. Bugün hangi konuyu birlikte fethedeceğiz? 📚✨</div>
         </div>
-        <div class="p-16 bg-white border-t border-white/40">
+        <div class="p-16 bg-white border-t border-white/40 uppercase tracking-widest font-black uppercase tracking-widest">
             <div class="flex items-center gap-6 bg-surface-container-low p-6 rounded-[3rem] border-2 border-outline-variant/10 focus-within:border-primary/40 transition-all shadow-inner">
                 <input id="ai-input" class="flex-1 border-none bg-transparent p-4 text-lg font-black outline-none focus:ring-0 text-on-surface" placeholder="Bana bir şey sor..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
-                <button onclick="sendAIMessage()" class="bg-primary text-white w-20 h-20 rounded-[2rem] flex items-center justify-center shadow-3xl shadow-primary/30 active:scale-90 transition-all hover:brightness-110"><span class="material-symbols-outlined text-5xl font-bold font-black uppercase tracking-widest">send</span></button>
+                <button onclick="sendAIMessage()" class="bg-primary text-white w-20 h-20 rounded-[2rem] flex items-center justify-center shadow-3xl shadow-primary/30 active:scale-90 transition-all hover:brightness-110 uppercase tracking-widest font-black uppercase tracking-widest uppercase tracking-widest"><span class="material-symbols-outlined text-5xl font-bold font-black">send</span></button>
             </div>
-            <p class="text-[11px] text-on-surface-variant font-black uppercase text-center mt-12 tracking-[0.5em] opacity-30">Gemini 2.5 Flash Powered</p>
+            <p class="text-[11px] text-[#404943] font-black uppercase text-center mt-12 tracking-[0.5em] opacity-30 uppercase tracking-widest font-black uppercase tracking-widest uppercase tracking-widest">Gemini 2.5 Flash Powered</p>
         </div>
     </div>
 </div>
@@ -454,6 +453,7 @@
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile as updateFbProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+    // --- Firebase Config ---
     const firebaseConfig = {
         apiKey: "AIzaSyBNPIIl0HjZtmO264uLIJco8KZRWgAM7mI",
         authDomain: "sinavim-a22da.firebaseapp.com",
@@ -467,7 +467,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v12-integrated';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v13-pro';
     const geminiKey = ""; 
 
     const ADMIN_EMAILS = [
@@ -479,6 +479,7 @@
     let userData = null;
     let currentContentType = 'exam';
     let currentPhotoBase64 = null;
+    let selectedFileContent = "";
 
     // --- UI HELPERS ---
     window.showCustomModal = (title, msg, type = 'info') => {
@@ -491,6 +492,27 @@
     };
     window.closeCustomModal = () => { document.getElementById('custom-modal-overlay').style.display = 'none'; };
 
+    // --- FILE HANDLING ---
+    window.handleFileUpload = (input) => {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            
+            document.getElementById('file-name-display').innerText = "DOSYA: " + file.name;
+            
+            reader.onload = (e) => {
+                selectedFileContent = e.target.result;
+            };
+
+            // HTML ise metin olarak oku, değilse base64 (demo için basitlik)
+            if (file.type === "text/html") {
+                reader.readAsText(file);
+            } else {
+                reader.readAsDataURL(file);
+            }
+        }
+    };
+
     window.handleUserPhotoUpload = (input) => {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -501,6 +523,34 @@
             };
             reader.readAsDataURL(input.files[0]);
         }
+    };
+
+    // --- GAME ENGINE ---
+    window.playGame = async (id) => {
+        const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contents', id));
+        if (snap.exists()) {
+            const item = snap.data();
+            const stage = document.getElementById('game-overlay');
+            const iframe = document.getElementById('game-iframe');
+            document.getElementById('game-stage-title').innerText = item.title;
+            
+            stage.classList.add('active');
+            
+            if (item.type === 'wordwall') {
+                // Wordwall link conversion
+                let embedUrl = item.url.replace("wordwall.net/resource/", "wordwall.net/embed/resource/");
+                iframe.src = embedUrl;
+            } else {
+                // HTML Runner
+                const blob = new Blob([item.body], { type: 'text/html' });
+                iframe.src = URL.createObjectURL(blob);
+            }
+        }
+    };
+
+    window.closeGameStage = () => {
+        document.getElementById('game-overlay').classList.remove('active');
+        document.getElementById('game-iframe').src = "about:blank";
     };
 
     // --- FIREBASE CORE ---
@@ -618,7 +668,7 @@
             });
             const data = await res.json();
             document.getElementById('ai-status').classList.add('hidden');
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Hata oluştu.";
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Yanıt alınamadı.";
         } catch (e) { return "Bağlantı hatası."; }
     }
 
@@ -632,14 +682,14 @@
         botDiv.className = "ai-bubble-bot p-12 font-bold text-sm self-start max-w-[90%] shadow-sm";
         botDiv.innerHTML = '<div class="spinner border-primary border-t-transparent w-8 h-8 border-4"></div>';
         chat.appendChild(botDiv); chat.scrollTop = chat.scrollHeight;
-        const res = await callGemini(text, "Siz Sınavım platformunun uzman asistanısınız.");
+        const res = await callGemini(text, "Sınavım uzman asistanısın.");
         botDiv.innerHTML = res.replace(/\n/g, '<br>'); chat.scrollTop = chat.scrollHeight;
     };
 
     window.generateAIContent = async () => {
         const title = document.getElementById('content-title').value.trim();
-        if (!title) return showCustomModal("BAŞLIK YOK", "Önce konu başlığını yazın.", "error");
-        const res = await callGemini(`'${title}' için akademik sınav soruları veya ders metni hazırla.`, "İçerik asistanı.");
+        if (!title) return showCustomModal("BAŞLIK YOK", "Konu başlığı girin.", "error");
+        const res = await callGemini(`'${title}' konusu için akademik ders materyali veya sınav hazırla.`, "İçerik asistanı.");
         document.getElementById('content-body').value = res;
     };
 
@@ -648,22 +698,42 @@
         currentContentType = type;
         document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('bg-white', 'shadow-xl', 'text-primary'));
         document.getElementById('type-' + type).classList.add('bg-white', 'shadow-xl', 'text-primary');
-        document.getElementById('url-field').style.display = (type === 'video' || type === 'doc') ? 'block' : 'none';
-        document.getElementById('code-field').style.display = (type === 'game' || type === 'exam' || type === 'doc') ? 'block' : 'none';
+        
+        document.getElementById('url-field').style.display = (type === 'video' || type === 'doc' || type === 'wordwall') ? 'block' : 'none';
+        document.getElementById('file-field').style.display = (type === 'exam' || type === 'doc' || type === 'game') ? 'block' : 'none';
+        document.getElementById('code-field').style.display = (type === 'game' || type === 'doc') ? 'block' : 'none';
+        
+        document.getElementById('url-label').innerText = type === 'wordwall' ? 'Wordwall Kaynak Linki' : 'Kaynak Linki';
     };
 
     window.publishContent = async () => {
         if (userData.role === 'student') return showCustomModal("YETKİ YOK", "Öğrenciler içerik paylaşamaz.", "error");
         const title = document.getElementById('content-title').value.trim();
         if (!title) return showCustomModal("HATA", "Başlık zorunludur.", "error");
+        
+        const finalBody = selectedFileContent || document.getElementById('content-body').value;
+        const finalUrl = document.getElementById('content-url').value;
+
         try {
             await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'contents'), {
-                type: currentContentType, title, body: document.getElementById('content-body').value, url: document.getElementById('content-url').value, author: userData.displayName, timestamp: serverTimestamp()
+                type: currentContentType, 
+                title, 
+                body: finalBody, 
+                url: finalUrl, 
+                author: userData.displayName, 
+                timestamp: serverTimestamp()
             });
-            await addXP(50); logActivity(`Paylaştı: ${title}`);
-            showCustomModal("BAŞARILI", "İçerik kütüphanede yayına girdi!", "success");
-            document.getElementById('content-title').value = ""; document.getElementById('content-body').value = "";
-        } catch (e) { showCustomModal("HATA", "İşlem hatası.", "error"); }
+            await addXP(50);
+            logActivity(`Yayınlandı: ${title}`);
+            showCustomModal("BAŞARILI", "İçerik havuzda!", "success");
+            
+            // Reset
+            document.getElementById('content-title').value = "";
+            document.getElementById('content-body').value = "";
+            document.getElementById('content-url').value = "";
+            selectedFileContent = "";
+            document.getElementById('file-name-display').innerText = "Dosya Seç veya Sürükle";
+        } catch (e) { showCustomModal("HATA", "İşlem yapılamadı.", "error"); }
     };
 
     function listenToContents() {
@@ -673,12 +743,12 @@
             pool.innerHTML = ""; games.innerHTML = "";
             let gameCount = 0;
             
-            // 🎵 MANUALLY ADD THE PROMO SONG TO POOL AS THE FIRST ITEM
+            // Promo Song
             const songHtml = `
                 <div onclick="window.open('https://www.flowmusic.app/song/ba912096-94e6-401d-b2b1-49d7d7323884', '_blank')" class="cursor-pointer bg-gradient-to-br from-secondary to-[#8b5e34] p-8 rounded-[3.5rem] border border-white/20 shadow-2xl relative overflow-hidden transition-all hover:scale-105">
                     <div class="absolute right-[-20px] top-[-20px] opacity-10"><span class="material-symbols-outlined text-[120px]">music_note</span></div>
                     <div class="flex justify-between items-start mb-6"><span class="text-[9px] font-black uppercase px-4 py-1.5 bg-white/20 text-white rounded-full">DUYURU</span></div>
-                    <h4 class="font-black text-xl mb-10 text-white leading-tight">Sitemizin ilk şarkısı çıktı 🎵</h4>
+                    <h4 class="font-black text-xl mb-10 text-white leading-tight uppercase tracking-tighter uppercase tracking-widest">Sitemizin ilk şarkısı çıktı 🎵</h4>
                     <button class="w-full py-4 bg-white text-secondary rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg">ŞİMDİ DİNLE</button>
                 </div>
             `;
@@ -686,16 +756,24 @@
 
             snap.docs.forEach(docSnap => {
                 const item = docSnap.data(); const id = docSnap.id;
-                pool.innerHTML += `<div class="bg-white p-10 rounded-[3.5rem] border border-outline-variant/5 shadow-2xl group hover:shadow-2xl transition-all relative overflow-hidden text-center md:text-left">
+                const isInteractive = (item.type === 'game' || item.type === 'wordwall');
+                
+                const card = `<div class="bg-white p-10 rounded-[3.5rem] border border-outline-variant/5 shadow-2xl group hover:shadow-2xl transition-all relative overflow-hidden">
                     <div class="flex justify-between items-start mb-8 tracking-widest font-black uppercase text-[10px] opacity-40"><span>${item.type}</span><span>${item.author}</span></div>
                     <h4 class="font-black text-2xl mb-12 truncate uppercase tracking-tighter">${item.title}</h4>
-                    <button onclick="viewContent('${id}')" class="w-full py-5 bg-primary/5 text-primary rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">İncele</button>
+                    <div class="flex gap-3">
+                        <button onclick="${isInteractive ? `playGame('${id}')` : `viewContent('${id}')`}" class="flex-1 py-5 bg-primary/5 text-primary rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all uppercase tracking-widest font-black uppercase tracking-widest">Görüntüle</button>
+                        ${item.url && item.type !== 'wordwall' ? `<a href="${item.url}" target="_blank" class="px-6 py-5 bg-secondary/10 text-secondary rounded-3xl flex items-center justify-center"><span class="material-symbols-outlined">link</span></a>` : ''}
+                    </div>
                 </div>`;
-                if (item.type === 'game') {
+                
+                pool.innerHTML += card;
+
+                if (isInteractive) {
                     gameCount++;
                     games.innerHTML += `<div class="bg-white p-10 rounded-[4rem] border border-outline-variant/10 shadow-2xl cursor-pointer flex flex-col justify-between hover:-translate-y-2 transition-all shadow-inner" onclick="playGame('${id}')">
-                        <div class="flex justify-between items-start mb-8"><div class="w-16 h-16 rounded-[2rem] bg-secondary/10 flex items-center justify-center text-secondary shadow-inner"><span class="material-symbols-outlined text-4xl font-bold">sports_esports</span></div><span class="bg-primary text-white text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest">OYNA</span></div>
-                        <div><h4 class="font-black text-2xl mb-3 leading-tight uppercase truncate">${item.title}</h4></div>
+                        <div class="flex justify-between items-start mb-8"><div class="w-16 h-16 rounded-[2rem] bg-secondary/10 flex items-center justify-center text-secondary shadow-inner"><span class="material-symbols-outlined text-4xl">${item.type === 'wordwall' ? 'app_shortcut' : 'sports_esports'}</span></div><span class="bg-primary text-white text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-tighter">BAŞLAT</span></div>
+                        <div><h4 class="font-black text-2xl mb-3 leading-tight uppercase truncate">${item.title}</h4><p class="text-[10px] font-black opacity-30 uppercase tracking-widest">${item.type === 'wordwall' ? 'Wordwall Etkinliği' : 'Akademik Oyun'}</p></div>
                     </div>`;
                 }
             });
@@ -706,17 +784,35 @@
 
     window.viewContent = async (id) => {
         const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contents', id));
+        const item = snap.data();
         const win = window.open("", "_blank");
-        win.document.write(`<html><head><title>Sınavım</title><style>body{font-family:Nunito Sans; padding:60px; max-width:1100px; margin:auto; background:#fbfdf9;} h1{font-weight:900; color:#4a7c59; font-size:4rem; letter-spacing:-0.05em;} hr{border:none; border-top:2px solid #eff2ee; margin:50px 0;} div{font-size:1.3rem; line-height:2.2; color:#191c1a;}</style></head><body><h1>${snap.data().title}</h1><hr/><div>${snap.data().body}</div></body></html>`);
+        if (item.body.startsWith("data:image") || item.body.startsWith("data:application/pdf")) {
+            win.document.write(`<html><body style="margin:0; background:#f8faf7;"><iframe src="${item.body}" width="100%" height="100%" frameborder="0"></iframe></body></html>`);
+        } else {
+            win.document.write(`<html><head><title>${item.title}</title><style>body{font-family:Nunito Sans; padding:60px; max-width:1100px; margin:auto; background:#fbfdf9;} h1{font-weight:900; color:#4a7c59; font-size:4rem; letter-spacing:-0.05em;} hr{border:none; border-top:2px solid #eff2ee; margin:50px 0;} div{font-size:1.3rem; line-height:2.2; color:#191c1a;}</style></head><body><h1>${item.title}</h1><hr/><div>${item.body}</div></body></html>`);
+        }
     };
 
-    window.playGame = async (id) => {
-        const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contents', id));
-        const win = window.open("", "_blank");
-        win.document.write(`<html><head><title>Oyun</title></head><body style="margin:0; overflow:hidden;">${snap.data().body}</body></html>`);
+    // --- PROFILE & LOGS ---
+    window.updateProfile = async () => {
+        const name = document.getElementById('set-name').value.trim();
+        const photo = currentPhotoBase64 || userData.avatar;
+        try {
+            await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { displayName: name, avatar: photo });
+            userData.displayName = name; userData.avatar = photo; updateUI();
+            showCustomModal("BAŞARILI", "Profil bilgileri güncellendi!", "success");
+        } catch (e) { showCustomModal("HATA", "Kaydedilemedi.", "error"); }
     };
 
-    // --- ACTIVITY ---
+    async function addXP(amount) {
+        if(!userData) return;
+        let newXP = (userData.xp || 0) + amount;
+        let newLevel = Math.floor(newXP / 500) + 1;
+        await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel });
+        userData.xp = newXP; if(newLevel > (userData.level || 1)) { userData.level = newLevel; showCustomModal("LEVEL UP!", `Tebrikler! ${newLevel}. Seviyeye ulaştın! 🚀`, "success"); }
+        updateUI();
+    }
+
     async function logActivity(action) {
         if (!currentUser) return;
         await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), { email: currentUser.email, action, timestamp: serverTimestamp() });
@@ -730,34 +826,14 @@
             const logs = snap.docs.map(d => d.data()).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
             logs.forEach(log => {
                 const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date();
-                tbody.innerHTML += `<tr class="hover:bg-primary/5 transition-all"><td class="px-14 py-10 font-black text-sm text-primary uppercase">${log.email.split('@')[0]}</td><td class="px-14 py-10 text-sm font-bold opacity-70">${log.action}</td><td class="px-14 py-10 text-[11px] font-black opacity-30 text-right uppercase tracking-widest uppercase tracking-widest">${date.toLocaleString('tr-TR')}</td></tr>`;
+                tbody.innerHTML += `<tr class="hover:bg-primary/5 transition-all"><td class="px-14 py-10 font-black text-sm text-primary uppercase">${log.email.split('@')[0]}</td><td class="px-14 py-10 text-sm font-bold opacity-70">${log.action}</td><td class="px-14 py-10 text-[11px] font-black opacity-40 uppercase text-right tracking-widest">${date.toLocaleString('tr-TR')}</td></tr>`;
             });
             const statLogins = document.getElementById('stat-logins');
             if (statLogins) statLogins.innerText = logs.filter(l => new Date(l.timestamp?.seconds*1000).toLocaleDateString('tr-TR') === todayStr).length;
         });
     }
 
-    // --- PROFILE ---
-    window.updateProfile = async () => {
-        const name = document.getElementById('set-name').value.trim();
-        const photo = currentPhotoBase64 || userData.avatar;
-        try {
-            await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { displayName: name, avatar: photo });
-            userData.displayName = name; userData.avatar = photo; updateUI();
-            showCustomModal("BAŞARILI", "Profil verileri başarıyla güncellendi!", "success");
-        } catch (e) { showCustomModal("HATA", "Sunucu hatası.", "error"); }
-    };
-
-    async function addXP(amount) {
-        if(!userData) return;
-        let newXP = (userData.xp || 0) + amount;
-        let newLevel = Math.floor(newXP / 500) + 1;
-        await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel });
-        userData.xp = newXP; if(newLevel > (userData.level || 1)) { userData.level = newLevel; showCustomModal("LEVEL UP!", `Tebrikler! ${newLevel}. Seviyeye ulaştın! 🚀`, "success"); }
-        updateUI();
-    }
-
-    // --- NAV ---
+    // --- NAV & AUTH ---
     window.showPage = (page) => {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
         const target = document.getElementById('page-' + page);
@@ -770,8 +846,8 @@
     };
 
     window.toggleAIMentor = () => document.getElementById('ai-mentor-drawer').classList.toggle('open');
-    window.handleLogin = async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value); } catch (e) { showCustomModal("HATA", "Bilgileri kontrol et.", "error"); }};
-    window.handleGoogleLogin = async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { showCustomModal("HATA", "Bağlantı sorunu.", "error"); }};
+    window.handleLogin = async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value); } catch (e) { showCustomModal("HATA", "Giriş yapılamadı.", "error"); }};
+    window.handleGoogleLogin = async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { showCustomModal("HATA", "Google bağlantısı kurulamadı.", "error"); }};
     window.handleRegister = async () => { 
         const name = document.getElementById('reg-name').value;
         const email = document.getElementById('reg-email').value;
