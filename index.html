@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sınavım - Yerli Akademi platformu</title>
+    <title>Sınavım - The Academic Edge</title>
     <link rel="icon" type="image/jpeg" href="image_2cd20a.jpg">
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -20,17 +20,9 @@
                         "on-primary": "#ffffff",
                         "primary-container": "#cce8d4",
                         "secondary": "#a67c52",
-                        "on-secondary": "#ffffff",
-                        "secondary-container": "#f4dcc2",
-                        "tertiary": "#6b7a63",
                         "background": "#f8faf7",
                         "surface": "#ffffff",
                         "outline": "#707973",
-                        "outline-variant": "#bfc9c1",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-low": "#f5f8f4",
-                        "surface-container": "#eff2ee",
-                        "surface-container-high": "#e9ece8",
                         "error": "#ba1a1a",
                     }
                 }
@@ -44,11 +36,10 @@
         .page-section.active { display: block; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        .xp-progress-bar { transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .spinner { border: 3px solid rgba(0,0,0,0.1); border-top-color: #4a7c59; border-radius: 50%; width: 20px; height: 20px; animation: spin 0.8s linear infinite; }
+        .xp-progress-bar { transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .spinner { border: 3px solid rgba(0,0,0,0.1); border-top-color: #4a7c59; border-radius: 50%; width: 24px; height: 24px; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Premium AI Mentor Drawer UI */
         #ai-mentor-drawer {
             transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -57,101 +48,87 @@
             box-shadow: -20px 0 60px rgba(0,0,0,0.1);
         }
         #ai-mentor-drawer.open { transform: translateX(0); }
-        .ai-bubble-bot { background: white; border: 1px solid rgba(74, 124, 89, 0.1); border-radius: 20px 20px 20px 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); font-weight: 600; line-height: 1.6; }
-        .ai-bubble-user { background: linear-gradient(135deg, #4a7c59, #6b7a63); color: white; border-radius: 20px 20px 4px 20px; box-shadow: 0 10px 25px rgba(74, 124, 89, 0.2); font-weight: 700; line-height: 1.6; }
         
-        /* Markdown Parser Styles for AI */
-        .ai-markdown strong { color: #2a1b0d; font-weight: 900; }
-        .ai-markdown ul { list-style-type: disc; padding-left: 20px; margin-top: 5px; margin-bottom: 5px;}
-        .ai-markdown ol { list-style-type: decimal; padding-left: 20px; margin-top: 5px; margin-bottom: 5px;}
-
         /* Content Viewer Overlay */
-        #content-overlay { display: none; position: fixed; inset: 0; background: rgba(25, 28, 26, 0.95); z-index: 10000; flex-direction: column; backdrop-filter: blur(10px); }
+        #content-overlay { display: none; position: fixed; inset: 0; background: rgba(25, 28, 26, 0.98); z-index: 10000; flex-direction: column; backdrop-filter: blur(15px); }
         #content-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
 
-        #custom-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 9000; align-items: center; justify-content: center; }
-        .avatar-glow { box-shadow: 0 15px 35px rgba(74, 124, 89, 0.15); }
-        
         .nav-btn { transition: all 0.2s; border-radius: 1rem; border-right: 4px solid transparent; }
         .nav-btn:hover { background: rgba(74, 124, 89, 0.05); color: #4a7c59; }
         .nav-btn.active { background: white; border-right: 4px solid #4a7c59; color: #4a7c59; box-shadow: 10px 0 30px rgba(0,0,0,0.03); }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #bfc9c1; border-radius: 10px; }
+        #custom-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 9000; align-items: center; justify-content: center; }
+        .avatar-glow { box-shadow: 0 15px 35px rgba(74, 124, 89, 0.15); }
     </style>
 </head>
-<body class="bg-background text-[#191c1a] antialiased min-h-screen selection:bg-primary-container">
+<body class="bg-[#f8faf7] text-[#191c1a] antialiased min-h-screen selection:bg-primary-container">
 
-<!-- İÇERİK/OYUN SAHNESİ (SITE İÇİ) -->
 <div id="content-overlay" class="p-6">
     <div class="flex justify-between items-center mb-6 px-4">
         <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-white backdrop-blur-md">
-                <span id="content-overlay-icon" class="material-symbols-outlined">play_circle</span>
+            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white backdrop-blur-md border border-white/20">
+                <span id="content-overlay-icon" class="material-symbols-outlined text-3xl">play_circle</span>
             </div>
-            <h3 id="content-overlay-title" class="text-white font-black text-2xl uppercase tracking-tighter">İçerik Yükleniyor...</h3>
+            <div>
+                <h3 id="content-overlay-title" class="text-white font-black text-2xl uppercase tracking-tighter">İçerik</h3>
+                <p id="content-overlay-type" class="text-white/50 text-[10px] font-black uppercase tracking-widest">Yükleniyor...</p>
+            </div>
         </div>
-        <button onclick="closeContentOverlay()" class="w-14 h-14 rounded-full bg-white/10 text-white hover:bg-error hover:text-white transition-all flex items-center justify-center backdrop-blur-md">
-            <span class="material-symbols-outlined text-3xl">close</span>
+        <button onclick="closeContentOverlay()" class="w-14 h-14 rounded-2xl bg-white/10 text-white hover:bg-error hover:scale-95 transition-all flex items-center justify-center backdrop-blur-md border border-white/10">
+            <span class="material-symbols-outlined text-3xl font-black">close</span>
         </button>
     </div>
-    <div class="flex-1 bg-white rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] relative border border-white/20">
-        <!-- İframe Content -->
-        <iframe id="content-iframe" class="w-full h-full border-none bg-[#f8faf7]" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>
+    <div class="flex-1 bg-white rounded-[2.5rem] overflow-hidden shadow-2xl relative border-8 border-white/10">
+        <iframe id="content-iframe" class="w-full h-full border-none bg-white" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>
     </div>
 </div>
 
-<!-- Global Custom Modal -->
 <div id="custom-modal-overlay">
     <div class="bg-white rounded-[2.5rem] p-12 max-w-sm w-full mx-4 shadow-2xl border border-outline-variant/30 text-center">
         <div id="modal-icon-container" class="mb-6 flex justify-center text-primary">
             <span class="material-symbols-outlined text-8xl">info</span>
         </div>
         <h3 id="modal-title-text" class="text-3xl font-black mb-3 tracking-tighter uppercase">Bilgi</h3>
-        <p id="modal-body-text" class="text-sm text-on-surface-variant mb-10 font-bold leading-relaxed">...</p>
-        <button onclick="closeCustomModal()" class="w-full py-5 bg-primary text-on-primary rounded-2xl font-black text-xs tracking-widest uppercase hover:brightness-110 transition-all">Anladım</button>
+        <p id="modal-body-text" class="text-sm text-[#404943] mb-10 leading-relaxed font-bold">...</p>
+        <button onclick="closeCustomModal()" class="w-full py-5 bg-primary text-on-primary rounded-2xl font-black text-xs tracking-widest uppercase hover:brightness-110 active:scale-95 transition-all">Anladım</button>
     </div>
 </div>
 
-<!-- Auth Screen -->
-<div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-surface relative overflow-hidden" id="auth-screen">
-    <div class="absolute top-[-30%] left-[-10%] w-[70%] h-[70%] bg-primary-container/20 blur-[150px] rounded-full pointer-events-none animate-pulse"></div>
-    <div class="absolute bottom-[-20%] right-[-5%] w-[60%] h-[60%] bg-secondary-container/10 blur-[150px] rounded-full pointer-events-none animate-pulse"></div>
-    
+<div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-[#f8faf7] relative overflow-hidden" id="auth-screen">
     <div class="max-w-4xl w-full flex flex-col items-center relative z-10">
-        <div class="mb-14 text-center">
-            <img alt="Sınavım Logo" class="w-40 h-40 object-contain rounded-full shadow-2xl mb-4 mx-auto bg-white p-2 border-4 border-primary/10" src="image_2cd20a.jpg"/>
+        <div class="mb-12 text-center">
+            <img alt="Sınavım Logo" class="w-32 h-32 object-contain rounded-full shadow-2xl mb-4 mx-auto bg-white p-2 border-2 border-primary/10" src="image_2cd20a.jpg"/>
             <h1 class="text-5xl font-black text-primary tracking-tighter mb-1 uppercase">Sınavım</h1>
-            <p class="text-on-surface-variant font-bold uppercase tracking-[0.3em] text-[10px] opacity-70">Academic Edge Platform</p>
+            <p class="text-on-surface-variant font-bold uppercase tracking-[0.3em] text-[10px] opacity-70">The Academic Excellence Platform</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 bg-white/80 backdrop-blur-2xl rounded-[3rem] shadow-2xl border border-white/50 w-full overflow-hidden">
-            <div class="p-10 md:p-14 flex flex-col gap-8 text-center md:text-left">
+        <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-[3rem] shadow-2xl border border-outline-variant/10 w-full overflow-hidden">
+            <div class="p-10 md:p-14 flex flex-col gap-8">
                 <h3 class="text-3xl font-black text-primary tracking-tight">Giriş Yap</h3>
                 <div class="space-y-4">
-                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-primary/10 transition-all" id="login-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-primary/10 transition-all" id="login-password" placeholder="Şifre" type="password"/>
-                    <button class="w-full py-5 bg-primary text-on-primary rounded-3xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-primary/20 active:scale-95 transition-all" onclick="handleLogin()">Giriş Yap</button>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-8 focus:ring-primary/5 transition-all" id="login-email" placeholder="E-posta" type="email"/>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-8 focus:ring-primary/5 transition-all" id="login-password" placeholder="Şifre" type="password"/>
+                    <button class="w-full py-5 bg-primary text-on-primary rounded-3xl font-black uppercase text-[11px] tracking-widest shadow-xl shadow-primary/20 active:scale-95 transition-all" onclick="handleLogin()">Sisteme Gir</button>
                     <button class="w-full py-4 bg-white border border-outline-variant/30 text-on-surface rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all mt-2" onclick="handleGoogleLogin()">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
-                        Google ile Devam
+                        Google Giriş
                     </button>
                 </div>
             </div>
-            <div class="p-10 md:p-14 bg-primary/5 border-l border-outline-variant/10 flex flex-col gap-8 text-center md:text-left">
+            <div class="p-10 md:p-14 bg-primary/5 border-l border-outline-variant/10 flex flex-col gap-8">
                 <h3 class="text-3xl font-black text-secondary tracking-tight">Kayıt Ol</h3>
                 <div class="space-y-4">
-                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all" id="reg-name" placeholder="Ad Soyad" type="text"/>
-                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all" id="reg-email" placeholder="E-posta" type="email"/>
-                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-4 focus:ring-secondary/10 transition-all" id="reg-password" placeholder="Şifre (Min 6)" type="password"/>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-8 focus:ring-secondary/5 transition-all" id="reg-name" placeholder="Ad Soyad" type="text"/>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-8 focus:ring-secondary/5 transition-all" id="reg-email" placeholder="E-posta" type="email"/>
+                    <input class="w-full rounded-2xl border border-outline-variant/30 bg-white/50 p-4 text-sm font-bold outline-none focus:ring-8 focus:ring-secondary/5 transition-all" id="reg-password" placeholder="Şifre" type="password"/>
                     <div class="grid grid-cols-2 gap-3 mt-2">
                         <label class="cursor-pointer border-2 border-outline-variant/10 rounded-2xl p-3 flex items-center justify-center gap-2 has-[:checked]:border-secondary has-[:checked]:bg-white bg-white/50 transition-all">
                             <input type="radio" name="reg-role" value="student" class="hidden" checked>
-                            <span class="text-[10px] font-black uppercase tracking-widest">Öğrenci</span>
+                            <span class="text-[10px] font-black uppercase">Öğrenci</span>
                         </label>
                         <label class="cursor-pointer border-2 border-outline-variant/10 rounded-2xl p-3 flex items-center justify-center gap-2 has-[:checked]:border-primary has-[:checked]:bg-white bg-white/50 transition-all">
                             <input type="radio" name="reg-role" value="teacher" class="hidden">
-                            <span class="text-[10px] font-black uppercase tracking-widest">Öğretmen</span>
+                            <span class="text-[10px] font-black uppercase">Öğretmen</span>
                         </label>
                     </div>
                     <button class="w-full py-5 bg-secondary text-on-secondary rounded-3xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-secondary/20 active:scale-95 transition-all" onclick="handleRegister()">Hesabı Aç</button>
@@ -159,35 +136,42 @@
             </div>
         </div>
     </div>
+    
+    <!-- AUTH SCREEN FOOTER -->
+    <div class="absolute bottom-6 left-0 w-full text-center z-10 pointer-events-none">
+        <p class="text-[9px] font-black text-on-surface-variant/40 uppercase tracking-[0.4em]">
+            &copy; 2026 Nokta Giyim INC - Bütün hakları Ayberk ARICI'ya aittir.
+        </p>
+    </div>
 </div>
 
-<!-- App Dashboard -->
 <div class="hidden w-full flex" id="main-dashboard">
-    <!-- Sidebar -->
-    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-white z-[100] border-r border-outline-variant/10 shadow-sm">
-        <div class="flex flex-col h-full p-6 space-y-8">
-            <div class="flex items-center gap-4 px-2">
-                <img alt="Logo" class="h-12 w-12 object-contain rounded-full bg-white border border-primary/10 p-1" src="image_2cd20a.jpg"/>
+    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-[#fdfdfc] z-[100] border-r border-outline-variant/10 shadow-sm">
+        <div class="flex flex-col h-full p-8 space-y-10">
+            <div class="flex items-center gap-4">
+                <img alt="Logo" class="h-14 w-14 object-contain rounded-full bg-white p-1 border border-primary/10" src="image_2cd20a.jpg"/>
                 <div>
-                    <h1 class="text-xl font-black text-primary tracking-tighter uppercase leading-none">Sınavım</h1>
-                    <p class="text-[8px] text-on-surface-variant font-black uppercase tracking-[0.2em] mt-1 opacity-60">The Academic Edge</p>
+                    <h1 class="text-xl font-black text-primary tracking-tighter uppercase leading-none flex items-center gap-2">
+                        Sınavım
+                        <span class="bg-primary/10 text-primary text-[8px] px-2 py-0.5 rounded-md tracking-[0.2em]">v2.0</span>
+                    </h1>
+                    <p class="text-[9px] text-[#404943] font-bold uppercase tracking-[0.2em] mt-1 opacity-60">The Academic Edge</p>
                 </div>
             </div>
 
-            <!-- Dashboard Level Card -->
-            <div class="bg-surface-container-low p-5 rounded-[2rem] border border-outline-variant/10 shadow-inner space-y-5">
+            <div class="bg-white p-6 rounded-[2.5rem] border border-outline-variant/10 shadow-sm space-y-6">
                 <div class="flex justify-between items-center px-1">
-                    <span class="text-[10px] font-black text-primary px-3 py-1.5 bg-white rounded-xl uppercase tracking-widest shadow-sm">Level <span id="user-level">1</span></span>
-                    <div class="flex items-center gap-1 text-secondary font-black text-[10px] uppercase">
-                        <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
-                        <span id="user-streak">1</span> Gün
+                    <span class="text-[10px] font-black text-primary px-3 py-1.5 bg-primary-container rounded-xl uppercase tracking-widest shadow-sm">Level <span id="user-level">1</span></span>
+                    <div class="flex items-center gap-1.5 text-secondary font-black text-[11px] uppercase tracking-tighter">
+                        <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                        <span id="user-streak">1</span> GÜN
                     </div>
                 </div>
-                <div class="space-y-2">
-                    <div class="w-full bg-white h-2 rounded-full overflow-hidden border border-outline-variant/5">
+                <div class="space-y-3">
+                    <div class="w-full bg-[#f5f8f4] h-2.5 rounded-full overflow-hidden">
                         <div id="xp-bar" class="xp-progress-bar h-full bg-primary rounded-full w-0"></div>
                     </div>
-                    <div class="flex justify-between px-1 text-[8px] font-black text-on-surface-variant uppercase tracking-widest opacity-60">
+                    <div class="flex justify-between px-1 text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-50">
                         <span><span id="user-xp">0</span> XP</span>
                         <span>500 XP</span>
                     </div>
@@ -195,129 +179,123 @@
             </div>
 
             <div class="flex-1 space-y-1 flex flex-col font-['Nunito_Sans']">
-                <button id="nav-admin" onclick="showPage('admin')" class="nav-btn flex items-center gap-5 px-5 py-4 group" data-page="admin">
+                <button id="nav-admin" onclick="showPage('admin')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="admin">
                     <span class="material-symbols-outlined text-[24px]">grid_view</span>
-                    <span class="font-black text-[12px] uppercase tracking-widest">Yönetim</span>
+                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Yönetim</span>
                 </button>
-                <button onclick="showPage('pool')" class="nav-btn flex items-center gap-5 px-5 py-4 group" data-page="pool">
+                <button onclick="showPage('pool')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="pool">
                     <span class="material-symbols-outlined text-[24px]">school</span>
-                    <span class="font-black text-[12px] uppercase tracking-widest">Havuz</span>
+                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Havuz</span>
                 </button>
-                <button onclick="showPage('games')" class="nav-btn flex items-center gap-5 px-5 py-4 group" data-page="games">
+                <button onclick="showPage('games')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="games">
                     <span class="material-symbols-outlined text-[24px]">videogame_asset</span>
-                    <span class="font-black text-[12px] uppercase tracking-widest">Oyunlar</span>
+                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Oyunlar</span>
                 </button>
-                <button onclick="showPage('settings')" class="nav-btn flex items-center gap-5 px-5 py-4 group" data-page="settings">
+                <button onclick="showPage('settings')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="settings">
                     <span class="material-symbols-outlined text-[24px]">person</span>
-                    <span class="font-black text-[12px] uppercase tracking-widest">Profil</span>
+                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Profil</span>
                 </button>
-                <button id="nav-logs" onclick="showPage('logs')" class="nav-btn flex items-center gap-5 px-5 py-4 group" data-page="logs">
+                <button id="nav-logs" onclick="showPage('logs')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="logs">
                     <span class="material-symbols-outlined text-[24px]">history_edu</span>
-                    <span class="font-black text-[12px] uppercase tracking-widest">Kayıtlar</span>
+                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Kayıtlar</span>
                 </button>
-                <button onclick="showPage('help')" class="nav-btn flex items-center gap-5 px-5 py-4 group" data-page="help">
+                <button onclick="showPage('help')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="help">
                     <span class="material-symbols-outlined text-[24px]">help_center</span>
-                    <span class="font-black text-[12px] uppercase tracking-widest">Destek</span>
+                    <span class="font-black text-[13px] uppercase tracking-[0.15em]">Destek</span>
                 </button>
             </div>
 
-            <div class="mt-auto p-4 bg-surface-container-lowest rounded-[2rem] flex items-center justify-between border border-outline-variant/10 shadow-sm">
+            <div class="mt-auto p-4 bg-surface-container-low rounded-[2rem] flex items-center justify-between border border-outline-variant/10">
                 <div class="flex items-center gap-3 overflow-hidden">
                     <div class="relative shrink-0">
-                        <img id="user-avatar-mini" src="" class="w-11 h-11 rounded-full border border-primary/20 bg-white object-cover" />
-                        <span id="side-level-tag" class="absolute -bottom-1 -right-1 bg-primary text-white text-[8px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white">1</span>
+                        <img id="user-avatar-mini" src="" class="w-12 h-12 rounded-full border-2 border-primary/20 bg-white object-cover shadow-sm" />
+                        <span id="side-level-tag" class="absolute -bottom-1 -right-1 bg-primary text-white text-[8px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">1</span>
                     </div>
-                    <div class="flex flex-col truncate">
-                        <span class="text-xs font-black text-on-surface truncate uppercase tracking-tighter" id="user-name-mini">...</span>
-                        <span id="side-xp-mini" class="text-[9px] font-black text-secondary tracking-widest uppercase">0 XP</span>
+                    <div class="flex flex-col truncate uppercase tracking-tighter">
+                        <span class="text-xs font-black text-on-surface truncate" id="user-name-mini">...</span>
+                        <span id="side-xp-mini" class="text-[9px] font-black text-secondary tracking-widest">0 XP</span>
                     </div>
                 </div>
-                <button class="text-on-surface-variant hover:text-error transition-all p-2 rounded-xl bg-surface-container-low hover:bg-error/10" onclick="handleLogout()">
-                    <span class="material-symbols-outlined text-[20px]">logout</span>
+                <button class="text-on-surface-variant hover:text-error transition-all p-2 rounded-xl" onclick="handleLogout()">
+                    <span class="material-symbols-outlined text-[22px]">logout</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
-    <div class="flex-1 ml-72 flex flex-col min-h-screen bg-background relative overflow-hidden">
-        <header class="flex justify-between items-center w-full px-12 py-8 bg-transparent">
+    <div class="flex-1 ml-72 flex flex-col min-h-screen bg-[#f8faf7] relative">
+        <header class="flex justify-between items-center w-full px-12 py-8 bg-transparent sticky top-0 z-40">
             <h2 id="page-title" class="text-3xl font-black text-primary tracking-tighter uppercase">Panel</h2>
             <div class="flex items-center gap-5">
-                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-black text-primary bg-white px-4 py-2 rounded-xl border border-primary/10 tracking-widest shadow-sm uppercase">
-                    <span class="material-symbols-outlined text-[16px] animate-spin">auto_awesome</span> AI Aktif
+                <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] font-black text-primary bg-white px-5 py-2.5 rounded-2xl border border-primary/10 tracking-[0.2em] shadow-sm uppercase animate-pulse">
+                    <span class="material-symbols-outlined text-[20px]">auto_awesome</span> Gemini AI
                 </div>
-                <button onclick="toggleAIMentor()" class="flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-primary to-primary-container text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
-                    <span class="material-symbols-outlined text-[20px]">smart_toy</span> Mentor Pro
+                <button onclick="toggleAIMentor()" class="flex items-center gap-3 px-6 py-3.5 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">
+                    <span class="material-symbols-outlined text-[22px]">smart_toy</span> Mentor Pro
                 </button>
             </div>
         </header>
 
-        <main class="flex-1 px-12 pb-12">
-            <!-- PAGE: ADMIN -->
+        <main class="flex-1 px-12 pb-12 flex flex-col">
             <section id="page-admin" class="page-section active space-y-12">
                 <div class="bg-white rounded-[3rem] p-12 border border-outline-variant/10 shadow-xl space-y-12 relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-64 h-64 bg-primary/5 rounded-bl-full -mr-10 -mt-10 pointer-events-none"></div>
                     <div class="relative z-10 space-y-2">
                         <h2 class="text-5xl font-black tracking-tighter uppercase text-primary">İçerik Stüdyosu</h2>
-                        <p class="text-on-surface-variant font-black uppercase tracking-[0.3em] text-[11px] opacity-60">Öğretmenler için Tasarım Paneli</p>
+                        <p class="text-on-surface-variant font-black uppercase tracking-[0.3em] text-[11px] opacity-60">Öğretmen Tasarım Paneli</p>
                     </div>
 
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-10 relative z-10">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-12 relative z-10">
                         <div class="space-y-8">
-                            <div class="flex flex-wrap gap-3 p-2 bg-surface-container-low rounded-[2rem] w-fit shadow-inner border border-outline-variant/10">
-                                <button onclick="setContentType('exam')" class="type-btn px-6 py-3 rounded-2xl bg-white shadow-md font-black text-[11px] text-primary tracking-widest uppercase" id="type-exam">SINAV</button>
-                                <button onclick="setContentType('doc')" class="type-btn px-6 py-3 rounded-2xl font-black text-[11px] text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-doc">DÖKÜMAN</button>
-                                <button onclick="setContentType('wordwall')" class="type-btn px-6 py-3 rounded-2xl font-black text-[11px] text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-wordwall">WORDWALL</button>
-                                <button onclick="setContentType('game')" class="type-btn px-6 py-3 rounded-2xl font-black text-[11px] text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-game">HTML OYUN</button>
-                                <button onclick="setContentType('video')" class="type-btn px-6 py-3 rounded-2xl font-black text-[11px] text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-video">VİDEO</button>
+                            <div class="flex flex-wrap gap-3 p-2 bg-surface-container-low rounded-[2rem] w-fit shadow-inner">
+                                <button onclick="setContentType('exam')" class="type-btn px-8 py-3.5 rounded-2xl bg-white shadow-xl font-black text-xs text-primary tracking-widest uppercase" id="type-exam">SINAV</button>
+                                <button onclick="setContentType('doc')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-doc">DÖKÜMAN</button>
+                                <button onclick="setContentType('wordwall')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-wordwall">WORDWALL</button>
+                                <button onclick="setContentType('game')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-game">HTML OYUN</button>
+                                <button onclick="setContentType('video')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-video">VİDEO</button>
                             </div>
 
                             <div class="space-y-6">
                                 <div class="space-y-2">
-                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-2 tracking-[0.3em]">İçerik Başlığı</label>
-                                    <input id="content-title" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm font-black outline-none focus:ring-[10px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Örn: Limit ve Süreklilik Denemesi"/>
+                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">İçerik Başlığı</label>
+                                    <input id="content-title" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm font-black outline-none focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Örn: 2024 Deneme Sınavı #1"/>
                                 </div>
                                 
-                                <!-- File Upload Area (For Docs, Exams, HTML Games) -->
-                                <div id="file-field" class="space-y-2 block">
-                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-2 tracking-[0.3em]">Dosya Yükle (PDF, Resim, HTML)</label>
-                                    <div class="border-2 border-dashed border-outline-variant/40 hover:border-primary/50 hover:bg-primary/5 transition-all rounded-[2.5rem] p-10 flex flex-col items-center justify-center cursor-pointer text-center group" onclick="document.getElementById('file-upload').click()">
+                                <div id="file-field" class="space-y-2">
+                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">Dosya Yükle (PDF, HTML, JPG)</label>
+                                    <div class="border-4 border-dashed border-outline-variant/30 hover:border-primary/50 transition-all rounded-[3rem] p-10 flex flex-col items-center justify-center cursor-pointer text-center group bg-surface-container-low/50" onclick="document.getElementById('file-upload').click()">
                                         <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
-                                            <span class="material-symbols-outlined text-3xl">upload_file</span>
+                                            <span class="material-symbols-outlined text-4xl">cloud_upload</span>
                                         </div>
-                                        <p id="file-name-display" class="font-black text-sm text-on-surface uppercase tracking-tight">Dosya Seçin veya Sürükleyin</p>
+                                        <p id="file-name-display" class="font-black text-sm text-on-surface uppercase tracking-tight">DOSYAYI SEÇİN</p>
                                         <input type="file" id="file-upload" class="hidden" onchange="handleContentFileUpload(this)"/>
                                     </div>
                                 </div>
 
-                                <!-- URL Area (For Wordwall, Video) -->
                                 <div id="url-field" class="hidden space-y-2">
-                                    <label id="url-label" class="text-[11px] font-black text-on-surface-variant uppercase ml-2 tracking-[0.3em]">Kaynak Linki (URL)</label>
-                                    <input id="content-url" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm outline-none focus:ring-[10px] focus:ring-primary/5 transition-all font-bold shadow-inner" placeholder="https://..."/>
-                                    <p class="text-[9px] text-on-surface-variant font-bold ml-2">Not: Wordwall linkleri otomatik olarak oyun modülüne çevrilecektir.</p>
+                                    <label id="url-label" class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">Kaynak Linki</label>
+                                    <input id="content-url" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm outline-none focus:ring-[15px] focus:ring-primary/5 font-bold shadow-inner" placeholder="https://..."/>
                                 </div>
 
-                                <!-- Text/HTML Area -->
                                 <div id="code-field" class="hidden space-y-2">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <label class="text-[11px] font-black text-on-surface-variant uppercase ml-2 tracking-[0.3em]">Metin İçeriği (Veya Manuel Kod)</label>
-                                        <button onclick="generateAIContent()" class="text-[10px] font-black text-primary bg-primary/10 px-3 py-1.5 rounded-xl flex items-center gap-1 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[14px]">auto_awesome</span> AI ile Yaz</button>
+                                    <div class="flex justify-between items-center mb-1 px-1">
+                                        <label class="text-[11px] font-black text-on-surface-variant uppercase tracking-[0.3em]">Ders İçeriği / Metin</label>
+                                        <button onclick="generateAIContent()" class="text-[10px] font-black text-primary bg-primary/10 px-4 py-2 rounded-2xl flex items-center gap-2 hover:bg-primary hover:text-white transition-all uppercase tracking-widest"><span class="material-symbols-outlined text-[16px]">auto_awesome</span> AI Taslağı Oluştur</button>
                                     </div>
-                                    <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-[2.5rem] p-8 text-sm min-h-[300px] outline-none font-mono focus:ring-[10px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Eğer dosya yüklemediyseniz içeriğinizi buraya yazabilirsiniz..."></textarea>
+                                    <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-[2.5rem] p-8 text-sm min-h-[400px] outline-none font-mono focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Eğer dosya yüklemediyseniz içeriğinizi buraya yazın..."></textarea>
                                 </div>
 
-                                <button onclick="publishContent()" class="w-full py-7 bg-secondary text-white rounded-[2.5rem] font-black text-sm shadow-xl shadow-secondary/30 hover:-translate-y-1 active:scale-95 transition-all flex items-center justify-center gap-4 uppercase tracking-[0.3em]">
-                                    İçeriği Yayınla <span class="material-symbols-outlined text-3xl font-bold">rocket_launch</span>
+                                <button onclick="publishContent()" class="w-full py-8 bg-[#a67c52] text-white rounded-[2.5rem] font-black text-sm shadow-2xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-5 uppercase tracking-[0.3em]">
+                                    Hemen Yayınla <span class="material-symbols-outlined text-3xl font-bold">rocket_launch</span>
                                 </button>
                             </div>
                         </div>
 
-                        <div id="admin-stats-panel" class="space-y-8 h-fit">
-                            <div class="p-10 bg-surface-container-low rounded-[3rem] border border-outline-variant/10 text-center shadow-inner relative overflow-hidden">
+                        <div id="admin-stats-panel" class="space-y-8">
+                            <div class="p-10 bg-surface-container-low rounded-[3rem] border border-outline-variant/10 text-center shadow-inner relative overflow-hidden h-fit">
                                 <div class="absolute right-0 bottom-0 w-32 h-32 bg-primary/5 rounded-tl-full pointer-events-none"></div>
-                                <h3 class="font-black text-[11px] mb-10 text-primary uppercase tracking-[0.4em] border-b border-outline-variant/10 pb-6 uppercase tracking-widest">Sistem İstatistikleri</h3>
-                                <div class="grid grid-cols-2 gap-8 relative z-10">
+                                <h3 class="font-black text-[11px] mb-12 text-primary uppercase tracking-[0.4em] border-b border-outline-variant/10 pb-8 uppercase tracking-widest">Sistem İstatistikleri</h3>
+                                <div class="grid grid-cols-2 gap-10">
                                     <div class="space-y-2">
                                         <p class="text-[10px] font-black text-on-surface-variant uppercase opacity-60">Havuz</p>
                                         <p id="stat-total" class="text-6xl font-black text-primary tracking-tighter">0</p>
@@ -333,146 +311,136 @@
                 </div>
             </section>
 
-            <!-- PAGE: POOL -->
             <section id="page-pool" class="page-section">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-10 mb-12 px-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-10 mb-16 px-4">
                     <h2 class="text-6xl font-black text-primary tracking-tighter uppercase leading-none">İçerik Havuzu</h2>
                     <div class="relative max-w-lg w-full">
                         <span class="material-symbols-outlined absolute left-8 top-1/2 -translate-y-1/2 text-on-surface-variant text-3xl">search</span>
-                        <input id="pool-search" class="pl-20 pr-10 py-6 bg-white shadow-xl rounded-[2.5rem] border border-outline-variant/5 text-sm w-full outline-none focus:ring-[10px] focus:ring-primary/5 transition-all font-black" placeholder="Havuzda ara..." />
+                        <input id="pool-search" class="pl-20 pr-10 py-6 bg-white shadow-xl rounded-[2.5rem] border border-outline-variant/10 text-sm w-full outline-none focus:ring-8 focus:ring-primary/5 transition-all font-black uppercase tracking-tighter" placeholder="Arama yap..." />
                     </div>
                 </div>
-                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10"></div>
+                <div id="pool-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
             </section>
 
-            <!-- PAGE: GAMES -->
             <section id="page-games" class="page-section">
-                <div class="bg-gradient-to-r from-secondary to-secondary-container p-16 rounded-[4rem] mb-12 relative overflow-hidden shadow-2xl shadow-secondary/20">
+                <div class="bg-gradient-to-r from-[#a67c52] to-[#f4dcc2] p-16 rounded-[4rem] mb-12 relative overflow-hidden shadow-2xl">
                     <div class="absolute right-0 top-0 w-96 h-96 bg-white/10 rounded-full blur-[100px] -mr-40 -mt-40"></div>
                     <div class="relative z-10 text-white space-y-4">
                         <h2 class="text-6xl font-black tracking-tighter uppercase leading-none">Oyun Sahnesi</h2>
-                        <p class="font-black uppercase tracking-[0.5em] text-[13px] opacity-90">Öğrenirken eğlen, XP kazan!</p>
+                        <p class="font-black uppercase tracking-[0.5em] text-[13px] opacity-90 tracking-widest">Eğlenirken öğren, XP kazan!</p>
                     </div>
                 </div>
-                <div id="games-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"></div>
-                <div id="no-games-msg" class="hidden flex flex-col items-center justify-center p-32 bg-white rounded-[4rem] border-4 border-dashed border-outline-variant/10 text-center uppercase tracking-widest font-black opacity-40">
-                    <span class="material-symbols-outlined text-8xl mb-6">videogame_asset_off</span>
-                    <h3 class="text-3xl font-black uppercase tracking-tighter">Henüz Oyun Yok</h3>
-                </div>
+                <div id="games-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12"></div>
+                <div id="no-games-msg" class="hidden flex flex-col items-center justify-center p-32 bg-white rounded-[4rem] border-4 border-dashed border-outline-variant/10 text-center uppercase tracking-widest font-black opacity-40">Henüz Oyun Yok</div>
             </section>
 
-            <!-- PAGE: SETTINGS -->
             <section id="page-settings" class="page-section">
-                <div class="max-w-5xl mx-auto space-y-10">
+                <div class="max-w-6xl mx-auto space-y-10">
                     <h2 class="text-5xl font-black text-primary tracking-tighter uppercase tracking-wide">Profil</h2>
-                    <div class="bg-white p-16 rounded-[4rem] border border-outline-variant/5 shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-bl-full -mr-20 -mt-20 z-0"></div>
-                        <div class="relative z-10 space-y-16">
-                            <h3 class="text-5xl font-black text-primary tracking-tighter uppercase leading-none text-center md:text-left">Profil Yönetimi</h3>
+                    <div class="bg-white p-20 rounded-[4rem] border border-outline-variant/5 shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#f8faf7] rounded-bl-[15rem] -mr-40 -mt-40 z-0"></div>
+                        <div class="relative z-10 space-y-20">
+                            <h3 class="text-6xl font-black text-primary tracking-tighter uppercase leading-none text-center md:text-left">Profil Yönetimi</h3>
                             
-                            <div class="flex flex-col md:flex-row items-center gap-16">
-                                <div class="relative group shrink-0">
-                                    <div class="w-64 h-64 rounded-[3.5rem] border-[12px] border-primary-container bg-white shadow-2xl overflow-hidden avatar-glow transition-all duration-500 hover:scale-105 hover:-rotate-3">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="relative mb-12">
+                                    <div class="w-64 h-64 rounded-[3.5rem] border-[12px] border-primary-container bg-white shadow-2xl overflow-hidden avatar-glow transition-all duration-700 hover:scale-105">
                                         <img id="settings-avatar-preview" src="" class="w-full h-full object-cover" />
                                     </div>
-                                    <label for="avatar-upload" class="absolute -bottom-4 -right-4 bg-primary text-white p-6 rounded-[2rem] shadow-2xl border-[8px] border-white cursor-pointer hover:scale-110 active:scale-90 transition-all flex items-center justify-center group-hover:rotate-12">
-                                        <span class="material-symbols-outlined text-4xl">photo_camera</span>
+                                    <label for="avatar-upload" class="absolute -bottom-6 -right-6 bg-primary text-white p-6 rounded-[2.5rem] shadow-2xl border-[8px] border-white cursor-pointer hover:scale-110 active:scale-90 transition-all flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-4xl font-black">photo_camera</span>
                                         <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleUserPhotoUpload(this)" />
                                     </label>
                                 </div>
-                                
-                                <div class="flex-1 space-y-10 text-center md:text-left w-full">
-                                    <div class="space-y-4">
-                                        <h3 id="card-name-display" class="text-6xl font-black text-on-surface tracking-tighter uppercase leading-none">...</h3>
-                                        <div class="inline-flex items-center gap-4 px-6 py-3 bg-secondary/10 text-secondary rounded-xl font-black uppercase tracking-[0.4em] text-[11px]">
-                                            <span id="card-role-display">LEVEL 1</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="space-y-4 max-w-md mx-auto md:mx-0">
-                                        <div class="flex justify-between items-center text-[11px] font-black text-on-surface-variant uppercase tracking-[0.3em]">
-                                            <span>Gelişim</span>
-                                            <span id="card-xp-text" class="text-primary">0 / 500 XP</span>
-                                        </div>
-                                        <div class="w-full bg-surface-container-low h-5 rounded-full overflow-hidden p-1 shadow-inner">
-                                            <div id="card-xp-bar" class="xp-progress-bar h-full bg-gradient-to-r from-primary to-primary-container rounded-full"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="space-y-4 max-w-md mx-auto md:mx-0 pt-4">
-                                        <label class="text-[11px] font-black text-on-surface-variant uppercase ml-4 tracking-[0.3em]">Görünen İsim</label>
-                                        <input id="set-name" class="w-full bg-surface-container-low rounded-[2rem] border-none p-6 text-sm font-black outline-none focus:ring-[10px] focus:ring-primary/5 transition-all shadow-inner" placeholder="İsminiz..." />
-                                        <button onclick="updateProfile()" class="w-full py-6 bg-primary text-white rounded-[2rem] font-black shadow-xl hover:brightness-110 active:scale-95 transition-all uppercase tracking-[0.4em] text-xs">Kaydet</button>
+                                <div class="space-y-4">
+                                    <h3 id="card-name-display" class="text-7xl font-black text-on-surface tracking-tighter uppercase leading-none tracking-wide">...</h3>
+                                    <div class="inline-flex items-center gap-4 px-10 py-4 bg-secondary/5 text-[#a67c52] rounded-full border border-secondary/10">
+                                        <span id="card-role-display" class="text-sm font-black uppercase tracking-[0.5em]">LEVEL 1 AKADEMİSYEN</span>
                                     </div>
                                 </div>
+                                <div class="w-full max-w-lg space-y-6 mt-16">
+                                    <div class="flex justify-between items-center text-[13px] font-black text-[#404943] uppercase tracking-[0.4em] px-2">
+                                        <span>Gelişim İlerlemesi</span>
+                                        <span id="card-xp-text" class="text-primary font-black uppercase tracking-widest">0 / 500 XP</span>
+                                    </div>
+                                    <div class="w-full bg-[#eff2ee] h-5 rounded-[2.5rem] overflow-hidden p-1.5 shadow-inner">
+                                        <div id="card-xp-bar" class="xp-progress-bar h-full bg-gradient-to-r from-primary via-[#6b7a63] to-primary-container rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="max-w-xl mx-auto space-y-10">
+                                <div class="space-y-4">
+                                    <label class="text-[13px] font-black text-[#404943] uppercase ml-6 tracking-[0.4em] opacity-60 uppercase tracking-widest font-black uppercase">Görünen İsim</label>
+                                    <input id="set-name" class="w-full bg-[#f8faf7] rounded-[2.5rem] border-none p-8 text-lg font-black outline-none focus:ring-[20px] focus:ring-primary/5 transition-all shadow-inner" placeholder="İsminiz..." />
+                                </div>
+                                <button onclick="updateProfile()" class="w-full py-10 bg-primary text-on-primary rounded-[3rem] font-black shadow-[0_30px_60px_-10px_rgba(74,124,89,0.3)] hover:brightness-110 active:scale-95 transition-all uppercase tracking-[0.5em] text-sm">Ayarları Kaydet ve Güncelle</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- PAGE: LOGS -->
             <section id="page-logs" class="page-section">
-                <h2 class="text-4xl font-black text-primary mb-12 uppercase tracking-tighter">Aktivite Geçmişi</h2>
-                <div class="bg-white border border-outline-variant/5 rounded-[3rem] overflow-hidden shadow-2xl overflow-x-auto">
-                    <table class="w-full text-left text-sm uppercase font-black">
-                        <thead class="bg-surface-container-low text-on-surface-variant text-[12px] tracking-[0.3em]">
-                            <tr><th class="px-10 py-8">Kullanıcı</th><th class="px-10 py-8 text-center">İşlem</th><th class="px-10 py-8 text-right">Zaman</th></tr>
+                <h2 class="text-4xl font-black text-primary mb-12 uppercase tracking-tighter uppercase leading-none">Kayıtlar</h2>
+                <div class="bg-white border border-outline-variant/5 rounded-[4rem] overflow-hidden shadow-2xl overflow-x-auto font-black uppercase tracking-widest">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-[#eff2ee] text-[#404943] text-[13px] tracking-[0.3em] uppercase tracking-widest font-black">
+                            <tr><th class="px-14 py-12">Kullanıcı</th><th class="px-14 py-12 text-center">İşlem</th><th class="px-14 py-12 text-right">Zaman</th></tr>
                         </thead>
-                        <tbody id="logs-table-body" class="divide-y divide-outline-variant/5 text-on-surface/80"></tbody>
+                        <tbody id="logs-table-body" class="divide-y divide-outline-variant/5 text-on-surface/70"></tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- PAGE: HELP -->
             <section id="page-help" class="page-section">
-                <h2 class="text-4xl font-black text-primary mb-12 uppercase tracking-tighter text-center">Destek Merkezi</h2>
-                <div class="bg-white p-20 rounded-[4rem] border border-outline-variant/5 shadow-2xl flex flex-col md:flex-row items-center justify-center gap-16 max-w-4xl mx-auto">
-                    <div class="w-40 h-40 rounded-[3rem] bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shadow-2xl shadow-primary/30"><span class="material-symbols-outlined text-7xl">support_agent</span></div>
-                    <div class="space-y-4 text-center md:text-left">
-                        <p class="text-xs font-black text-primary uppercase tracking-[0.5em] opacity-80">Teknik İletişim</p>
-                        <h3 class="text-5xl font-black tracking-tighter uppercase leading-none">Sunay Çapa</h3>
-                        <a href="mailto:sunaycapa3@gmail.com" class="text-2xl font-black hover:text-primary transition-all border-b-4 border-primary/20 pb-2 inline-block tracking-tighter text-on-surface-variant">sunaycapa3@gmail.com</a>
+                <h2 class="text-4xl font-black text-primary mb-12 uppercase tracking-tighter text-center">Destek</h2>
+                <div class="bg-white p-24 rounded-[4rem] border border-outline-variant/10 shadow-2xl flex flex-col md:flex-row items-center justify-center gap-20 max-w-5xl mx-auto">
+                    <div class="w-48 h-48 rounded-[4rem] bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shadow-3xl shadow-primary/30"><span class="material-symbols-outlined text-8xl">support_agent</span></div>
+                    <div class="space-y-6 text-center md:text-left">
+                        <p class="text-sm font-black text-primary uppercase tracking-[0.6em] opacity-60 uppercase tracking-widest">Akademi İletişim</p>
+                        <h3 class="text-6xl font-black tracking-tighter uppercase leading-none">Sunay Çapa</h3>
+                        <a href="mailto:sunaycapa3@gmail.com" class="text-4xl font-black hover:text-primary transition-all border-b-8 border-primary/10 pb-4 inline-block tracking-tighter">sunaycapa3@gmail.com</a>
                     </div>
                 </div>
             </section>
         </main>
+        
+        <!-- DASHBOARD YAZILIMCI İMZASI (FOOTER) -->
+        <footer class="w-full py-8 text-center mt-auto border-t border-outline-variant/5 bg-transparent relative z-10">
+            <div class="flex flex-col items-center justify-center gap-3">
+                <div class="flex items-center gap-2 text-[9px] font-black text-primary uppercase tracking-[0.5em] opacity-80">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                    Sistem Aktif & Güvende
+                </div>
+                <p class="text-[10px] font-black text-[#404943]/40 uppercase tracking-[0.4em]">
+                    &copy; 2026 Nokta Giyim INC - Bütün hakları Ayberk ARICI'ya aittir.
+                </p>
+            </div>
+        </footer>
     </div>
 </div>
 
-<!-- ✨ PREMIUM AI MENTOR SIDE DRAWER -->
+<!-- AI MENTOR SIDE DRAWER -->
 <div id="ai-mentor-container" class="hidden">
-    <div id="ai-mentor-drawer" class="fixed top-0 right-0 w-[450px] h-screen z-[10000] flex flex-col border-l border-white/40">
-        <!-- Drawer Header -->
-        <div class="p-10 bg-white/60 border-b border-white/50 flex justify-between items-center relative overflow-hidden backdrop-blur-xl">
-            <div class="absolute right-0 top-0 w-48 h-48 bg-primary/10 rounded-full -mr-20 -mt-20 blur-3xl pointer-events-none"></div>
-            <div class="flex items-center gap-5 relative z-10">
-                <div class="w-16 h-16 rounded-[2rem] bg-gradient-to-br from-primary to-primary-container text-white flex items-center justify-center shadow-2xl shadow-primary/20"><span class="material-symbols-outlined text-4xl">auto_awesome</span></div>
-                <div><h4 class="text-3xl font-black tracking-tighter uppercase leading-none text-primary">Mentor Pro</h4><span class="text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant opacity-80">Akademik Rehber</span></div>
+    <div id="ai-mentor-drawer" class="fixed top-0 right-0 w-[550px] h-screen z-[10000] flex flex-col border-l border-white/20 bg-white/90 backdrop-blur-3xl shadow-2xl transition-transform transform">
+        <div class="p-16 bg-white/50 border-b border-white/40 flex justify-between items-center relative overflow-hidden">
+            <div class="absolute right-0 top-0 w-64 h-64 bg-primary/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+            <div class="flex items-center gap-8 relative z-10 font-black tracking-widest uppercase">
+                <div class="w-20 h-20 rounded-[2.5rem] bg-gradient-to-br from-primary to-primary-container text-white flex items-center justify-center shadow-3xl shadow-primary/30"><span class="material-symbols-outlined text-5xl">auto_awesome</span></div>
+                <div><h4 class="text-4xl font-black tracking-tighter uppercase leading-none">Mentor Pro</h4><span class="text-sm font-black uppercase tracking-[0.4em] text-primary opacity-60">Akademik Rehber</span></div>
             </div>
-            <button onclick="toggleAIMentor()" class="w-12 h-12 rounded-2xl bg-white shadow-sm hover:shadow-md text-primary flex items-center justify-center transition-all active:scale-90 relative z-10"><span class="material-symbols-outlined text-2xl font-black">close</span></button>
+            <button onclick="toggleAIMentor()" class="w-16 h-16 rounded-[2rem] bg-surface-container-highest hover:bg-white flex items-center justify-center transition-all group shadow-xl"><span class="material-symbols-outlined text-4xl group-hover:rotate-180 transition-transform duration-500 font-black">close</span></button>
         </div>
-        
-        <!-- Chat Area -->
-        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-10 space-y-6 bg-surface-container-low/30 ai-markdown">
-            <div class="ai-bubble-bot p-6 text-[14px]">
-                Merhaba! Ben <strong>Sınavım AI Mentor</strong>. Senin akademik başarı yolculuğunda her an yanındayım. Ne öğrenmek istersin? 🚀
+        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-16 space-y-12 bg-white/30 font-black tracking-widest uppercase">
+            <div class="ai-bubble-bot p-10 font-black text-lg leading-relaxed animate-fadeIn">Merhaba! Ben Sınavım AI Mentor. Senin akademik başarı yolculuğunda her an yanındayım. Bugün hangi konuyu birlikte fethedeceğiz? 📚✨</div>
+        </div>
+        <div class="p-16 bg-white border-t border-white/40 uppercase tracking-widest font-black">
+            <div class="flex items-center gap-6 bg-surface-container-low p-6 rounded-[3rem] border-2 border-outline-variant/10 focus-within:border-primary/40 transition-all shadow-inner uppercase tracking-widest font-black">
+                <input id="ai-input" class="flex-1 border-none bg-transparent p-4 text-lg font-black outline-none focus:ring-0 text-on-surface" placeholder="Bana bir şey sor..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
+                <button onclick="sendAIMessage()" class="bg-primary text-white w-20 h-20 rounded-[2rem] flex items-center justify-center shadow-3xl shadow-primary/30 active:scale-90 transition-all hover:brightness-110"><span class="material-symbols-outlined text-5xl font-bold font-black">send</span></button>
             </div>
-        </div>
-
-        <!-- Quick Prompts -->
-        <div class="px-8 py-4 flex gap-2 overflow-x-auto no-scrollbar bg-white/50 backdrop-blur-md border-t border-white">
-            <button onclick="setQuickPrompt('Bana haftalık ders çalışma programı tavsiyesi ver.')" class="whitespace-nowrap px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-primary shadow-sm hover:bg-primary/5 transition-colors border border-primary/10">📅 Program Öner</button>
-            <button onclick="setQuickPrompt('LGS Matematik konuları nelerdir?')" class="whitespace-nowrap px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-secondary shadow-sm hover:bg-secondary/5 transition-colors border border-secondary/10">📐 Matematik</button>
-            <button onclick="setQuickPrompt('Sınav kaygısını nasıl yenebilirim?')" class="whitespace-nowrap px-4 py-2 bg-white rounded-xl text-[10px] font-black uppercase tracking-widest text-tertiary shadow-sm hover:bg-tertiary/5 transition-colors border border-tertiary/10">🧘 Motivasyon</button>
-        </div>
-        
-        <!-- Input Area -->
-        <div class="p-8 bg-white/80 backdrop-blur-xl border-t border-white/50">
-            <div class="flex items-center gap-4 bg-white p-3 rounded-[2rem] border border-outline-variant/20 focus-within:border-primary/40 focus-within:ring-[10px] focus-within:ring-primary/5 transition-all shadow-sm">
-                <input id="ai-input" class="flex-1 border-none bg-transparent p-3 text-sm font-black outline-none focus:ring-0 text-on-surface" placeholder="Bana bir şey sor..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
-                <button onclick="sendAIMessage()" class="bg-primary text-white w-14 h-14 rounded-3xl flex items-center justify-center shadow-xl shadow-primary/30 active:scale-90 transition-all hover:brightness-110"><span class="material-symbols-outlined text-3xl font-bold">send</span></button>
-            </div>
+            <p class="text-[11px] text-[#404943] font-black uppercase text-center mt-12 tracking-[0.5em] opacity-30">Gemini 2.5 Flash Powered</p>
         </div>
     </div>
 </div>
@@ -482,7 +450,6 @@
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile as updateFbProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // --- Firebase Config ---
     const firebaseConfig = {
         apiKey: "AIzaSyBNPIIl0HjZtmO264uLIJco8KZRWgAM7mI",
         authDomain: "sinavim-a22da.firebaseapp.com",
@@ -496,7 +463,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v14-final';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v15-pro-max';
     const geminiKey = "AIzaSyD0YXQuDp1biT0dQOsMjPwkLE6Op5l7jj8"; 
 
     const ADMIN_EMAILS = [
@@ -508,27 +475,31 @@
     let userData = null;
     let currentContentType = 'exam';
     let currentPhotoBase64 = null;
-    let currentUploadedContentBase64 = null; // Sınav/Doc için
+    let currentUploadedContentBase64 = null;
 
-    // --- UI HELPERS ---
+    // --- UI TOOLS ---
     window.showCustomModal = (title, msg, type = 'info') => {
-        document.getElementById('modal-title-text').innerText = title;
-        document.getElementById('modal-body-text').innerText = msg;
-        const iconEl = document.getElementById('modal-icon-container').firstElementChild;
-        iconEl.innerText = type === 'error' ? 'report' : (type === 'success' ? 'verified' : 'info');
-        iconEl.className = `material-symbols-outlined text-8xl ${type === 'error' ? 'text-error' : 'text-primary'}`;
-        document.getElementById('custom-modal-overlay').style.display = 'flex';
+        const titleEl = document.getElementById('modal-title-text');
+        const msgEl = document.getElementById('modal-body-text');
+        const iconEl = document.getElementById('modal-icon-container')?.firstElementChild;
+        if(titleEl) titleEl.innerText = title;
+        if(msgEl) msgEl.innerText = msg;
+        if(iconEl) {
+            iconEl.innerText = type === 'error' ? 'report' : (type === 'success' ? 'verified' : 'info');
+            iconEl.className = `material-symbols-outlined text-8xl ${type === 'error' ? 'text-error' : 'text-primary'}`;
+        }
+        document.getElementById('custom-modal-overlay')?.style.setProperty('display', 'flex');
     };
-    window.closeCustomModal = () => { document.getElementById('custom-modal-overlay').style.display = 'none'; };
+    window.closeCustomModal = () => { document.getElementById('custom-modal-overlay')?.style.setProperty('display', 'none'); };
 
-    // --- FILE UPLOADS ---
     window.handleUserPhotoUpload = (input) => {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 currentPhotoBase64 = e.target.result;
-                document.getElementById('settings-avatar-preview').src = currentPhotoBase64;
-                showCustomModal("MÜKEMMEL", "Fotoğraf başarıyla eklendi, ayarları kaydet butonuna basmayı unutma!", "success");
+                const preview = document.getElementById('settings-avatar-preview');
+                if(preview) preview.src = currentPhotoBase64;
+                showCustomModal("MÜKEMMEL", "Fotoğraf yüklendi, kaydetmeyi unutma!", "success");
             };
             reader.readAsDataURL(input.files[0]);
         }
@@ -537,85 +508,65 @@
     window.handleContentFileUpload = (input) => {
         if (input.files && input.files[0]) {
             const file = input.files[0];
-            document.getElementById('file-name-display').innerText = file.name;
+            const nameDisplay = document.getElementById('file-name-display');
+            if(nameDisplay) nameDisplay.innerText = "SEÇİLEN: " + file.name;
             const reader = new FileReader();
-            
-            // Eğer yüklenen dosya HTML ise text olarak oku, yoksa Base64 oku.
-            if(file.type === "text/html" || file.name.endsWith(".html")) {
-                reader.onload = (e) => { 
-                    document.getElementById('content-body').value = e.target.result;
-                    currentUploadedContentBase64 = null;
-                    document.getElementById('code-field').style.display = 'block';
-                };
-                reader.readAsText(file);
-            } else {
-                reader.onload = (e) => {
-                    currentUploadedContentBase64 = e.target.result;
-                    document.getElementById('content-body').value = ""; // Text alanını temizle
-                };
-                reader.readAsDataURL(file);
-            }
+            reader.onload = (e) => { currentUploadedContentBase64 = e.target.result; };
+            reader.readAsDataURL(file);
         }
     };
 
-    // --- CONTENT VIEWER (IN-SITE) ---
+    // --- CONTENT VIEWER (IN-SITE BLOB RUNNER) ---
     window.viewContentInSite = async (id) => {
         showCustomModal("HAZIRLANIYOR", "İçerik yükleniyor, lütfen bekleyin...", "info");
         try {
             const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'contents', id));
             if (snap.exists()) {
                 const item = snap.data();
-                document.getElementById('content-overlay-title').innerText = item.title;
-                
                 const iframe = document.getElementById('content-iframe');
-                iframe.removeAttribute('srcdoc');
-                iframe.src = "about:blank";
+                const titleEl = document.getElementById('content-overlay-title');
+                const typeEl = document.getElementById('content-overlay-type');
+                
+                if(titleEl) titleEl.innerText = item.title;
+                if(typeEl) typeEl.innerText = item.type;
+                if(iframe) {
+                    iframe.removeAttribute('srcdoc');
+                    iframe.src = "about:blank";
 
-                // Wordwall Embed Dönüşümü
-                if (item.type === 'wordwall' && item.url) {
-                    let eUrl = item.url;
-                    if(eUrl.includes("wordwall.net/resource/")) eUrl = eUrl.replace("wordwall.net/resource/", "wordwall.net/embed/resource/");
-                    else if(eUrl.includes("wordwall.net/play/")) eUrl = eUrl.replace("wordwall.net/play/", "wordwall.net/embed/play/");
-                    iframe.src = eUrl;
-                } 
-                // YouTube Video Dönüşümü
-                else if (item.type === 'video' && item.url) {
-                    let eUrl = item.url;
-                    if(eUrl.includes("youtube.com/watch?v=")) eUrl = eUrl.replace("watch?v=", "embed/");
-                    if(eUrl.includes("youtu.be/")) eUrl = eUrl.replace("youtu.be/", "youtube.com/embed/");
-                    iframe.src = eUrl;
+                    // Wordwall URL Parser
+                    if (item.type === 'wordwall' && item.url) {
+                        let embedUrl = item.url;
+                        if(embedUrl.includes("/resource/")) embedUrl = embedUrl.replace("/resource/", "/embed/resource/");
+                        else if(embedUrl.includes("/play/")) embedUrl = embedUrl.replace("/play/", "/embed/play/");
+                        iframe.src = embedUrl;
+                    }
+                    // YouTube Parser
+                    else if (item.type === 'video' && item.url) {
+                        let eUrl = item.url.replace("watch?v=", "embed/");
+                        if(eUrl.includes("youtu.be/")) eUrl = eUrl.replace("youtu.be/", "youtube.com/embed/");
+                        iframe.src = eUrl;
+                    }
+                    // HTML / Base64 Runner (Blob Support)
+                    else if (item.body && item.body.startsWith("data:")) {
+                        const blob = await (await fetch(item.body)).blob();
+                        iframe.src = URL.createObjectURL(blob);
+                    }
+                    // Text/HTML Code Runner
+                    else if (item.body) {
+                        iframe.srcdoc = item.body;
+                    }
                 }
-                // Dış link ama embed degilse
-                else if (item.url && !item.body) {
-                    iframe.src = item.url;
-                }
-                // Dosya yüklendiyse (PDF, Resim base64 vs)
-                else if (item.body && item.body.startsWith("data:")) {
-                    iframe.src = item.body;
-                }
-                // Text/HTML veya Oyun kodu ise
-                else if (item.body) {
-                    let parsedBody = item.type === 'game' ? item.body : `
-                        <html><head>
-                        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;800;900&display=swap" rel="stylesheet"/>
-                        <style>body{font-family:'Nunito Sans',sans-serif; padding:40px; color:#191c1a; line-height:1.8; max-width:900px; margin:auto;} h1{color:#4a7c59; font-weight:900; font-size:2.5rem; margin-bottom:20px;} pre{background:#f4f4f4; padding:15px; border-radius:10px;} img{max-width:100%; border-radius:10px;}</style>
-                        </head><body><h1>${item.title}</h1><div>${parseMarkdown(item.body)}</div></body></html>
-                    `;
-                    iframe.srcdoc = parsedBody;
-                }
-
+                
                 closeCustomModal();
-                document.getElementById('content-overlay').classList.remove('hidden');
-                document.getElementById('content-overlay').classList.add('flex');
+                document.getElementById('content-overlay')?.classList.add('active');
             }
-        } catch(e) { showCustomModal("HATA", "İçerik açılamadı.", "error"); }
+        } catch(e) { showCustomModal("HATA", "İçerik yüklenemedi: " + e.message, "error"); }
     };
 
     window.closeContentOverlay = () => {
-        document.getElementById('content-overlay').classList.add('hidden');
-        document.getElementById('content-overlay').classList.remove('flex');
-        document.getElementById('content-iframe').src = "about:blank";
-        document.getElementById('content-iframe').removeAttribute('srcdoc');
+        document.getElementById('content-overlay')?.classList.remove('active');
+        const iframe = document.getElementById('content-iframe');
+        if(iframe) iframe.src = "about:blank";
     };
 
     // --- FIREBASE CORE ---
@@ -626,9 +577,9 @@
             checkDailyStreak();
             initDashboard();
         } else {
-            document.getElementById('main-dashboard').classList.add('hidden');
-            document.getElementById('auth-screen').classList.remove('hidden');
-            document.getElementById('ai-mentor-container').classList.add('hidden');
+            document.getElementById('main-dashboard')?.classList.add('hidden');
+            document.getElementById('auth-screen')?.classList.remove('hidden');
+            document.getElementById('ai-mentor-container')?.classList.add('hidden');
         }
     });
 
@@ -637,22 +588,10 @@
         const statsRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats');
         let snap = await getDoc(statsRef);
         const isAdmin = ADMIN_EMAILS.includes(currentUser.email);
-        
         if (!snap.exists()) {
-            userData = {
-                displayName: currentUser.displayName || 'Öğrenci',
-                xp: 0, level: 1, streak: 1, lastLogin: new Date().toISOString(),
-                avatar: currentUser.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.uid.substring(0,5)}`,
-                role: isAdmin ? 'admin' : 'student'
-            };
+            userData = { displayName: currentUser.displayName || 'Akademisyen', xp: 0, level: 1, streak: 1, lastLogin: new Date().toISOString(), avatar: currentUser.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.uid.substring(0,5)}`, role: isAdmin ? 'admin' : 'student' };
             await setDoc(statsRef, userData);
-        } else { 
-            userData = snap.data();
-            if (isAdmin && userData.role !== 'admin') {
-                userData.role = 'admin';
-                await updateDoc(statsRef, { role: 'admin' });
-            }
-        }
+        } else { userData = snap.data(); if(isAdmin && userData.role !== 'admin'){ userData.role='admin'; await updateDoc(statsRef, {role:'admin'}); }}
         updateUI();
     }
 
@@ -668,283 +607,205 @@
     }
 
     function initDashboard() {
-        document.getElementById('auth-screen').classList.add('hidden');
-        document.getElementById('main-dashboard').classList.remove('hidden');
-        document.getElementById('ai-mentor-container').classList.remove('hidden');
+        document.getElementById('auth-screen')?.classList.add('hidden');
+        document.getElementById('main-dashboard')?.classList.remove('hidden');
+        document.getElementById('ai-mentor-container')?.classList.remove('hidden');
         
         const navAdmin = document.getElementById('nav-admin');
         const navLogs = document.getElementById('nav-logs');
         const adminStats = document.getElementById('admin-stats-panel');
-
+        
         if (userData) {
-            if (userData.role === 'admin') {
-                navAdmin.style.display = 'flex'; navLogs.style.display = 'flex'; adminStats.style.display = 'block';
-                showPage('admin');
-            } else if (userData.role === 'teacher') {
-                navAdmin.style.display = 'flex'; navLogs.style.display = 'none'; adminStats.style.display = 'none';
-                showPage('admin');
-            } else {
-                navAdmin.style.display = 'none'; navLogs.style.display = 'none';
-                showPage('pool');
+            if (userData.role === 'admin') { 
+                if(navAdmin) navAdmin.style.display = 'flex'; 
+                if(navLogs) navLogs.style.display = 'flex'; 
+                if(adminStats) adminStats.style.display = 'block'; 
+                showPage('admin'); 
+            } 
+            else if (userData.role === 'teacher') { 
+                if(navAdmin) navAdmin.style.display = 'flex'; 
+                if(navLogs) navLogs.style.display = 'none'; 
+                if(adminStats) adminStats.style.display = 'none'; 
+                showPage('admin'); 
+            } 
+            else { 
+                if(navAdmin) navAdmin.style.display = 'none'; 
+                if(navLogs) navLogs.style.display = 'none'; 
+                showPage('pool'); 
             }
         }
-        listenToContents(); listenToLogs(); logActivity('Sisteme Giriş Yaptı');
+        listenToContents(); listenToLogs(); logActivity('Akademiye Girildi');
     }
 
     function updateUI() {
         if (!userData) return;
         const xpProgress = (userData.xp % 500 / 5) + '%';
         const level = userData.level || 1;
-        let roleDisplay = "ÖĞRENCİ";
-        if (userData.role === 'admin') roleDisplay = "YÖNETİCİ";
-        else if (userData.role === 'teacher') roleDisplay = "ÖĞRETMEN";
-
-        document.getElementById('user-xp').innerText = userData.xp;
-        document.getElementById('user-level').innerText = level;
-        document.getElementById('user-streak').innerText = userData.streak;
-        document.getElementById('xp-bar').style.width = xpProgress;
-
-        document.getElementById('user-name-mini').innerText = userData.displayName;
+        
+        const userXpEl = document.getElementById('user-xp');
+        if(userXpEl) userXpEl.innerText = userData.xp;
+        
+        const userLevelEl = document.getElementById('user-level');
+        if(userLevelEl) userLevelEl.innerText = level;
+        
+        const userStreakEl = document.getElementById('user-streak');
+        if(userStreakEl) userStreakEl.innerText = userData.streak;
+        
+        const xpBarEl = document.getElementById('xp-bar');
+        if(xpBarEl) xpBarEl.style.width = xpProgress;
+        
+        const userNameMiniEl = document.getElementById('user-name-mini');
+        if(userNameMiniEl) userNameMiniEl.innerText = userData.displayName;
+        
         document.querySelectorAll('#user-avatar-mini, #settings-avatar-preview').forEach(img => img.src = userData.avatar);
-        document.getElementById('side-level-tag').innerText = level;
-        document.getElementById('side-xp-mini').innerText = `${userData.xp} XP`;
-
-        document.getElementById('card-name-display').innerText = userData.displayName;
-        document.getElementById('card-role-display').innerText = `LEVEL ${level} ${roleDisplay}`;
-        document.getElementById('card-xp-bar').style.width = xpProgress;
-        document.getElementById('card-xp-text').innerText = `${userData.xp % 500} / 500 XP`;
-        document.getElementById('set-name').value = userData.displayName;
+        
+        const sideLevelTagEl = document.getElementById('side-level-tag');
+        if(sideLevelTagEl) sideLevelTagEl.innerText = level;
+        
+        const sideXpMiniEl = document.getElementById('side-xp-mini');
+        if(sideXpMiniEl) sideXpMiniEl.innerText = `${userData.xp} XP`;
+        
+        const cardNameDisplayEl = document.getElementById('card-name-display');
+        if(cardNameDisplayEl) cardNameDisplayEl.innerText = userData.displayName;
+        
+        const cardRoleDisplayEl = document.getElementById('card-role-display');
+        if(cardRoleDisplayEl) cardRoleDisplayEl.innerText = `LEVEL ${level} ${userData.role.toUpperCase()}`;
+        
+        const cardXpBarEl = document.getElementById('card-xp-bar');
+        if(cardXpBarEl) cardXpBarEl.style.width = xpProgress;
+        
+        const cardXpTextEl = document.getElementById('card-xp-text');
+        if(cardXpTextEl) cardXpTextEl.innerText = `${userData.xp % 500} / 500 XP`;
+        
+        const setNameEl = document.getElementById('set-name');
+        if(setNameEl) setNameEl.value = userData.displayName;
     }
 
-    // --- GEMINI AI & MARKDOWN PARSER ---
-    function parseMarkdown(text) {
-        if(!text) return "";
-        let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
-        html = html.replace(/\n\n/g, '<br><br>'); // Paragraphs
-        html = html.replace(/\n/g, '<br>'); // Line breaks
-        html = html.replace(/- (.*?)<br>/g, '<li>$1</li>'); // Simple list
-        return html;
-    }
-
+    // --- GEMINI AI ---
     async function callGemini(prompt, systemMsg = "") {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`;
         try {
-            document.getElementById('ai-status').classList.remove('hidden');
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemMsg }] } })
-            });
+            document.getElementById('ai-status')?.classList.remove('hidden');
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemMsg }] } }) });
             const data = await res.json();
-            document.getElementById('ai-status').classList.add('hidden');
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maalesef yanıt alamadım.";
-        } catch (e) { document.getElementById('ai-status').classList.add('hidden'); return "Bağlantı hatası."; }
+            document.getElementById('ai-status')?.classList.add('hidden');
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Hata: Yanıt yok.";
+        } catch (e) { return "Bağlantı hatası."; }
     }
-
-    window.setQuickPrompt = (text) => {
-        document.getElementById('ai-input').value = text;
-        sendAIMessage();
-    };
 
     window.sendAIMessage = async () => {
         const input = document.getElementById('ai-input');
         const chat = document.getElementById('ai-chat-box');
+        if(!input || !chat) return;
+        
         const text = input.value.trim(); if (!text) return;
-        
-        chat.innerHTML += `<div class="ai-bubble-user p-5 text-[14px] self-end ml-auto max-w-[85%]">${text}</div>`;
+        chat.innerHTML += `<div class="ai-bubble-user p-8 font-black text-sm self-end ml-auto max-w-[90%] shadow-2xl">${text}</div>`;
         input.value = "";
-        const botDiv = document.createElement('div');
-        botDiv.className = "ai-bubble-bot p-5 text-[14px] self-start max-w-[85%]";
-        botDiv.innerHTML = '<div class="spinner"></div>';
-        chat.appendChild(botDiv); chat.scrollTop = chat.scrollHeight;
-        
-        const res = await callGemini(text, "Sınavım akademisinin zeki mentorusun. Cevaplarını detaylı ve arkadaşça ver. Önemli yerleri kalın yap (**metin**).");
-        botDiv.innerHTML = parseMarkdown(res); chat.scrollTop = chat.scrollHeight;
+        const botDiv = document.createElement('div'); botDiv.className = "ai-bubble-bot p-8 font-bold text-sm self-start max-w-[90%] shadow-sm";
+        botDiv.innerHTML = '<div class="spinner border-primary border-t-transparent w-8 h-8 border-4"></div>'; chat.appendChild(botDiv); chat.scrollTop = chat.scrollHeight;
+        const res = await callGemini(text, "Sınavım uzman asistanısın.");
+        botDiv.innerHTML = res.replace(/\n/g, '<br>'); chat.scrollTop = chat.scrollHeight;
     };
 
     window.generateAIContent = async () => {
-        const title = document.getElementById('content-title').value.trim();
-        if (!title) return showCustomModal("BAŞLIK EKSİK", "Lütfen önce bir konu başlığı yazın.", "error");
-        
-        showCustomModal("AI ÇALIŞIYOR", "Gemini içeriği hazırlıyor, bu işlem birkaç saniye sürebilir...", "info");
-        const res = await callGemini(`'${title}' konusu için detaylı bir ders notu veya sınav soruları hazırla. Format markdown olsun.`, "Profesyonel akademik içerik üreticisi.");
-        closeCustomModal();
-        document.getElementById('content-body').value = res;
-        document.getElementById('code-field').style.display = 'block';
+        const titleEl = document.getElementById('content-title');
+        if(!titleEl) return;
+        const title = titleEl.value.trim();
+        if (!title) return showCustomModal("BAŞLIK YOK", "Önce bir başlık yazın.", "error");
+        const res = await callGemini(`'${title}' için akademik ders notu hazırla. HTML formatında olsun.`, "İçerik asistanı.");
+        const bodyEl = document.getElementById('content-body');
+        if(bodyEl) bodyEl.value = res;
     };
 
     // --- CONTENT FLOW ---
     window.setContentType = (type) => {
         currentContentType = type;
         document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('bg-white', 'shadow-xl', 'text-primary'));
-        document.getElementById('type-' + type).classList.add('bg-white', 'shadow-xl', 'text-primary');
+        const typeEl = document.getElementById('type-' + type);
+        if(typeEl) typeEl.classList.add('bg-white', 'shadow-xl', 'text-primary');
         
-        document.getElementById('url-field').style.display = (type === 'video' || type === 'wordwall') ? 'block' : 'none';
-        document.getElementById('file-field').style.display = (type === 'exam' || type === 'doc' || type === 'game') ? 'block' : 'none';
-        document.getElementById('code-field').style.display = (type === 'game' || type === 'exam' || type === 'doc') ? 'block' : 'none';
+        const urlField = document.getElementById('url-field');
+        if(urlField) urlField.style.display = (type === 'video' || type === 'wordwall') ? 'block' : 'none';
         
-        document.getElementById('url-label').innerText = type === 'wordwall' ? 'Wordwall Linki' : 'Video / Dosya URL';
-        document.getElementById('content-body').placeholder = type === 'game' ? "HTML oyun kodunu buraya yapıştırın..." : "Yazı içeriği...";
+        const fileField = document.getElementById('file-field');
+        if(fileField) fileField.style.display = (type === 'exam' || type === 'doc' || type === 'game') ? 'block' : 'none';
+        
+        const codeField = document.getElementById('code-field');
+        if(codeField) codeField.style.display = (type === 'doc' || type === 'game') ? 'block' : 'none';
     };
 
     window.publishContent = async () => {
-        if (userData.role === 'student') return showCustomModal("YETKİSİZ", "Sadece öğretmenler içerik yayınlayabilir.", "error");
-        const title = document.getElementById('content-title').value.trim();
-        if (!title) return showCustomModal("EKSİK BİLGİ", "Lütfen bir başlık girin.", "error");
+        if (userData.role === 'student') return showCustomModal("YETKİSİZ", "Öğrenciler içerik paylaşamaz.", "error");
         
-        // Eğer dosya yüklendiyse (base64) onu kullan, yoksa text alanını kullan
-        let finalBody = currentUploadedContentBase64 || document.getElementById('content-body').value.trim();
-        const finalUrl = document.getElementById('content-url').value.trim();
-
-        if(!finalBody && !finalUrl) return showCustomModal("BOŞ İÇERİK", "Lütfen dosya yükleyin, metin girin veya link ekleyin.", "error");
-
+        const titleEl = document.getElementById('content-title');
+        const bodyEl = document.getElementById('content-body');
+        const urlEl = document.getElementById('content-url');
+        
+        if(!titleEl || !bodyEl || !urlEl) return;
+        
+        const title = titleEl.value.trim();
+        if (!title) return showCustomModal("BAŞLIK GEREKLİ", "Başlık zorunludur.", "error");
+        let finalBody = currentUploadedContentBase64 || bodyEl.value;
         try {
-            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'contents'), {
-                type: currentContentType, title, body: finalBody, url: finalUrl, author: userData.displayName, timestamp: serverTimestamp()
-            });
-            await addXP(50); logActivity(`İçerik Yükledi: ${title}`);
-            showCustomModal("HARİKA", "İçerik başarıyla yayınlandı!", "success");
-            
-            // Reset Form
-            document.getElementById('content-title').value = ""; 
-            document.getElementById('content-body').value = "";
-            document.getElementById('content-url').value = "";
-            document.getElementById('file-name-display').innerText = "Dosya Seçin veya Sürükleyin";
-            currentUploadedContentBase64 = null;
-        } catch (e) { showCustomModal("HATA", "Yayınlama başarısız oldu.", "error"); }
+            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'contents'), { type: currentContentType, title, body: finalBody, url: urlEl.value, author: userData.displayName, timestamp: serverTimestamp() });
+            await addXP(50); logActivity(`Yayınladı: ${title}`);
+            showCustomModal("BAŞARILI", "Kütüphaneye eklendi!", "success");
+            titleEl.value = ""; bodyEl.value = ""; currentUploadedContentBase64 = null;
+        } catch (e) { showCustomModal("HATA", "İşlem başarısız.", "error"); }
     };
 
     function listenToContents() {
         onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'contents'), (snap) => {
             const pool = document.getElementById('pool-list');
             const games = document.getElementById('games-list');
+            if(!pool || !games) return;
+            
             pool.innerHTML = ""; games.innerHTML = "";
             let gameCount = 0;
             
-            // 🎵 SİTENİN İLK ŞARKISI (Sabit Duyuru)
-            const songHtml = `
-                <div onclick="window.open('https://www.flowmusic.app/song/ba912096-94e6-401d-b2b1-49d7d7323884', '_blank')" class="cursor-pointer bg-gradient-to-br from-secondary to-[#8b5e34] p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden transition-all hover:scale-[1.02] border border-white/20">
-                    <div class="absolute right-[-20px] top-[-20px] opacity-10"><span class="material-symbols-outlined text-[150px]">music_note</span></div>
-                    <div class="flex justify-between items-start mb-6"><span class="text-[10px] font-black uppercase px-4 py-2 bg-white/20 text-white rounded-full tracking-widest">ÖZEL DUYURU</span></div>
-                    <h4 class="font-black text-3xl mb-12 text-white leading-tight uppercase tracking-tighter">Sitemizin İlk Şarkısı Çıktı! 🎵</h4>
-                    <button class="w-full py-5 bg-white text-secondary rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:brightness-90 transition-all">Şimdi Dinle</button>
-                </div>
-            `;
-            pool.innerHTML = songHtml;
-
             snap.docs.forEach(docSnap => {
                 const item = docSnap.data(); const id = docSnap.id;
-                const isInteractive = (item.type === 'game' || item.type === 'wordwall');
-                
-                // Havuz Kartı
-                pool.innerHTML += `<div class="bg-white p-10 rounded-[3.5rem] border border-outline-variant/10 shadow-xl group hover:shadow-2xl transition-all relative overflow-hidden">
-                    <div class="flex justify-between items-start mb-6"><span class="text-[10px] font-black uppercase px-4 py-1.5 bg-primary/10 text-primary rounded-full tracking-widest">${item.type}</span><span class="text-[10px] font-black opacity-40 uppercase tracking-widest">${item.author}</span></div>
-                    <h4 class="font-black text-2xl mb-12 truncate leading-tight uppercase tracking-tighter">${item.title}</h4>
-                    <button onclick="viewContentInSite('${id}')" class="w-full py-5 bg-primary/5 text-primary rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">İÇERİĞİ AÇ</button>
+                pool.innerHTML += `<div class="bg-white p-10 rounded-[3.5rem] border border-outline-variant/10 shadow-2xl group hover:shadow-2xl transition-all relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-6"><span class="text-[9px] font-black uppercase px-4 py-1.5 bg-primary/10 text-primary rounded-full">${item.type}</span><span class="text-[10px] font-black opacity-30 uppercase tracking-widest">${item.author}</span></div>
+                    <h4 class="font-black text-2xl mb-12 truncate uppercase tracking-tighter">${item.title}</h4>
+                    <button onclick="viewContentInSite('${id}')" class="w-full py-5 bg-primary/5 text-primary rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Görüntüle</button>
                 </div>`;
-
-                // Oyun Kartı (Sadece game ve wordwall tipleri)
-                if (isInteractive) {
+                if (item.type === 'game' || item.type === 'wordwall') {
                     gameCount++;
-                    games.innerHTML += `<div class="bg-white p-10 rounded-[4rem] border border-outline-variant/10 shadow-xl cursor-pointer flex flex-col justify-between hover:-translate-y-2 transition-all group" onclick="viewContentInSite('${id}')">
-                        <div class="flex justify-between items-start mb-8"><div class="w-16 h-16 rounded-[2rem] bg-secondary/10 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl">${item.type === 'wordwall' ? 'app_shortcut' : 'sports_esports'}</span></div><span class="bg-primary text-white text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest">BAŞLAT</span></div>
-                        <div><h4 class="font-black text-3xl mb-3 leading-tight uppercase truncate tracking-tighter">${item.title}</h4><p class="text-[11px] font-black text-on-surface-variant opacity-40 uppercase tracking-[0.3em]">${item.type === 'wordwall' ? 'Wordwall Etkinliği' : 'Akademik Oyun'}</p></div>
+                    games.innerHTML += `<div class="bg-white p-10 rounded-[4rem] border border-outline-variant/10 shadow-2xl cursor-pointer flex flex-col justify-between hover:-translate-y-2 transition-all shadow-inner" onclick="viewContentInSite('${id}')">
+                        <div class="flex justify-between items-start mb-8"><div class="w-16 h-16 rounded-[2rem] bg-secondary/10 flex items-center justify-center text-secondary shadow-inner"><span class="material-symbols-outlined text-4xl">${item.type==='wordwall'?'link':'sports_esports'}</span></div><span class="bg-primary text-white text-[9px] font-black px-4 py-2 rounded-full uppercase">OYNA</span></div>
+                        <div><h4 class="font-black text-2xl mb-3 uppercase truncate leading-tight">${item.title}</h4></div>
                     </div>`;
                 }
             });
-            const statTotal = document.getElementById('stat-total');
-            if(statTotal) statTotal.innerText = snap.size;
-            const noGames = document.getElementById('no-games-msg');
-            if(noGames) noGames.style.display = gameCount === 0 ? 'flex' : 'none';
+            const statTotal = document.getElementById('stat-total'); if(statTotal) statTotal.innerText = snap.size;
+            const noGames = document.getElementById('no-games-msg'); if(noGames) noGames.style.display = gameCount === 0 ? 'flex' : 'none';
         });
     }
 
-    // --- ACTIVITY LOGS ---
-    async function logActivity(action) {
-        if (!currentUser) return;
-        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), { email: currentUser.email, action, timestamp: serverTimestamp() });
-    }
-
-    function listenToLogs() {
-        onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), (snap) => {
-            const tbody = document.getElementById('logs-table-body');
-            if (!tbody) return;
-            tbody.innerHTML = ""; const todayStr = new Date().toLocaleDateString('tr-TR');
-            const logs = snap.docs.map(d => d.data()).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-            logs.forEach(log => {
-                const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date();
-                tbody.innerHTML += `<tr class="hover:bg-primary/5 transition-all"><td class="px-14 py-8 font-black text-sm text-primary uppercase">${log.email.split('@')[0]}</td><td class="px-14 py-8 text-sm font-bold opacity-80">${log.action}</td><td class="px-14 py-8 text-[11px] font-black opacity-30 text-right uppercase tracking-[0.2em]">${date.toLocaleString('tr-TR')}</td></tr>`;
-            });
-            const statLogins = document.getElementById('stat-logins');
-            if (statLogins) statLogins.innerText = logs.filter(l => new Date(l.timestamp?.seconds*1000).toLocaleDateString('tr-TR') === todayStr).length;
-        });
-    }
-
-    // --- PROFILE ---
-    window.updateProfile = async () => {
-        const name = document.getElementById('set-name').value.trim();
-        const photo = currentPhotoBase64 || userData.avatar;
-        try {
-            await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { displayName: name, avatar: photo });
-            userData.displayName = name; userData.avatar = photo; updateUI();
-            showCustomModal("BAŞARILI", "Profil verileri kaydedildi.", "success");
-        } catch (e) { showCustomModal("HATA", "Güncellenemedi.", "error"); }
-    };
-
-    async function addXP(amount) {
-        if(!userData) return;
-        let newXP = (userData.xp || 0) + amount;
-        let newLevel = Math.floor(newXP / 500) + 1;
-        await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel });
-        userData.xp = newXP; if(newLevel > (userData.level || 1)) { userData.level = newLevel; showCustomModal("LEVEL UP!", `Tebrikler! ${newLevel}. Seviyeye ulaştın! 🚀`, "success"); }
-        updateUI();
-    }
-
-    // --- NAVIGATION & AUTH ---
-    window.showPage = (page) => {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById('page-' + page);
-        if (target) target.classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        const btn = document.querySelector(`.nav-btn[data-page="${page}"]`);
-        if(btn) btn.classList.add('active');
-        const titleMap = { admin: 'Yönetim Stüdyosu', pool: 'İçerik Havuzu', games: 'Laboratuvar', settings: 'Profil Yönetimi', logs: 'Aktiviteler', help: 'Destek Merkezi' };
-        document.getElementById('page-title').innerText = titleMap[page] || 'Sınavım';
-    };
-
-    window.toggleAIMentor = () => document.getElementById('ai-mentor-drawer').classList.toggle('open');
-    
-    window.handleLogin = async () => { 
-        try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-password').value); } 
-        catch (e) { showCustomModal("GİRİŞ HATASI", "Bilgilerini ve Firebase ayarlarını kontrol et.", "error"); }
-    };
-    
-    window.handleGoogleLogin = async () => { 
-        try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
-        catch (e) { showCustomModal("HATA", "Google girişi başarısız. Firebase'de Authorized Domains ayarını yaptığından emin ol.", "error"); }
-    };
-    
+    async function logActivity(action) { if (!currentUser) return; await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), { email: currentUser.email, action, timestamp: serverTimestamp() }); }
+    function listenToLogs() { onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), (snap) => { const tbody = document.getElementById('logs-table-body'); if (!tbody) return; tbody.innerHTML = ""; const todayStr = new Date().toLocaleDateString('tr-TR'); const logs = snap.docs.map(d => d.data()).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0)); logs.forEach(log => { const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date(); tbody.innerHTML += `<tr class="hover:bg-primary/5 transition-all"><td class="px-14 py-10 font-black text-sm text-primary uppercase">${log.email.split('@')[0]}</td><td class="px-14 py-10 text-sm font-bold opacity-70">${log.action}</td><td class="px-14 py-10 text-[11px] font-black opacity-30 text-right uppercase tracking-widest">${date.toLocaleString('tr-TR')}</td></tr>`; }); const statLogins = document.getElementById('stat-logins'); if (statLogins) statLogins.innerText = logs.filter(l => new Date(l.timestamp?.seconds*1000).toLocaleDateString('tr-TR') === todayStr).length; }); }
+    window.updateProfile = async () => { const setNameEl = document.getElementById('set-name'); if(!setNameEl) return; const name = setNameEl.value.trim(); const photo = currentPhotoBase64 || userData.avatar; try { await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { displayName: name, avatar: photo }); userData.displayName = name; userData.avatar = photo; updateUI(); showCustomModal("BAŞARILI", "Profil güncellendi!", "success"); } catch (e) { showCustomModal("HATA", "Kaydedilemedi.", "error"); } };
+    async function addXP(amount) { if(!userData) return; let newXP = (userData.xp || 0) + amount; let newLevel = Math.floor(newXP / 500) + 1; await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel }); userData.xp = newXP; if(newLevel > (userData.level || 1)) { userData.level = newLevel; showCustomModal("LEVEL UP!", `Tebrikler! ${newLevel}. Seviyeye ulaştın! 🚀`, "success"); } updateUI(); }
+    window.showPage = (page) => { document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active')); const target = document.getElementById('page-' + page); if (target) target.classList.add('active'); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); const btn = document.querySelector(`.nav-btn[data-page="${page}"]`); if(btn) btn.classList.add('active'); const titleMap = { admin: 'Yönetim', pool: 'Havuz', games: 'Oyunlar', settings: 'Profil', logs: 'Kayıtlar', help: 'Destek' }; const titleEl = document.getElementById('page-title'); if(titleEl) titleEl.innerText = titleMap[page] || 'Sınavım'; };
+    window.toggleAIMentor = () => { const drawer = document.getElementById('ai-mentor-drawer'); if(drawer) drawer.classList.toggle('open'); };
+    window.handleLogin = async () => { const emailEl = document.getElementById('login-email'); const passEl = document.getElementById('login-password'); if(!emailEl || !passEl) return; try { await signInWithEmailAndPassword(auth, emailEl.value, passEl.value); } catch (e) { showCustomModal("HATA", "Giriş başarısız.", "error"); } };
+    window.handleGoogleLogin = async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { showCustomModal("HATA", "Google hatası.", "error"); } };
     window.handleRegister = async () => { 
-        const name = document.getElementById('reg-name').value;
-        const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-password').value;
-        const role = document.querySelector('input[name="reg-role"]:checked').value;
-        if (pass.length < 6) return showCustomModal("GÜVENLİK", "Şifre en az 6 karakter olmalı.", "error");
+        const nameEl = document.getElementById('reg-name'); const emailEl = document.getElementById('reg-email'); const passEl = document.getElementById('reg-password');
+        if(!nameEl || !emailEl || !passEl) return;
+        const name = nameEl.value; const email = emailEl.value; const pass = passEl.value; 
+        const roleRadio = document.querySelector('input[name="reg-role"]:checked');
+        const role = roleRadio ? roleRadio.value : 'student'; 
+        if (pass.length < 6) return showCustomModal("GÜVENLİK", "Şifre kısa.", "error"); 
         try { 
             const res = await createUserWithEmailAndPassword(auth, email, pass); 
             await updateFbProfile(res.user, { displayName: name }); 
-            const isAdmin = ADMIN_EMAILS.includes(email);
-            await setDoc(doc(db, 'artifacts', appId, 'users', res.user.uid, 'profile', 'stats'), {
-                displayName: name, xp: 0, level: 1, streak: 1, lastLogin: new Date().toISOString(),
-                avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${res.user.uid.substring(0,5)}`,
-                role: isAdmin ? 'admin' : role
-            });
-            showCustomModal("BAŞARILI", "Hesabın açıldı!", "success");
-        } catch (e) { showCustomModal("HATA", e.message, "error"); }
+            await setDoc(doc(db, 'artifacts', appId, 'users', res.user.uid, 'profile', 'stats'), { displayName: name, xp: 0, level: 1, streak: 1, lastLogin: new Date().toISOString(), avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${res.user.uid.substring(0,5)}`, role: ADMIN_EMAILS.includes(email) ? 'admin' : role }); 
+            showCustomModal("BAŞARILI", "Hesap açıldı!", "success"); 
+        } catch (e) { showCustomModal("HATA", e.message, "error"); } 
     };
-    
-    window.handleLogout = () => { if(confirm("Çıkış yapılsın mı?")) signOut(auth); };
+    window.handleLogout = () => { if(confirm("Çıkış?")) signOut(auth); };
 </script>
 </body>
 </html>
