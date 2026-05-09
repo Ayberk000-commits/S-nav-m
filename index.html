@@ -4,15 +4,15 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Sınavım - The Academic Edge</title>
-    <link rel="icon" type="image/jpeg" href="image_2cd20a.jpg">
+    <link rel="icon" type="image/jpeg" href="icon.jpeg">
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     
     <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
@@ -84,20 +84,20 @@
 </div>
 
 <div id="custom-modal-overlay">
-    <div class="bg-white rounded-[2.5rem] p-12 max-w-sm w-full mx-4 shadow-2xl border border-outline-variant/30 text-center">
+    <div class="bg-white rounded-[2.5rem] p-12 max-w-sm w-full mx-4 shadow-2xl border border-outline-variant/30 text-center transition-all">
         <div id="modal-icon-container" class="mb-6 flex justify-center text-primary">
             <span class="material-symbols-outlined text-8xl">info</span>
         </div>
-        <h3 id="modal-title-text" class="text-3xl font-black mb-3 tracking-tighter uppercase">Bilgi</h3>
+        <h3 id="modal-title-text" class="text-3xl font-black mb-3 tracking-tighter uppercase text-on-surface">Bilgi</h3>
         <p id="modal-body-text" class="text-sm text-[#404943] mb-10 leading-relaxed font-bold">...</p>
-        <button onclick="closeCustomModal()" class="w-full py-5 bg-primary text-on-primary rounded-2xl font-black text-xs tracking-widest uppercase hover:brightness-110 active:scale-95 transition-all">Anladım</button>
+        <button onclick="closeCustomModal()" class="w-full py-5 bg-primary text-on-primary rounded-2xl font-black text-xs tracking-widest uppercase hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-primary/20">Anladım</button>
     </div>
 </div>
 
 <div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-[#f8faf7] relative overflow-hidden" id="auth-screen">
     <div class="max-w-4xl w-full flex flex-col items-center relative z-10">
         <div class="mb-12 text-center">
-            <img alt="Sınavım Logo" class="w-32 h-32 object-contain rounded-full shadow-2xl mb-4 mx-auto bg-white p-2 border-2 border-primary/10" src="image_2cd20a.jpg"/>
+            <img alt="Sınavım Logo" class="w-32 h-32 object-contain rounded-full shadow-2xl mb-4 mx-auto bg-white p-2 border-2 border-primary/10" src="icon.jpeg"/>
             <h1 class="text-5xl font-black text-primary tracking-tighter mb-1 uppercase">Sınavım</h1>
             <p class="text-on-surface-variant font-bold uppercase tracking-[0.3em] text-[10px] opacity-70">The Academic Excellence Platform</p>
         </div>
@@ -146,10 +146,10 @@
 </div>
 
 <div class="hidden w-full flex" id="main-dashboard">
-    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-[#fdfdfc] z-[100] border-r border-outline-variant/10 shadow-sm">
+    <nav class="h-screen w-72 fixed left-0 top-0 flex flex-col bg-white z-[100] border-r border-outline-variant/10 shadow-2xl transition-colors duration-300">
         <div class="flex flex-col h-full p-8 space-y-10">
             <div class="flex items-center gap-4">
-                <img alt="Logo" class="h-14 w-14 object-contain rounded-full bg-white p-1 border border-primary/10" src="image_2cd20a.jpg"/>
+                <img alt="Logo" class="h-14 w-14 object-contain rounded-full bg-white p-1 border border-primary/10 shadow-lg" src="icon.jpeg"/>
                 <div>
                     <h1 class="text-xl font-black text-primary tracking-tighter uppercase leading-none flex items-center gap-2">
                         Sınavım
@@ -159,7 +159,7 @@
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-[2.5rem] border border-outline-variant/10 shadow-sm space-y-6">
+            <div class="bg-surface-container-low p-6 rounded-[2.5rem] border border-outline-variant/10 shadow-inner space-y-6">
                 <div class="flex justify-between items-center px-1">
                     <span class="text-[10px] font-black text-primary px-3 py-1.5 bg-primary-container rounded-xl uppercase tracking-widest shadow-sm">Level <span id="user-level">1</span></span>
                     <div class="flex items-center gap-1.5 text-secondary font-black text-[11px] uppercase tracking-tighter">
@@ -168,55 +168,55 @@
                     </div>
                 </div>
                 <div class="space-y-3">
-                    <div class="w-full bg-[#f5f8f4] h-2.5 rounded-full overflow-hidden">
+                    <div class="w-full bg-white h-2.5 rounded-full overflow-hidden shadow-inner">
                         <div id="xp-bar" class="xp-progress-bar h-full bg-primary rounded-full w-0"></div>
                     </div>
-                    <div class="flex justify-between px-1 text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-50">
+                    <div class="flex justify-between px-1 text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-70">
                         <span><span id="user-xp">0</span> XP</span>
                         <span>500 XP</span>
                     </div>
                 </div>
             </div>
 
-            <div class="flex-1 space-y-1 flex flex-col font-['Nunito_Sans']">
-                <button id="nav-admin" onclick="showPage('admin')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="admin">
-                    <span class="material-symbols-outlined text-[24px]">grid_view</span>
+            <div class="flex-1 space-y-2 flex flex-col font-['Nunito_Sans']">
+                <button id="nav-admin" onclick="showPage('admin')" class="nav-btn flex items-center gap-6 px-6 py-4 group" data-page="admin">
+                    <span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">grid_view</span>
                     <span class="font-black text-[13px] uppercase tracking-[0.15em]">Yönetim</span>
                 </button>
-                <button onclick="showPage('pool')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="pool">
-                    <span class="material-symbols-outlined text-[24px]">school</span>
+                <button onclick="showPage('pool')" class="nav-btn flex items-center gap-6 px-6 py-4 group" data-page="pool">
+                    <span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">school</span>
                     <span class="font-black text-[13px] uppercase tracking-[0.15em]">Havuz</span>
                 </button>
-                <button onclick="showPage('games')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="games">
-                    <span class="material-symbols-outlined text-[24px]">videogame_asset</span>
+                <button onclick="showPage('games')" class="nav-btn flex items-center gap-6 px-6 py-4 group" data-page="games">
+                    <span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">videogame_asset</span>
                     <span class="font-black text-[13px] uppercase tracking-[0.15em]">Oyunlar</span>
                 </button>
-                <button onclick="showPage('settings')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="settings">
-                    <span class="material-symbols-outlined text-[24px]">person</span>
+                <button onclick="showPage('settings')" class="nav-btn flex items-center gap-6 px-6 py-4 group" data-page="settings">
+                    <span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">person</span>
                     <span class="font-black text-[13px] uppercase tracking-[0.15em]">Profil</span>
                 </button>
-                <button id="nav-logs" onclick="showPage('logs')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="logs">
-                    <span class="material-symbols-outlined text-[24px]">history_edu</span>
+                <button id="nav-logs" onclick="showPage('logs')" class="nav-btn flex items-center gap-6 px-6 py-4 group" data-page="logs">
+                    <span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">history_edu</span>
                     <span class="font-black text-[13px] uppercase tracking-[0.15em]">Kayıtlar</span>
                 </button>
-                <button onclick="showPage('help')" class="nav-btn flex items-center gap-6 px-6 py-4.5 group" data-page="help">
-                    <span class="material-symbols-outlined text-[24px]">help_center</span>
+                <button onclick="showPage('help')" class="nav-btn flex items-center gap-6 px-6 py-4 group" data-page="help">
+                    <span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">help_center</span>
                     <span class="font-black text-[13px] uppercase tracking-[0.15em]">Destek</span>
                 </button>
             </div>
 
-            <div class="mt-auto p-4 bg-surface-container-low rounded-[2rem] flex items-center justify-between border border-outline-variant/10">
+            <div class="mt-auto p-4 bg-surface-container-low rounded-[2.5rem] flex items-center justify-between border border-outline-variant/10 shadow-lg">
                 <div class="flex items-center gap-3 overflow-hidden">
                     <div class="relative shrink-0">
-                        <img id="user-avatar-mini" src="" class="w-12 h-12 rounded-full border-2 border-primary/20 bg-white object-cover shadow-sm" />
+                        <img id="user-avatar-mini" src="" class="w-12 h-12 rounded-2xl border-2 border-primary/20 bg-white object-cover shadow-sm" />
                         <span id="side-level-tag" class="absolute -bottom-1 -right-1 bg-primary text-white text-[8px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">1</span>
                     </div>
                     <div class="flex flex-col truncate uppercase tracking-tighter">
                         <span class="text-xs font-black text-on-surface truncate" id="user-name-mini">...</span>
-                        <span id="side-xp-mini" class="text-[9px] font-black text-secondary tracking-widest">0 XP</span>
+                        <span id="side-xp-mini" class="text-[9px] font-black text-secondary tracking-widest opacity-80">0 XP</span>
                     </div>
                 </div>
-                <button class="text-on-surface-variant hover:text-error transition-all p-2 rounded-xl" onclick="handleLogout()">
+                <button class="text-on-surface-variant hover:text-error transition-all p-2.5 rounded-xl hover:bg-error/5" onclick="handleLogout()" title="Çıkış Yap">
                     <span class="material-symbols-outlined text-[22px]">logout</span>
                 </button>
             </div>
@@ -238,71 +238,71 @@
 
         <main class="flex-1 px-12 pb-12 flex flex-col">
             <section id="page-admin" class="page-section active space-y-12">
-                <div class="bg-white rounded-[3rem] p-12 border border-outline-variant/10 shadow-xl space-y-12 relative overflow-hidden">
+                <div class="bg-white dark:bg-zinc-900 rounded-[3rem] p-12 border border-outline-variant/10 dark:border-white/5 shadow-xl space-y-12 relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-64 h-64 bg-primary/5 rounded-bl-full -mr-10 -mt-10 pointer-events-none"></div>
                     <div class="relative z-10 space-y-2">
-                        <h2 class="text-5xl font-black tracking-tighter uppercase text-primary">İçerik Stüdyosu</h2>
-                        <p class="text-on-surface-variant font-black uppercase tracking-[0.3em] text-[11px] opacity-60">Öğretmen Tasarım Paneli</p>
+                        <h2 class="text-5xl font-black tracking-tighter uppercase text-primary dark:text-primary-container">İçerik Stüdyosu</h2>
+                        <p class="text-on-surface-variant dark:text-zinc-400 font-black uppercase tracking-[0.3em] text-[11px] opacity-60">Öğretmen Tasarım Paneli</p>
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-12 relative z-10">
                         <div class="space-y-8">
-                            <div class="flex flex-wrap gap-3 p-2 bg-surface-container-low rounded-[2rem] w-fit shadow-inner">
-                                <button onclick="setContentType('exam')" class="type-btn px-8 py-3.5 rounded-2xl bg-white shadow-xl font-black text-xs text-primary tracking-widest uppercase" id="type-exam">SINAV</button>
-                                <button onclick="setContentType('doc')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-doc">DÖKÜMAN</button>
-                                <button onclick="setContentType('wordwall')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-wordwall">WORDWALL</button>
-                                <button onclick="setContentType('game')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-game">HTML OYUN</button>
-                                <button onclick="setContentType('video')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase" id="type-video">VİDEO</button>
+                            <div class="flex flex-wrap gap-3 p-2 bg-surface-container-low dark:bg-zinc-800 rounded-[2rem] w-fit shadow-inner">
+                                <button onclick="setContentType('exam')" class="type-btn px-8 py-3.5 rounded-2xl bg-white dark:bg-zinc-700 shadow-xl font-black text-xs text-primary dark:text-primary-container tracking-widest uppercase" id="type-exam">SINAV</button>
+                                <button onclick="setContentType('doc')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-container tracking-widest uppercase" id="type-doc">DÖKÜMAN</button>
+                                <button onclick="setContentType('wordwall')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-container tracking-widest uppercase" id="type-wordwall">WORDWALL</button>
+                                <button onclick="setContentType('game')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-container tracking-widest uppercase" id="type-game">HTML OYUN</button>
+                                <button onclick="setContentType('video')" class="type-btn px-8 py-3.5 rounded-2xl font-black text-xs text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-container tracking-widest uppercase" id="type-video">VİDEO</button>
                             </div>
 
                             <div class="space-y-6">
                                 <div class="space-y-2">
-                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">İçerik Başlığı</label>
-                                    <input id="content-title" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm font-black outline-none focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Örn: 2024 Deneme Sınavı #1"/>
+                                    <label class="text-[11px] font-black text-on-surface-variant dark:text-zinc-400 uppercase ml-3 tracking-[0.3em]">İçerik Başlığı</label>
+                                    <input id="content-title" class="w-full bg-surface-container-low dark:bg-zinc-800 border-none rounded-3xl p-6 text-sm font-black outline-none focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner text-on-surface dark:text-white" placeholder="Örn: 2024 Deneme Sınavı #1"/>
                                 </div>
                                 
                                 <div id="file-field" class="space-y-2">
-                                    <label class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">Dosya Yükle (PDF, HTML, JPG)</label>
-                                    <div class="border-4 border-dashed border-outline-variant/30 hover:border-primary/50 transition-all rounded-[3rem] p-10 flex flex-col items-center justify-center cursor-pointer text-center group bg-surface-container-low/50" onclick="document.getElementById('file-upload').click()">
-                                        <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                                    <label class="text-[11px] font-black text-on-surface-variant dark:text-zinc-400 uppercase ml-3 tracking-[0.3em]">Dosya Yükle (PDF, HTML, JPG)</label>
+                                    <div class="border-4 border-dashed border-outline-variant/30 dark:border-white/10 hover:border-primary/50 dark:hover:border-primary-container/50 transition-all rounded-[3rem] p-10 flex flex-col items-center justify-center cursor-pointer text-center group bg-surface-container-low/50 dark:bg-zinc-800/50" onclick="document.getElementById('file-upload').click()">
+                                        <div class="w-16 h-16 rounded-full bg-white dark:bg-zinc-700 shadow-sm flex items-center justify-center text-primary dark:text-primary-container mb-4 group-hover:scale-110 transition-transform">
                                             <span class="material-symbols-outlined text-4xl">cloud_upload</span>
                                         </div>
-                                        <p id="file-name-display" class="font-black text-sm text-on-surface uppercase tracking-tight">DOSYAYI SEÇİN</p>
+                                        <p id="file-name-display" class="font-black text-sm text-on-surface dark:text-white uppercase tracking-tight">DOSYAYI SEÇİN</p>
                                         <input type="file" id="file-upload" class="hidden" onchange="handleContentFileUpload(this)"/>
                                     </div>
                                 </div>
 
                                 <div id="url-field" class="hidden space-y-2">
-                                    <label id="url-label" class="text-[11px] font-black text-on-surface-variant uppercase ml-3 tracking-[0.3em]">Kaynak Linki</label>
-                                    <input id="content-url" class="w-full bg-surface-container-low border-none rounded-3xl p-6 text-sm outline-none focus:ring-[15px] focus:ring-primary/5 font-bold shadow-inner" placeholder="https://..."/>
+                                    <label id="url-label" class="text-[11px] font-black text-on-surface-variant dark:text-zinc-400 uppercase ml-3 tracking-[0.3em]">Kaynak Linki</label>
+                                    <input id="content-url" class="w-full bg-surface-container-low dark:bg-zinc-800 border-none rounded-3xl p-6 text-sm outline-none focus:ring-[15px] focus:ring-primary/5 font-bold shadow-inner text-on-surface dark:text-white" placeholder="https://..."/>
                                 </div>
 
                                 <div id="code-field" class="hidden space-y-2">
                                     <div class="flex justify-between items-center mb-1 px-1">
-                                        <label class="text-[11px] font-black text-on-surface-variant uppercase tracking-[0.3em]">Ders İçeriği / Metin</label>
-                                        <button onclick="generateAIContent()" class="text-[10px] font-black text-primary bg-primary/10 px-4 py-2 rounded-2xl flex items-center gap-2 hover:bg-primary hover:text-white transition-all uppercase tracking-widest"><span class="material-symbols-outlined text-[16px]">auto_awesome</span> AI Taslağı Oluştur</button>
+                                        <label class="text-[11px] font-black text-on-surface-variant dark:text-zinc-400 uppercase tracking-[0.3em]">Ders İçeriği / Metin</label>
+                                        <button onclick="generateAIContent()" class="text-[10px] font-black text-primary dark:text-primary-container bg-primary/10 dark:bg-primary/20 px-4 py-2 rounded-2xl flex items-center gap-2 hover:bg-primary hover:text-white transition-all uppercase tracking-widest"><span class="material-symbols-outlined text-[16px]">auto_awesome</span> AI Taslağı Oluştur</button>
                                     </div>
-                                    <textarea id="content-body" class="w-full bg-surface-container-low border-none rounded-[2.5rem] p-8 text-sm min-h-[400px] outline-none font-mono focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner" placeholder="Eğer dosya yüklemediyseniz içeriğinizi buraya yazın..."></textarea>
+                                    <textarea id="content-body" class="w-full bg-surface-container-low dark:bg-zinc-800 border-none rounded-[2.5rem] p-8 text-sm min-h-[400px] outline-none font-mono focus:ring-[15px] focus:ring-primary/5 transition-all shadow-inner text-on-surface dark:text-white" placeholder="Eğer dosya yüklemediyseniz içeriğinizi buraya yazın..."></textarea>
                                 </div>
 
-                                <button onclick="publishContent()" class="w-full py-8 bg-[#a67c52] text-white rounded-[2.5rem] font-black text-sm shadow-2xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-5 uppercase tracking-[0.3em]">
+                                <button onclick="publishContent()" class="w-full py-8 bg-[#a67c52] dark:bg-secondary text-white rounded-[2.5rem] font-black text-sm shadow-2xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-5 uppercase tracking-[0.3em]">
                                     Hemen Yayınla <span class="material-symbols-outlined text-3xl font-bold">rocket_launch</span>
                                 </button>
                             </div>
                         </div>
 
                         <div id="admin-stats-panel" class="space-y-8">
-                            <div class="p-10 bg-surface-container-low rounded-[3rem] border border-outline-variant/10 text-center shadow-inner relative overflow-hidden h-fit">
+                            <div class="p-10 bg-surface-container-low dark:bg-zinc-800 rounded-[3rem] border border-outline-variant/10 dark:border-white/5 text-center shadow-inner relative overflow-hidden h-fit">
                                 <div class="absolute right-0 bottom-0 w-32 h-32 bg-primary/5 rounded-tl-full pointer-events-none"></div>
-                                <h3 class="font-black text-[11px] mb-12 text-primary uppercase tracking-[0.4em] border-b border-outline-variant/10 pb-8 uppercase tracking-widest">Sistem İstatistikleri</h3>
+                                <h3 class="font-black text-[11px] mb-12 text-primary dark:text-primary-container uppercase tracking-[0.4em] border-b border-outline-variant/10 dark:border-white/5 pb-8 uppercase tracking-widest">Sistem İstatistikleri</h3>
                                 <div class="grid grid-cols-2 gap-10">
                                     <div class="space-y-2">
-                                        <p class="text-[10px] font-black text-on-surface-variant uppercase opacity-60">Havuz</p>
-                                        <p id="stat-total" class="text-6xl font-black text-primary tracking-tighter">0</p>
+                                        <p class="text-[10px] font-black text-on-surface-variant dark:text-zinc-400 uppercase opacity-60">Havuz</p>
+                                        <p id="stat-total" class="text-6xl font-black text-primary dark:text-primary-container tracking-tighter">0</p>
                                     </div>
                                     <div class="space-y-2">
-                                        <p class="text-[10px] font-black text-on-surface-variant uppercase opacity-60">Girişler</p>
-                                        <p id="stat-logins" class="text-6xl font-black text-secondary tracking-tighter">0</p>
+                                        <p class="text-[10px] font-black text-on-surface-variant dark:text-zinc-400 uppercase opacity-60">Girişler</p>
+                                        <p id="stat-logins" class="text-6xl font-black text-secondary dark:text-secondary-container tracking-tighter">0</p>
                                     </div>
                                 </div>
                             </div>
@@ -421,29 +421,20 @@
     </div>
 </div>
 
-<!-- AI MENTOR SIDE DRAWER -->
-<div id="ai-mentor-container" class="hidden">
-    <div id="ai-mentor-drawer" class="fixed top-0 right-0 w-[550px] h-screen z-[10000] flex flex-col border-l border-white/20 bg-white/90 backdrop-blur-3xl shadow-2xl transition-transform transform">
-        <div class="p-16 bg-white/50 border-b border-white/40 flex justify-between items-center relative overflow-hidden">
-            <div class="absolute right-0 top-0 w-64 h-64 bg-primary/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-            <div class="flex items-center gap-8 relative z-10 font-black tracking-widest uppercase">
-                <div class="w-20 h-20 rounded-[2.5rem] bg-gradient-to-br from-primary to-primary-container text-white flex items-center justify-center shadow-3xl shadow-primary/30"><span class="material-symbols-outlined text-5xl">auto_awesome</span></div>
-                <div><h4 class="text-4xl font-black tracking-tighter uppercase leading-none">Mentor Pro</h4><span class="text-sm font-black uppercase tracking-[0.4em] text-primary opacity-60">Akademik Rehber</span></div>
-            </div>
-            <button onclick="toggleAIMentor()" class="w-16 h-16 rounded-[2rem] bg-surface-container-highest hover:bg-white flex items-center justify-center transition-all group shadow-xl"><span class="material-symbols-outlined text-4xl group-hover:rotate-180 transition-transform duration-500 font-black">close</span></button>
+<!-- WELCOME GREETING OVERLAY -->
+<div id="welcome-overlay" class="hidden fixed inset-0 z-[20000] flex items-center justify-center bg-primary/20 backdrop-blur-3xl transition-opacity duration-1000">
+    <div class="bg-white dark:bg-zinc-900 rounded-[4rem] p-16 shadow-2xl border border-white/20 text-center space-y-8 max-w-lg w-full mx-4 animate-fadeIn">
+        <div class="w-32 h-32 rounded-[2.5rem] bg-primary/10 flex items-center justify-center text-primary mx-auto">
+            <span class="material-symbols-outlined text-7xl font-black">celebration</span>
         </div>
-        <div id="ai-chat-box" class="flex-1 overflow-y-auto p-16 space-y-12 bg-white/30 font-black tracking-widest uppercase">
-            <div class="ai-bubble-bot p-10 font-black text-lg leading-relaxed animate-fadeIn">Merhaba! Ben Sınavım AI Mentor. Senin akademik başarı yolculuğunda her an yanındayım. Bugün hangi konuyu birlikte fethedeceğiz? 📚✨</div>
-        </div>
-        <div class="p-16 bg-white border-t border-white/40 uppercase tracking-widest font-black">
-            <div class="flex items-center gap-6 bg-surface-container-low p-6 rounded-[3rem] border-2 border-outline-variant/10 focus-within:border-primary/40 transition-all shadow-inner uppercase tracking-widest font-black">
-                <input id="ai-input" class="flex-1 border-none bg-transparent p-4 text-lg font-black outline-none focus:ring-0 text-on-surface" placeholder="Bana bir şey sor..." onkeydown="if(event.key==='Enter') sendAIMessage()"/>
-                <button onclick="sendAIMessage()" class="bg-primary text-white w-20 h-20 rounded-[2rem] flex items-center justify-center shadow-3xl shadow-primary/30 active:scale-90 transition-all hover:brightness-110"><span class="material-symbols-outlined text-5xl font-bold font-black">send</span></button>
-            </div>
-            <p class="text-[11px] text-[#404943] font-black uppercase text-center mt-12 tracking-[0.5em] opacity-30">Gemini 2.5 Flash Powered</p>
+        <div>
+            <h2 id="welcome-message" class="text-5xl font-black tracking-tighter uppercase text-primary dark:text-primary-container">GÜNAYDIN!</h2>
+            <p id="welcome-submessage" class="text-on-surface-variant dark:text-zinc-400 font-black uppercase tracking-[0.2em] text-xs mt-4">Bugün harika işler başaracaksın!</p>
         </div>
     </div>
 </div>
+
+<audio id="levelup-sound" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" preload="auto"></audio>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -464,7 +455,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'sinavim-v15-pro-max';
-    const geminiKey = "AIzaSyD0YXQuDp1biT0dQOsMjPwkLE6Op5l7jj8"; 
+    const geminiKey = "AQ.Ab8RN6LH3yNExSwXWr_tXsqK_e2KOQO6yu6BAjmmR5INhB7Pew"; 
 
     const ADMIN_EMAILS = [
         'sunaycapa3@gmail.com', 'sunaycapa2@gmail.com', 'sunaycapa1@gmail.com',
@@ -619,6 +610,7 @@
             const adminStats = document.getElementById('admin-stats-panel');
             
             if (userData) {
+                showWelcomeGreeting(userData.displayName);
                 if (userData.role === 'admin') { 
                     if(navAdmin) navAdmin.style.display = 'flex'; 
                     if(navLogs) navLogs.style.display = 'flex'; 
@@ -638,6 +630,43 @@
                 }
             }
             listenToContents(); listenToLogs(); logActivity('Akademiye Girildi');
+        }
+
+        function showWelcomeGreeting(name) {
+            const overlay = document.getElementById('welcome-overlay');
+            const msgEl = document.getElementById('welcome-message');
+            const subEl = document.getElementById('welcome-submessage');
+            if(!overlay || !msgEl || !subEl) return;
+
+            const hour = new Date().getHours();
+            let greeting = "MERHABA";
+            if (hour >= 5 && hour < 12) greeting = "GÜNAYDIN";
+            else if (hour >= 12 && hour < 18) greeting = "TÜNAYDIN";
+            else if (hour >= 18 && hour < 23) greeting = "İYİ AKŞAMLAR";
+            else greeting = "İYİ GECELER";
+
+            const quotes = [
+                "Bugün yeni bir zirveye tırmanmaya ne dersin?",
+                "Bilgi paylaştıkça çoğalır, öğrenmeye hazır mısın?",
+                "Her soru, seni hedefine bir adım daha yaklaştırır.",
+                "Başarı, hazırlık ve fırsatın buluştuğu yerdir.",
+                "Zihin bir kas gibidir, bugün onu biraz zorlayalım!"
+            ];
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+
+            msgEl.innerText = `${greeting}, ${name.split(' ')[0].toUpperCase()}!`;
+            subEl.innerText = randomQuote;
+
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.classList.remove('flex');
+                    overlay.classList.add('hidden');
+                    overlay.style.opacity = '1';
+                }, 1000);
+            }, 3000);
         }
 
         function updateUI() {
@@ -686,14 +715,30 @@
 
         // --- GEMINI AI ---
         async function callGemini(prompt, systemMsg = "") {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
             try {
                 document.getElementById('ai-status')?.classList.remove('hidden');
-                const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemMsg }] } }) });
+                // Stable v1 REST API compatibility: Prepend system message to prompt
+                const fullPrompt = systemMsg ? `${systemMsg}\n\nKullanıcı Mesajı: ${prompt}` : prompt;
+                
+                const res = await fetch(url, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ 
+                        contents: [{ parts: [{ text: fullPrompt }] }]
+                    }) 
+                });
                 const data = await res.json();
                 document.getElementById('ai-status')?.classList.add('hidden');
-                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Hata: Yanıt yok.";
-            } catch (e) { return "Bağlantı hatası."; }
+                if (data.error) {
+                    console.error("Gemini API Error:", data.error);
+                    return `Hata: ${data.error.message}`;
+                }
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Hata: Yanıt alınamadı.";
+            } catch (e) { 
+                console.error("Gemini Fetch Error:", e);
+                return "Bağlantı hatası: API anahtarınızı veya internetinizi kontrol edin."; 
+            }
         }
 
         window.sendAIMessage = async () => {
@@ -789,9 +834,28 @@
         async function logActivity(action) { if (!currentUser) return; await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), { email: currentUser.email, action, timestamp: serverTimestamp() }); }
         function listenToLogs() { onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), (snap) => { const tbody = document.getElementById('logs-table-body'); if (!tbody) return; tbody.innerHTML = ""; const todayStr = new Date().toLocaleDateString('tr-TR'); const logs = snap.docs.map(d => d.data()).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0)); logs.forEach(log => { const date = log.timestamp ? new Date(log.timestamp.seconds * 1000) : new Date(); tbody.innerHTML += `<tr class="hover:bg-primary/5 transition-all"><td class="px-14 py-10 font-black text-sm text-primary uppercase">${log.email.split('@')[0]}</td><td class="px-14 py-10 text-sm font-bold opacity-70">${log.action}</td><td class="px-14 py-10 text-[11px] font-black opacity-30 text-right uppercase tracking-widest">${date.toLocaleString('tr-TR')}</td></tr>`; }); const statLogins = document.getElementById('stat-logins'); if (statLogins) statLogins.innerText = logs.filter(l => new Date(l.timestamp?.seconds*1000).toLocaleDateString('tr-TR') === todayStr).length; }); }
         window.updateProfile = async () => { const setNameEl = document.getElementById('set-name'); if(!setNameEl) return; const name = setNameEl.value.trim(); const photo = currentPhotoBase64 || userData.avatar; try { await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { displayName: name, avatar: photo }); userData.displayName = name; userData.avatar = photo; updateUI(); showCustomModal("BAŞARILI", "Profil güncellendi!", "success"); } catch (e) { showCustomModal("HATA", "Kaydedilemedi.", "error"); } };
-        async function addXP(amount) { if(!userData) return; let newXP = (userData.xp || 0) + amount; let newLevel = Math.floor(newXP / 500) + 1; await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel }); userData.xp = newXP; if(newLevel > (userData.level || 1)) { userData.level = newLevel; showCustomModal("LEVEL UP!", `Tebrikler! ${newLevel}. Seviyeye ulaştın! 🚀`, "success"); } updateUI(); }
+        async function addXP(amount) { 
+            if(!userData) return; 
+            let newXP = (userData.xp || 0) + amount; 
+            let newLevel = Math.floor(newXP / 500) + 1; 
+            await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'stats'), { xp: newXP, level: newLevel }); 
+            userData.xp = newXP; 
+            if(newLevel > (userData.level || 1)) { 
+                userData.level = newLevel; 
+                // CELEBRATION
+                if (window.confetti) {
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#4a7c59', '#a67c52', '#ffffff'] });
+                }
+                const audio = document.getElementById('levelup-sound');
+                if (audio) audio.play().catch(e => console.log("Audio play failed:", e));
+                
+                showCustomModal("LEVEL UP!", `Tebrikler! ${newLevel}. Seviyeye ulaştın! 🚀`, "success"); 
+            } 
+            updateUI(); 
+        }
         window.showPage = (page) => { document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active')); const target = document.getElementById('page-' + page); if (target) target.classList.add('active'); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); const btn = document.querySelector(`.nav-btn[data-page="${page}"]`); if(btn) btn.classList.add('active'); const titleMap = { admin: 'Yönetim', pool: 'Havuz', games: 'Oyunlar', settings: 'Profil', logs: 'Kayıtlar', help: 'Destek' }; const titleEl = document.getElementById('page-title'); if(titleEl) titleEl.innerText = titleMap[page] || 'Sınavım'; };
         window.toggleAIMentor = () => { const drawer = document.getElementById('ai-mentor-drawer'); if(drawer) drawer.classList.toggle('open'); };
+        
         window.handleLogin = async () => { const emailEl = document.getElementById('login-email'); const passEl = document.getElementById('login-password'); if(!emailEl || !passEl) return; try { await signInWithEmailAndPassword(auth, emailEl.value, passEl.value); } catch (e) { showCustomModal("HATA", "Giriş başarısız.", "error"); } };
         window.handleGoogleLogin = async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { showCustomModal("HATA", "Google hatası.", "error"); } };
         window.handleRegister = async () => { 
