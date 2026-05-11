@@ -1,15 +1,16 @@
 {
   "name": "Sınavım Akademi",
   "short_name": "Sınavım",
+  "description": "Öğretmenler ve öğrenciler için yapay zeka destekli interaktif eğitim platformu.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8faf7",
   "theme_color": "#4a7c59",
   "icons": [
     {
-      "src": "icon.jpeg",
+      "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
 }
