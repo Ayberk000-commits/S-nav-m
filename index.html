@@ -97,7 +97,7 @@
 <div class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-[#f8faf7] relative overflow-hidden" id="auth-screen">
     <div class="max-w-4xl w-full flex flex-col items-center relative z-10">
         <div class="mb-12 text-center">
-            <img alt="Sınavım Logo" class="w-32 h-32 object-contain rounded-full shadow-2xl mb-4 mx-auto bg-white p-2 border-2 border-primary/10" src="icon.jpeg"/>
+            <img alt="Sınavım Logo" class="w-32 h-32 object-contain rounded-full shadow-2xl mb-4 mx-auto bg-white p-2 border-2 border-primary/10" src="icon.png"/>
             <h1 class="text-5xl font-black text-primary tracking-tighter mb-1 uppercase">Sınavım</h1>
             <p class="text-on-surface-variant font-bold uppercase tracking-[0.3em] text-[10px] opacity-70">The Academic Excellence Platform</p>
         </div>
@@ -111,7 +111,7 @@
                     <button class="w-full py-5 bg-primary text-on-primary rounded-3xl font-black uppercase text-[11px] tracking-widest shadow-xl shadow-primary/20 active:scale-95 transition-all" onclick="handleLogin()">Sisteme Gir</button>
                     <button class="w-full py-4 bg-white border border-outline-variant/30 text-on-surface rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 active:scale-95 transition-all mt-2" onclick="handleGoogleLogin()">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
-                        Google Giriş
+                        Google İle Giriş
                     </button>
                 </div>
             </div>
@@ -124,11 +124,11 @@
                     <div class="grid grid-cols-2 gap-3 mt-2">
                         <label class="cursor-pointer border-2 border-outline-variant/10 rounded-2xl p-3 flex items-center justify-center gap-2 has-[:checked]:border-secondary has-[:checked]:bg-white bg-white/50 transition-all">
                             <input type="radio" name="reg-role" value="student" class="hidden" checked>
-                            <span class="text-[10px] font-black uppercase">Öğrenci</span>
+                            <span class="text-[10px] font-black uppercase">Öğrenci Kayıtı</span>
                         </label>
                         <label class="cursor-pointer border-2 border-outline-variant/10 rounded-2xl p-3 flex items-center justify-center gap-2 has-[:checked]:border-primary has-[:checked]:bg-white bg-white/50 transition-all">
                             <input type="radio" name="reg-role" value="teacher" class="hidden">
-                            <span class="text-[10px] font-black uppercase">Öğretmen</span>
+                            <span class="text-[10px] font-black uppercase">Öğretmen Kayıtı</span>
                         </label>
                     </div>
                     <button class="w-full py-5 bg-secondary text-on-secondary rounded-3xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-secondary/20 active:scale-95 transition-all" onclick="handleRegister()">Hesabı Aç</button>
