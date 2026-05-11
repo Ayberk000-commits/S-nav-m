@@ -1,0 +1,15 @@
+{
+  "name": "Sınavım Akademi",
+  "short_name": "Sınavım",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8faf7",
+  "theme_color": "#4a7c59",
+  "icons": [
+    {
+      "src": "icon.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
